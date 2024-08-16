@@ -40,13 +40,14 @@ public class Login extends HttpServlet {
                 response.sendRedirect("profile.jsp");
             } else {
                 // Set error message and forward to login page
-                response.sendRedirect("login.jsp?errorMessage=Email or password is incorrect");
+                request.setAttribute("error", "Email or Password is incorrect");
+                request.getRequestDispatcher("/login.jsp").forward(request, response);
                
             }
         } catch (SQLException e) {
             e.printStackTrace();
             // Set error message and forward to login page
-            request.setAttribute("errorMessage", "An error occurred: " + e.getMessage());
+            request.setAttribute("error", "An error occurred: " + e.getMessage());
             RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
             rd.forward(request, response);
         }

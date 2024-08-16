@@ -60,7 +60,8 @@ public class ResetPassword extends HttpServlet {
                 boolean isUpdated = userDAO.updatePassword(token, newPassword);
                 if (isUpdated) {
                     // Redirect to login page with a success message
-                    response.sendRedirect(request.getContextPath() + "/login.jsp?successMessage=Your Password has been successfully reset!");
+                    request.setAttribute("message", "Your Password Reset Successfully!");
+                    request.getRequestDispatcher("/login.jsp").forward(request, response);
                 } else {
                     request.setAttribute("error", "Failed to reset password.");
                     RequestDispatcher rd = request.getRequestDispatcher("/reset_password.jsp");

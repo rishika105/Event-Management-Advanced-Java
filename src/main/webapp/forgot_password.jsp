@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -96,14 +96,21 @@
             <input type="submit" value="Submit" />
         </form>
 
-        <!-- Use JSTL to display success and error messages -->
-        <c:if test="${not empty message}">
-            <p class="message success">${message}</p>
-        </c:if>
+        <!-- Use JSP Scriptlets to display success and error messages -->
+        <%
+            String message = (String) request.getAttribute("message");
+            String error = (String) request.getAttribute("error");
 
-        <c:if test="${not empty error}">
-            <p class="message error">${error}</p>
-        </c:if>
+            if (message != null) {
+        %>
+            <p class="message success"><%= message %></p>
+        <%
+            } else if (error != null) {
+        %>
+            <p class="message error"><%= error %></p>
+        <%
+            }
+        %>
     </div>
 </body>
 </html>
