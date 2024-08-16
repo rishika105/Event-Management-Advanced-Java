@@ -111,8 +111,6 @@
         <%
             }
         %>
-        
-        <h1>Rishika</h1>
     </div>
 </body>
 </html>
