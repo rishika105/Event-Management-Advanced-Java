@@ -1,17 +1,12 @@
 package in.sp.backend;
 
-
 import java.io.File;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.file.Paths;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-
 import in.sp.dao.EventDAO;
 import in.sp.model.Event;
 import jakarta.servlet.ServletException;
@@ -38,7 +33,7 @@ public class CreateEvent extends HttpServlet {
         // Handling the file upload
         Part filePart = request.getPart("eventImage");
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-        String uploadPath = getServletContext().getRealPath("") + File.separator + "images";
+        String uploadPath = getServletContext().getRealPath("") + File.separator + "assets";
         File uploadDir = new File(uploadPath);
         if (!uploadDir.exists()) uploadDir.mkdir();
         filePart.write(uploadPath + File.separator + fileName);
