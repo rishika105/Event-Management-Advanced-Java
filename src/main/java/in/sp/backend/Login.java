@@ -27,22 +27,28 @@ public class Login extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
-        String myemail = request.getParameter("email1");
-        String mypass = request.getParameter("pass1");
+        String myemail = request.getParameter("email1").trim();
+        String mypass = request.getParameter("pass1").trim();
 
         try {
             UserModel user = userDAO.getUserByEmailAndPassword(myemail, mypass);
+            
             if (user != null) {
                 HttpSession session = request.getSession();
                 session.setAttribute("session_user", user);
 
-                // Redirect to profile page
-                response.sendRedirect("profile.jsp");
+                // Check for admin credentials
+                if (!myemail.equals("admi2n106@gmail.com") || !mypass.equals("event@8910013793")) {
+                    // Redirect to user profile page
+                    response.sendRedirect("userProfile.jsp");
+                } else {
+                    // Redirect to admin profile page
+                    response.sendRedirect("adminProfile.jsp");
+                }
             } else {
                 // Set error message and forward to login page
                 request.setAttribute("error", "Email or Password is incorrect");
                 request.getRequestDispatcher("/login.jsp").forward(request, response);
-               
             }
         } catch (SQLException e) {
             e.printStackTrace();
