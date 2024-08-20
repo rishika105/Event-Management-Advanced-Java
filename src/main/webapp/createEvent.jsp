@@ -1,14 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ page import="java.sql.*" %>
-<%@ page import="in.sp.dao.EventDAO" %>
-<%@ page import="in.sp.model.Event" %>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Create Event</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -97,28 +92,33 @@
 </head>
 <body>
     <div class="container">
-        <h2>Create Event</h2>
-        <form action="InsertEventServlet3" method="post" enctype="multipart/form-data">
-            <label for="eventTitle">Event Title</label>
-            <input type="text" name="eventTitle" id="eventTitle" required>
-            
-            <label for="eventVenue">Event Venue</label>
-            <input type="text" name="eventVenue" id="eventVenue" required>
-            
-            <label for="eventImage">Event Image</label>
+        <h1>Create New Event</h1>
+        <form action="insertEvent" method="post" enctype="multipart/form-data">
+            <label for="title">Event Title:</label>
+            <input type="text" id="title" name="title" required>
+
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" required>
+
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
+
+            <label for="time">Time:</label>
+            <input type="time" id="time" name="time" required>
+
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" required></textarea>
+
+             <label for="eventImage">Event Image</label>
             <div class="file-drop-area" id="file-drop-area">
                 <span>Drag and drop your image here or click to select</span>
-                <input type="file" name="eventImage" id="eventImage" accept="image/*">
+                <input type="file" name="eventImage" id="eventImage" accept="images/*">
                 <img id="preview" alt="Image Preview">
             </div>
-            
-            <label for="eventDescription">Event Description</label>
-            <textarea name="eventDescription" id="eventDescription" rows="5" required></textarea>
-            
+
             <button type="submit">Create Event</button>
         </form>
     </div>
-
     <script>
         const fileDropArea = document.getElementById('file-drop-area');
         const fileInput = document.getElementById('eventImage');

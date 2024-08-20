@@ -1,16 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ page import="java.sql.*" %>
-<%@ page import="in.sp.dao.EventDAO" %>
 <%@ page import="in.sp.model.Event" %>
-<%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.List" %>
-
+<%@ page import="in.sp.dao.EventDAO" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Events</title>
+    <title>Available Events</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -63,20 +59,24 @@
         .hero-section h1 {
             margin: 0;
         }
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
         .event-card {
             background-color: #f0f8ff;
             padding: 20px;
-            margin: 15px 0;
             border-radius: 10px;
             display: flex;
             align-items: center;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         .event-card img {
-            width: 150px;
-            height: auto;
+            width: 100%;
+            height: 150px;
             border-radius: 10px;
-            margin-right: 20px;
+            object-fit: cover;
         }
         .event-card h3 {
             margin: 0;
@@ -85,6 +85,19 @@
         .event-card p {
             margin: 5px 0;
             color: #555;
+        }
+        .event-card a {
+            display: inline-block;
+            margin-top: 10px;
+            color: #fff;
+            background-color: #1e90ff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .event-card a:hover {
+            background-color: #555;
         }
     </style>
 </head>
@@ -107,53 +120,28 @@
             <button>Discover now</button>
         </div>
 
-        <!-- Available Events Section -->
-        <h2>Available Events</h2>
-        <%
-            Connection connection = null;
-            Statement stmt = null;
-            ResultSet rs = null;
-
-            try {
-                connection = EventDAO.getConnection();
-                stmt = connection.createStatement();
-                rs = stmt.executeQuery("SELECT * FROM events");
-
-                List<Event> events = new ArrayList<>();
-                while (rs.next()) {
-                    Event event = new Event();
-                    event.setEventTitle(rs.getString("title"));
-                    event.setEventVenue(rs.getString("venue"));
-                    event.setEventImage(rs.getString("image"));
-                    event.setEventDescription(rs.getString("description"));
-                    events.add(event);
-                }
+        <h1>Available Events</h1>
+        <div class="events-grid">
+            <%
+                EventDAO eventDAO = new EventDAO();
+                List<Event> events = eventDAO.getAllEvents();
 
                 for (Event event : events) {
-        %>
-            <div class="event-card">
-             <img src="<%= request.getContextPath() %>/assets/<%= event.getEventImage() %>" alt="Event Image">
-
-                <div>
-                    <h3><%= event.getEventTitle() %></h3>
-                    <p>Venue: <%= event.getEventVenue() %></p>
-                    <p>Description: <%= event.getEventDescription() %></p>
+            %>
+                <div class="event-card">
+                    <img src="<%= event.getImagePath() %>" alt="Event Image">
+                    <div>
+                        <h2><%= event.getTitle() %></h2>
+                        <p><%= event.getLocation() %></p>
+                        <p><%= event.getDate() %> at <%= event.getTime() %></p>
+                        
+                        <a href="eventDetails.jsp?eventId=<%= event.getId() %>" class="book-now-link">Book Now</a>
+                    </div>
                 </div>
-            </div>
-        <%
+            <%
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    if (rs != null) rs.close();
-                    if (stmt != null) stmt.close();
-                    if (connection != null) connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        %>
+            %>
+        </div>
     </div>
 </body>
 </html>

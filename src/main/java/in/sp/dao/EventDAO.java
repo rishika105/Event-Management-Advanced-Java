@@ -1,82 +1,105 @@
 package in.sp.dao;
 
+import in.sp.model.Event;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import in.sp.model.Event;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EventDAO {
-    // Environment variables for database credentials
-    private static final String DB_USERNAME = System.getenv("DB_USERNAME");
-    private static final String DB_PASSWORD = System.getenv("DB_PASSWORD");
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/eventmanagement";
+    private static final String USER = "root";
+    private static final String PASS = "123456789";
 
     // Establishes a connection to the database
-    public static Connection getConnection() throws SQLException, ClassNotFoundException {
+    private static Connection getConnection() throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
-
-        Connection connection = DriverManager.getConnection(
-            "jdbc:mysql://localhost:3306/eventmanagement", DB_USERNAME, DB_PASSWORD);
-
-        // Check if the connection is successful
+        Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
         if (connection != null) {
             System.out.println("Connected to MySQL database!");
         } else {
             System.out.println("Failed to connect to MySQL database.");
         }
-
         return connection;
+    }
+
+    // Retrieves an event by ID
+    public Event getEventById(int id) {
+        Event event = null;
+        String query = "SELECT * FROM events WHERE id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    event = new Event();
+                    event.setId(rs.getInt("id"));
+                    event.setTitle(rs.getString("title"));
+                    event.setLocation(rs.getString("location"));
+                    event.setDate(rs.getString("date"));
+                    event.setTime(rs.getString("time"));
+                    event.setDescription(rs.getString("description"));
+                    event.setImagePath(rs.getString("imagePath"));
+                }
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return event;
+    }
+
+    // Retrieves all events
+    public List<Event> getAllEvents() {
+        List<Event> events = new ArrayList<>();
+        String query = "SELECT * FROM events";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Event event = new Event();
+                event.setId(rs.getInt("id"));
+                event.setTitle(rs.getString("title"));
+                event.setLocation(rs.getString("location"));
+                event.setDate(rs.getString("date"));
+                event.setTime(rs.getString("time"));
+                event.setDescription(rs.getString("description"));
+                event.setImagePath(rs.getString("imagePath"));
+                events.add(event);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return events;
     }
 
     // Inserts an event into the database
     public boolean insertEvent(Event event) {
-        Connection con = null;
-        PreparedStatement stmt = null;
+        String query = "INSERT INTO events (title, location, date, time, description, imagePath) VALUES (?, ?, ?, ?, ?, ?)";
         boolean flag = false;
-
-        try {
-            con = EventDAO.getConnection();
-            con.setAutoCommit(false);
-
-            String query = "INSERT INTO events (title, venue, image, description) VALUES (?, ?, ?, ?)";
-            stmt = con.prepareStatement(query);
-            stmt.setString(1, event.getEventTitle());
-            stmt.setString(2, event.getEventVenue());
-            stmt.setString(3, event.getEventImage());
-            stmt.setString(4, event.getEventDescription());
-
-            int value = stmt.executeUpdate();
-
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            conn.setAutoCommit(false);
+            ps.setString(1, event.getTitle());
+            ps.setString(2, event.getLocation());
+            ps.setString(3, event.getDate());
+            ps.setString(4, event.getTime());
+            ps.setString(5, event.getDescription());
+            ps.setString(6, event.getImagePath());
+            
+            int value = ps.executeUpdate();
+            
             if (value == 1) {
-                con.commit();
+                conn.commit();
                 flag = true;
             } else {
-                con.rollback();
+                conn.rollback();
             }
-
-        } catch (Exception e) {
-            try {
-                if (con != null) {
-                    con.rollback();
-                }
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-                if (con != null) {
-                    con.close();
-                }
-            } catch (SQLException e2) {
-                e2.printStackTrace();
-            }
         }
-
         return flag;
     }
 }
