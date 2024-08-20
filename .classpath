@@ -58,17 +58,6 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/jars/jstl-1.2.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/DELL/Downloads/jakarta.servlet.jsp.jstl-3.0.0.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/DELL/Downloads/jar_files.zip"/>
 	<classpathentry kind="lib" path="C:/jars/jakarta.servlet.jsp.jstl-2.0.0.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

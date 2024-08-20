@@ -1,6 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-    
 
 <!DOCTYPE html>
 <html lang="en">
@@ -95,12 +93,19 @@
             <input type="password" id="confirmPassword" name="confirmPassword" required>
             <button type="submit">Reset Password</button>
         </form>
-        <c:if test="${not empty requestScope.message}">
-            <p class="success">${requestScope.message}</p>
-        </c:if>
-        <c:if test="${not empty requestScope.error}">
-            <p class="error">${requestScope.error}</p>
-        </c:if>
+        
+        <%
+            if (request.getAttribute("message") != null) {
+        %>
+            <p class="success"><%= request.getAttribute("message") %></p>
+        <%
+            }
+            if (request.getAttribute("error") != null) {
+        %>
+            <p class="error"><%= request.getAttribute("error") %></p>
+        <%
+            }
+        %>
     </div>
 </body>
 </html>

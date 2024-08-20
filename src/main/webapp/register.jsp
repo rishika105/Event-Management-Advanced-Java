@@ -1,8 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-
 
 <!DOCTYPE html>
 <html>
@@ -25,7 +22,7 @@
         .container {
             width: 100%;
             display: flex;
-            position: relative; /* Added to make sure the logo positioning works correctly */
+            position: relative;
         }
         .logo {
             position: absolute;
@@ -34,22 +31,22 @@
             font-size: 25px;
             font-weight: bold;
             color: #000;
-            z-index: 10; /* Ensures the logo is on top */
+            z-index: 10;
         }
         .wave {
             color: #7848f4;
         }
         .left-panel {
-            width: 55%; /* Left panel wider */
+            width: 55%;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #f8f8fa; /* Match the background color */
+            background-color: #f8f8fa;
             position: relative;
         }
         .register-container {
             width: 80%;
-            z-index: 1; /* Ensures the registration form is on top */
+            z-index: 1;
         }
         .register-container h1 {
             text-align: center;
@@ -140,11 +137,11 @@
             color: #131315;
         }
         .right-panel {
-            width: 45%; /* Right panel narrower */
+            width: 45%;
             background: url('${pageContext.request.contextPath}/assets/unsplash_ucb_mz_0_sw_28.jpeg') no-repeat center center;
             background-size: cover;
             position: relative;
-            background-position: center center; /* Adjust to cover the image properly */
+            background-position: center center;
         }
         .overlay {
             position: absolute;
@@ -182,11 +179,11 @@
         @media (max-width: 768px) {
             .left-panel {
                 width: 100%;
-                display: block; /* Ensure the form displays properly on small screens */
+                display: block;
             }
             .right-panel {
                 width: 100%;
-                height: auto; /* Adjust height for smaller screens */
+                height: auto;
             }
             .register-container {
                 width: 90%;
@@ -206,15 +203,15 @@
                 <h1>Register</h1>
                 
                 <%-- Display error message if present --%>
-                <c:if test="${not empty errorMessage}">
+                <% String errorMessage = (String) request.getAttribute("error"); %>
+                <% if (errorMessage != null) { %>
                     <div class="error-message" style="color: red; text-align: center; margin-bottom: 20px;">
-                        ${errorMessage}
+                        <%= errorMessage %>
                     </div>
-                </c:if>
+                <% } %>
                 
                 <form action="regForm3" method="post">
-                    <!-- Your form elements -->
-                      <div>
+                    <div>
                         <label for="name1">Name:</label>
                         <input type="text" id="name1" name="name1" placeholder="Enter your name" required />
                     </div>

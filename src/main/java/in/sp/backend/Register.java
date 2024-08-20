@@ -42,14 +42,16 @@ public class Register extends HttpServlet {
             boolean isRegistered = userDAO.registerUser(user);
             if (isRegistered) {
                 // Redirect to login page with success message as a query parameter
-                response.sendRedirect("login.jsp?successMessage=User Registered Successfully!");
+//                response.sendRedirect("login.jsp?message=User Registered Successfully!");
+                request.setAttribute("message", "User Registered Successfully!");
+                request.getRequestDispatcher("/login.jsp").forward(request, response);
             } else {
-                request.setAttribute("errorMessage", "User Not Registered");
+                request.setAttribute("error", "User Not Registered");
                 request.getRequestDispatcher("/register.jsp").forward(request, response);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("errorMessage", "Exception: " + e.getMessage());
+            request.setAttribute("error", "Exception: " + e.getMessage());
             request.getRequestDispatcher("/register.jsp").forward(request, response);
         }
     }

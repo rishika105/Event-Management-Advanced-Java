@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -242,15 +241,26 @@
         <!-- Right Panel -->
         <div class="right-panel">
             <div class="login-container">
-                <!-- JSTL for success message -->
-                <c:if test="${not empty param.successMessage}">
-                    <div class="success-message">${param.successMessage}</div>
-                </c:if>
 
-                <!-- JSTL for error message -->
-                <c:if test="${not empty param.errorMessage}">
-                    <p class="error">${param.errorMessage}</p>
-                </c:if>
+                <!-- Success message using JSP expression -->
+                <%
+                    String successMessage = (String) request.getAttribute("message");
+                    if (successMessage != null) {
+                %>
+                    <div class="success-message"><%= successMessage %></div>
+                <%
+                    }
+                %>
+
+                <!-- Error message using JSP expression -->
+                <%
+                    String errorMessage = (String) request.getAttribute("error");
+                    if (errorMessage != null) {
+                %>
+                    <p class="error"><%= errorMessage %></p>
+                <%
+                    }
+                %>
 
                 <h1>Login</h1>
 
