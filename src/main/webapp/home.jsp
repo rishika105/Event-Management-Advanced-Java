@@ -10,27 +10,60 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
+    <style>
+    body {
+       
+            font-family: 'Product Sans', sans-serif;
+            background-color: #f8f8fa;
+     
+           overflow-x: hidden;
+        }
+        .container{
+        height:40px;
+        width:1470px;
+        margin-top:20px;
+        
+        }
+
+        .logo {
+     
+            right: 30px;
+            font-size: 25px;
+            font-weight: bold;
+            color: #000;
+            z-index: 10;
+            margin-left:250px;
+           padding-top:5px; 
+        }
+
+        .logo .wave {
+            color: #7848f4;
+        }
+    
+   
+    </style>
     <body>
+         
         <div style="height:40px;width:1470px;background:white;">
-            <a href="" style="text-decoration:none;margin-left:150px;color:blue;">Home</a>
-            <a href="" style="text-decoration:none;margin-left:40px;color:blue;">About us</a>
-            <a href="" style="text-decoration:none;margin-left:40px;color:blue;">Contact us </a>
-        </div>
-        <div style="height:40px;width:1470px;">
-          <div style="height:40px;width:735px;float:left;font-family:Aptos-Display;">
-              <div style="height:35px;width:80px;float:left;color:black;font-size:0.8cm;margin-left:200px;"> Event</div>
-              <div style="height:35px;width:100px;float:left;color:blue;font-size:0.8cm;"> Wave</div>
-          </div>
-            <div style="height:30px;width:735px;background:white;float:left;">
-                <div style="height:25px;width:85px;float:left;margin-top:2.5px;margin-left:300px;border-radius:3px;font-size:0.4cm;box-shadow:2px;background:whitesmoke;padding-top:3px;">
-                    <a href="" style="text-decoration:none;margin-left:20px;">Login</a>
+            <a href="" style="text-decoration:none;margin-left:150px;color:blue;float:left;margin-top:10px;">Home</a>
+            <a href="about us.jsp" style="text-decoration:none;margin-left:40px;color:blue;float:left;margin-top:10px;">About us</a>
+            <a href="contactus.jsp" style="text-decoration:none;margin-left:40px;color:blue;float:left;margin-top:10px;">Contact us </a>
+            <div style="height:25px;width:110px;float:left;margin-top:5px;margin-left:750px;border-radius:3px;font-size:0.4cm;box-shadow:2px;background:whitesmoke;padding-top:3px;border-color:grey;">
+                    <a href="login.jsp" style="text-decoration:none;margin-left:30px;margin-top:5px;font-size:0.5cm;padding-left:5px;">Login</a>
                 </div>
-                <div style="height:25px;width:85px;background:blueviolet;float:left;color:white;margin-top:2.5px;margin-left:15px;border-radius:3px;font-size:0.4cm;padding-top:3px;">
-                    <a href="" style="text-decoration:none;margin-left:20px;color:white;">Signup</a>
+                <div style="height:25px;width:110px;background:blueviolet;float:left;color:white;margin-top:5px;margin-left:25px;border-radius:3px;font-size:0.4cm;padding-top:3px;">
+                    <a href="register.jsp" style="text-decoration:none;margin-left:30px;color:white;margin-top:5px;font-size:0.5cm;">Signup</a>
                 </div>
-            </div>
         </div>
-        <div style="height:450px;width:1150px;background-image:url('assets/head1.jpg');margin-left:150px;margin-top:15px;border-radius:20px;">
+        
+        <div class = "container">
+           <div class="logo">
+            Event <span class="wave">Wave</span>
+        </div>
+
+            
+        
+        <div style="height:450px;width:1150px;background-image:url('assets/head1.jpg');margin-left:150px;margin-top:5px;border-radius:20px;">
             <p style="color:white;font-size:1.5cm;margin-left:340px;padding-top:60px;">MADE FOR THOSE<br>
 WHO DO EVENT WAVE</p>
         </div>
@@ -253,5 +286,6 @@ WHO DO EVENT WAVE</p>
         
         
         
-    </body>
+          </div>
+    </body>
 </html>
