@@ -2,11 +2,7 @@ package in.sp.backend;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.nio.file.Paths;
-import java.sql.Connection;
-import java.sql.SQLException;
+
 import in.sp.dao.EventDAO;
 import in.sp.model.Event;
 import jakarta.servlet.ServletException;
@@ -17,48 +13,63 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 
-@WebServlet("/InsertEventServlet3")
-@MultipartConfig
+@WebServlet("/insertEvent")
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+                 maxFileSize = 1024 * 1024 * 10,      // 10MB
+                 maxRequestSize = 1024 * 1024 * 50)   // 50MB
 public class CreateEvent extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+    private static final String UPLOAD_DIRECTORY = "uploads";
 
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Creating an Event object from the request parameters
-        Event event = new Event();
-        event.setEventTitle(request.getParameter("eventTitle"));
-        event.setEventVenue(request.getParameter("eventVenue"));
-        event.setEventDescription(request.getParameter("eventDescription"));
+        // Extract event data from the request
+        String title = request.getParameter("title");
+        String location = request.getParameter("location");
+        String date = request.getParameter("date");
+        String time = request.getParameter("time");
+        String description = request.getParameter("description");
+        
 
-        // Handling the file upload
-        Part filePart = request.getPart("eventImage");
-        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-        String uploadPath = getServletContext().getRealPath("") + File.separator + "assets";
+        // Handle image upload
+        String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIRECTORY;
         File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) uploadDir.mkdir();
-        filePart.write(uploadPath + File.separator + fileName);
-
-        event.setEventImage(fileName);
-
-        // Call the DAO and insert data into the database
-        EventDAO eventDAO = new EventDAO();
-        String message;
-        try (Connection connection = EventDAO.getConnection()) {
-            eventDAO.insertEvent(event);
-            message = "Event created successfully!";
-        } catch (SQLException | ClassNotFoundException e) {
-            // Capture the stack trace as a String
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
-            e.printStackTrace(pw);
-            String stackTrace = sw.toString();
-
-            // Set the stack trace as the message to be displayed
-            message = "An error occurred while creating the event: <br><pre>" + stackTrace + "</pre>";
+        if (!uploadDir.exists()) {
+            uploadDir.mkdir();
         }
 
-        // Forward the request and response to the JSP page with the message
-        request.setAttribute("MESSAGE", message);
-        request.getRequestDispatcher("eventTypes.jsp").forward(request, response);
+        String imagePath = "";
+        for (Part part : request.getParts()) {
+            String fileName = extractFileName(part);
+            if (fileName != null && !fileName.isEmpty()) {
+                imagePath = UPLOAD_DIRECTORY + File.separator + fileName;
+                part.write(uploadPath + File.separator + fileName);
+            }
+        }
+
+        // Create an Event object
+        Event event = new Event();
+        event.setTitle(title);
+        event.setLocation(location);
+        event.setDate(date);
+        event.setTime(time);
+        event.setDescription(description);
+        event.setImagePath(imagePath);
+
+        // Insert the event into the database
+        EventDAO eventDAO = new EventDAO();
+        eventDAO.insertEvent(event);
+
+        // Redirect to the eventFront.jsp page
+        response.sendRedirect("eventFront.jsp");
+    }
+
+    private String extractFileName(Part part) {
+        String contentDisp = part.getHeader("content-disposition");
+        String[] items = contentDisp.split(";");
+        for (String s : items) {
+            if (s.trim().startsWith("filename")) {
+                return s.substring(s.indexOf("=") + 2, s.length() - 1);
+            }
+        }
+        return "";
     }
 }
