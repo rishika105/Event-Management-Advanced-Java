@@ -63,6 +63,30 @@ public class UserDAOImpl implements UserDAO {
         }
         return status;
     }
+    
+    @Override
+    public boolean updateUser(UserModel user) throws SQLException {
+        boolean status = false;
+        String query = "UPDATE register SET name = ?, password = ?, gender = ?, city = ? WHERE email = ?";
+
+        try (Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getPassword());
+            stmt.setString(3, user.getGender());
+            stmt.setString(4, user.getCity());
+            stmt.setString(5, user.getEmail()); // Use email as the identifier
+
+            int rowsUpdated = stmt.executeUpdate();
+            status = rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Error while updating user: " + e.getMessage());
+        }
+        return status;
+    }
+
 
 
     @Override

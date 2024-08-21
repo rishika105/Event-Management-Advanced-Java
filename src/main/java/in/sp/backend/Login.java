@@ -31,19 +31,23 @@ public class Login extends HttpServlet {
         String mypass = request.getParameter("pass1").trim();
 
         try {
+            // Authenticate user using email and password
             UserModel user = userDAO.getUserByEmailAndPassword(myemail, mypass);
             
             if (user != null) {
                 HttpSession session = request.getSession();
-                session.setAttribute("session_user", user);
+                session.setAttribute("session_user", user); // Store the entire user object in session
 
-                // Check for admin credentials
-                if (!myemail.equals("admi2n106@gmail.com") || !mypass.equals("event@8910013793")) {
-                    // Redirect to user profile page
-                    response.sendRedirect("userProfile.jsp");
-                } else {
+                // Check if the user is an admin
+                if (myemail.equals("admi2n106@gmail.com") && mypass.equals("event@8910013793")) {
                     // Redirect to admin profile page
-                    response.sendRedirect("adminProfile.jsp");
+                    request.setAttribute("user", user); // Set the user object in request scope
+                    request.getRequestDispatcher("/adminProfile.jsp").forward(request, response);
+                } else {
+                    // Redirect to user profile page
+                    request.setAttribute("user", user); // Set the user object in request scope
+                    request.getRequestDispatcher("/userProfile.jsp").forward(request, response);
+
                 }
             } else {
                 // Set error message and forward to login page
