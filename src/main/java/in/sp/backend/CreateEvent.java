@@ -59,7 +59,7 @@ public class CreateEvent extends HttpServlet {
         eventDAO.insertEvent(event);
 
         // Redirect to the eventFront.jsp page
-        response.sendRedirect("eventFront.jsp");
+        response.sendRedirect("eventTypes.jsp");
     }
 
     private String extractFileName(Part part) {
