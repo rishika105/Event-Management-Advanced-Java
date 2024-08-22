@@ -14,10 +14,10 @@
 //}
 package in.sp.dao;
 
-import in.sp.model.UserModel;
-
 import java.sql.SQLException;
 import java.sql.Timestamp;
+
+import in.sp.model.UserModel;
 
 public interface UserDAO {
     
