@@ -107,11 +107,17 @@
 <div class="container">
     <h1><%= event.getTitle() %></h1>
     <div class="event-info">
-        <p><strong>Location:</strong> <%= event.getLocation() %></p>
-        <p><strong>Date:</strong> <%= event.getDate() %></p>
-        <p><strong>Time:</strong> <%= event.getTime() %></p>
-        <p><strong>Description:</strong> <%= event.getDescription() %></p>
-    </div>
+        <p>
+						<strong>Location:</strong>
+						<%=event.getLocation()%></p>
+					<p>
+						<strong>Time:</strong>
+						<%=event.getTime()%></p>
+					<p>
+						<strong>Description:</strong>
+						<%=event.getDescription()%></p>
+					<p>
+						<strong>Price:</strong> ₹<%=event.getPrice()%></p>    </div>
     <a href="eventTypes.jsp" class="back-link">Back to Events</a>
     <a href="eventDetails.jsp?eventId=<%= event.getId() %>" class="book-now-button">Book Now</a>
 </div>

@@ -4,10 +4,10 @@ public class Event {
     private int id;
     private String title;
     private String location;
-    private String date;
-    private String time;
+    private String time;  // Renamed from slots to time
     private String description;
     private String imagePath;
+    private double price;  // New field for price
 
     // Getters and Setters
 
@@ -35,14 +35,6 @@ public class Event {
         this.location = location;
     }
 
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
     public String getTime() {
         return time;
     }
@@ -65,5 +57,13 @@ public class Event {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public double getPrice() {  // Getter for price
+        return price;
+    }
+
+    public void setPrice(double price) {  // Setter for price
+        this.price = price;
     }
 }

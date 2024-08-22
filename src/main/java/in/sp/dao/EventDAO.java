@@ -14,19 +14,11 @@ public class EventDAO {
     private static final String USER = "root";
     private static final String PASS = "123456789";
 
-    // Establishes a connection to the database
     private static Connection getConnection() throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
-        if (connection != null) {
-            System.out.println("Connected to MySQL database!");
-        } else {
-            System.out.println("Failed to connect to MySQL database.");
-        }
-        return connection;
+        return DriverManager.getConnection(DB_URL, USER, PASS);
     }
 
-    // Retrieves an event by ID
     public Event getEventById(int id) {
         Event event = null;
         String query = "SELECT * FROM events WHERE id = ?";
@@ -39,9 +31,9 @@ public class EventDAO {
                     event.setId(rs.getInt("id"));
                     event.setTitle(rs.getString("title"));
                     event.setLocation(rs.getString("location"));
-                    event.setDate(rs.getString("date"));
                     event.setTime(rs.getString("time"));
                     event.setDescription(rs.getString("description"));
+                    event.setPrice(rs.getDouble("price"));
                     event.setImagePath(rs.getString("imagePath"));
                 }
             }
@@ -51,7 +43,6 @@ public class EventDAO {
         return event;
     }
 
-    // Retrieves all events
     public List<Event> getAllEvents() {
         List<Event> events = new ArrayList<>();
         String query = "SELECT * FROM events";
@@ -63,9 +54,9 @@ public class EventDAO {
                 event.setId(rs.getInt("id"));
                 event.setTitle(rs.getString("title"));
                 event.setLocation(rs.getString("location"));
-                event.setDate(rs.getString("date"));
                 event.setTime(rs.getString("time"));
                 event.setDescription(rs.getString("description"));
+                event.setPrice(rs.getDouble("price"));
                 event.setImagePath(rs.getString("imagePath"));
                 events.add(event);
             }
@@ -75,31 +66,22 @@ public class EventDAO {
         return events;
     }
 
-    // Inserts an event into the database
     public boolean insertEvent(Event event) {
-        String query = "INSERT INTO events (title, location, date, time, description, imagePath) VALUES (?, ?, ?, ?, ?, ?)";
-        boolean flag = false;
+        String query = "INSERT INTO events (title, location, time, description, price, imagePath) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
-            conn.setAutoCommit(false);
             ps.setString(1, event.getTitle());
             ps.setString(2, event.getLocation());
-            ps.setString(3, event.getDate());
-            ps.setString(4, event.getTime());
-            ps.setString(5, event.getDescription());
+            ps.setString(3, event.getTime());
+            ps.setString(4, event.getDescription());
+            ps.setDouble(5, event.getPrice());
             ps.setString(6, event.getImagePath());
-            
-            int value = ps.executeUpdate();
-            
-            if (value == 1) {
-                conn.commit();
-                flag = true;
-            } else {
-                conn.rollback();
-            }
+
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return flag;
+        return false;
     }
 }

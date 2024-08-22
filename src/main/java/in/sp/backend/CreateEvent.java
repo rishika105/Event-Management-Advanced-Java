@@ -2,7 +2,6 @@ package in.sp.backend;
 
 import java.io.File;
 import java.io.IOException;
-
 import in.sp.dao.EventDAO;
 import in.sp.model.Event;
 import jakarta.servlet.ServletException;
@@ -18,18 +17,26 @@ import jakarta.servlet.http.Part;
                  maxFileSize = 1024 * 1024 * 10,      // 10MB
                  maxRequestSize = 1024 * 1024 * 50)   // 50MB
 public class CreateEvent extends HttpServlet {
-    private static final String UPLOAD_DIRECTORY = "uploads";
+    private static final String UPLOAD_DIRECTORY = "assets"; // Updated directory
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Extract event data from the request
         String title = request.getParameter("title");
         String location = request.getParameter("location");
-        String date = request.getParameter("date");
         String time = request.getParameter("time");
         String description = request.getParameter("description");
-        
+        String priceStr = request.getParameter("price");
 
-        // Handle image upload
+        if (title == null || location == null || time == null || description == null || priceStr == null) {
+            throw new ServletException("Missing form parameters");
+        }
+
+        double price;
+        try {
+            price = Double.parseDouble(priceStr);
+        } catch (NumberFormatException e) {
+            throw new ServletException("Invalid price format", e);
+        }
+
         String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIRECTORY;
         File uploadDir = new File(uploadPath);
         if (!uploadDir.exists()) {
@@ -45,20 +52,17 @@ public class CreateEvent extends HttpServlet {
             }
         }
 
-        // Create an Event object
         Event event = new Event();
         event.setTitle(title);
         event.setLocation(location);
-        event.setDate(date);
         event.setTime(time);
         event.setDescription(description);
+        event.setPrice(price);
         event.setImagePath(imagePath);
 
-        // Insert the event into the database
         EventDAO eventDAO = new EventDAO();
         eventDAO.insertEvent(event);
 
-        // Redirect to the eventFront.jsp page
         response.sendRedirect("eventTypes.jsp");
     }
 
