@@ -1,14 +1,14 @@
 package in.sp.dao.impl;
 
-import in.sp.dao.UserDAO;
-import in.sp.model.UserModel;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+
+import in.sp.dao.UserDAO;
+import in.sp.model.UserModel;
 
 public class UserDAOImpl implements UserDAO {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/eventmanagement";
