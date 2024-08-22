@@ -1,14 +1,14 @@
 package in.sp.dao.impl;
 
-import in.sp.dao.UserDAO;
-import in.sp.model.UserModel;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+
+import in.sp.dao.UserDAO;
+import in.sp.model.UserModel;
 
 public class UserDAOImpl implements UserDAO {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/eventmanagement";
@@ -63,6 +63,30 @@ public class UserDAOImpl implements UserDAO {
         }
         return status;
     }
+    
+    @Override
+    public boolean updateUser(UserModel user) throws SQLException {
+        boolean status = false;
+        String query = "UPDATE register SET name = ?, password = ?, gender = ?, city = ? WHERE email = ?";
+
+        try (Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getPassword());
+            stmt.setString(3, user.getGender());
+            stmt.setString(4, user.getCity());
+            stmt.setString(5, user.getEmail()); // Use email as the identifier
+
+            int rowsUpdated = stmt.executeUpdate();
+            status = rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Error while updating user: " + e.getMessage());
+        }
+        return status;
+    }
+
 
 
     @Override

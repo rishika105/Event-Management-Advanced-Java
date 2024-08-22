@@ -1,7 +1,6 @@
 package in.sp.model;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 
 public class Booking {
 	private int booking_id;

@@ -1,10 +1,11 @@
 package in.sp.dao;
 
-import in.sp.model.Booking; // Import the Booking model class
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
+import in.sp.model.Booking; // Import the Booking model class
 
 public class BookingDAO {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/eventmanagement";
