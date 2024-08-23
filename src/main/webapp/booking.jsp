@@ -68,7 +68,7 @@
         
      
         <label for="event_id">Event ID:</label>
-        <input type="number" id="event_id" name="event_id" required><br>
+        <input type="number" id="event_id" name="event_id" required><br><br>
         
         <label for="number_of_tickets">Number of Tickets:</label>
         <input type="number" id="number_of_tickets" name="number_of_tickets" required><br>
