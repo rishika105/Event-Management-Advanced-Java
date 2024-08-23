@@ -107,10 +107,13 @@ button:hover {
 		<h1>Create New Event</h1>
 		<form action="insertEvent" method="post" enctype="multipart/form-data">
 			<label for="title">Event Title:</label> <input type="text" id="title"
-				name="title" required> <label for="location">Location:</label>
-			<input type="text" id="location" name="location" required> <label
+				name="title" required> 
+				<label for="location">Location:</label>
+			<input type="text" id="location" name="location" required>
+			 <label
 				for="time">Time:</label> <input type="text" id="time" name="time"
-				placeholder="e.g., 2:00pm-5:00pm, 6:00pm-9:00pm" required> <label
+				placeholder="e.g., 2:00pm-5:00pm, 6:00pm-9:00pm" required>
+				 <label
 				for="description">Description:</label>
 			<textarea id="description" name="description" required></textarea>
 
