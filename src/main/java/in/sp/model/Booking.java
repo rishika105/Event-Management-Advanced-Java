@@ -1,14 +1,29 @@
 package in.sp.model;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class Booking {
 	private int booking_id;
     private int event_id;
     private int number_of_tickets;
- 
     private BigDecimal total_price;
     private String email;
+    private  Date date;
+    private String status;
+    
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public Date getDate() {
+		return date;
+	}
+	public void setDate(Date date) {
+		this.date = date;
+	}
 	public int getBooking_id() {
 		return booking_id;
 	}
