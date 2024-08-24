@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EventDAO {
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/eventmanagement";
-    private static final String USER = "root";
-    private static final String PASS = "123456789";
+	private static final String DB_URL = "jdbc:mysql://localhost:3306/eventmanagement";
+    private static final String DB_USER = System.getenv("DB_USERNAME");
+    private static final String DB_PASSWORD = System.getenv("DB_PASSWORD");
 
     private static Connection getConnection() throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        return DriverManager.getConnection(DB_URL, USER, PASS);
+        return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
     }
 
     public Event getEventById(int id) {
