@@ -1,7 +1,7 @@
 package in.sp.model;
 
 public class Event {
-    private int id;
+    private int eventid;
     private String title;
     private String location;
     private String time;  // Renamed from slots to time
@@ -11,12 +11,12 @@ public class Event {
 
     // Getters and Setters
 
-    public int getId() {
-        return id;
+    public int getEventId() {
+        return eventid;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(int eventid) {
+        this.eventid = eventid;
     }
 
     public String getTitle() {

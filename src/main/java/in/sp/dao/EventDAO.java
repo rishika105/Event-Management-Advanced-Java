@@ -21,14 +21,14 @@ public class EventDAO {
 
     public Event getEventById(int id) {
         Event event = null;
-        String query = "SELECT * FROM events WHERE id = ?";
+        String query = "SELECT * FROM events WHERE eventid = ?";
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     event = new Event();
-                    event.setId(rs.getInt("id"));
+                    event.setId(rs.getInt("eventid"));
                     event.setTitle(rs.getString("title"));
                     event.setLocation(rs.getString("location"));
                     event.setTime(rs.getString("time"));
@@ -51,7 +51,7 @@ public class EventDAO {
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Event event = new Event();
-                event.setId(rs.getInt("id"));
+                event.setId(rs.getInt("eventid"));
                 event.setTitle(rs.getString("title"));
                 event.setLocation(rs.getString("location"));
                 event.setTime(rs.getString("time"));

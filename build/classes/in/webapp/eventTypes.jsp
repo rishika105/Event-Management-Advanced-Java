@@ -33,7 +33,7 @@ body {
 
 .sidebar h2 {
     margin-bottom: 30px;
-    color: #4E4AE8; /* Changed to black text color */
+    color:#4E4AE8; /* Changed to black text color */
 }
 
 .sidebar a {
@@ -210,7 +210,7 @@ h1 {
                     <p><strong>Time:</strong> <%= event.getTime() %></p>
                     <p><strong>Description:</strong> <%= event.getDescription() %></p>
                     <p><strong>Price:</strong> ₹<%= event.getPrice() %></p>
-                    <a href="eventDetails.jsp?eventId=<%= event.getId() %>" class="book-now-link">Book Now</a>
+                    <a href="eventDetails.jsp?eventId=<%= event.getEventId() %>" class="book-now-link">Book Now</a>
                 </div>
             </div>
             <%

@@ -23,15 +23,50 @@
         }
 
         .event-hero {
-            text-align: center;
+            width: 100%;
+            height: 50vh;
+            overflow: hidden;
+            position: relative;
             margin-bottom: 20px;
         }
 
         .event-hero img {
-            max-width: 100%;
-            height: auto;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .event-title {
+            position: absolute;
+            left: 20px;
+            bottom: 20px;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 28px; /* Increased font size for more emphasis */
+            font-weight: bold; /* Bold title */
+            max-width: 50%;
+        }
+
+        .back-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #6a0dad; /* Purple background */
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 18px;
+            transition: background-color 0.3s;
+            z-index: 2;
+        }
+
+        .back-link:hover {
+            background-color: #4b0082; /* Dark purple on hover */
         }
 
         .book-now-button {
@@ -39,7 +74,7 @@
             margin-top: 20px;
             text-decoration: none;
             color: #fff;
-            background-color: #1e90ff;
+            background-color: #6a0dad; /* Purple background */
             padding: 10px 20px;
             border-radius: 5px;
             font-size: 16px;
@@ -47,7 +82,7 @@
         }
 
         .book-now-button:hover {
-            background-color: #0056a3;
+            background-color: #4b0082; /* Dark purple on hover */
         }
 
         .container {
@@ -61,36 +96,36 @@
             position: relative;
         }
 
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 20px;
+        .event-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 20px;
         }
 
-        .event-info p {
+        .info-left, .info-right {
+            width: 48%;
+            box-sizing: border-box;
+        }
+
+        .info-left p, .info-right p {
             font-size: 18px;
             margin-bottom: 10px;
             color: #333;
         }
 
-        .back-link {
-            display: inline-block;
-            margin-top: 20px;
-            text-decoration: none;
-            color: #fff;
-            background-color: #6c757d;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 16px;
-            transition: background-color 0.3s;
+        .info-left p strong, .info-right p strong {
+            font-weight: bold;
+            margin-bottom: 5px;
         }
 
-        .back-link:hover {
-            background-color: #5a6268;
+        .info-left p span {
+            color: #6a0dad; /* Purple text for time value */
+            font-weight: bold; /* Bold time value */
         }
 
         .footer {
-            background-color: #2d2d2d;
+            background-color:#6a0dad;
             color: white;
             padding: 20px 0;
             text-align: center;
@@ -99,33 +134,30 @@
     </style>
 </head>
 <body>
+    <div class="container">
+        <div class="event-hero">
+            <!-- Back Button -->
+            <a href="eventTypes.jsp" class="back-link">&lt; Back</a>
+            <!-- Event Image -->
+            <img src="<%= request.getContextPath() + "/" + event.getImagePath() %>" alt="Event Image">
+            <div class="event-title"><%= event.getTitle() %></div>
+        </div>
+        <div class="event-info">
+            <div class="info-left">
+                <p><strong>Description:</strong> <%= event.getDescription() %></p>
+                <p><strong>Time:</strong> <span><%= event.getTime() %></span></p>
+            </div>
+            <div class="info-right">
+                <p><strong>Location:</strong> <%= event.getLocation() %></p>
+                <p><strong>Price:</strong> ₹<%= event.getPrice() %></p>
+            </div>
+        </div>
+        <a href="eventDetails.jsp?eventId=<%= event.getEventId() %>" class="book-now-button">Book Now</a>
+    </div>
 
-<div class="event-hero">
-    <img src="<%= request.getContextPath() + "/" + event.getImagePath() %>" alt="Event Image">
-</div>
-
-<div class="container">
-    <h1><%= event.getTitle() %></h1>
-    <div class="event-info">
-        <p>
-						<strong>Location:</strong>
-						<%=event.getLocation()%></p>
-					<p>
-						<strong>Time:</strong>
-						<%=event.getTime()%></p>
-					<p>
-						<strong>Description:</strong>
-						<%=event.getDescription()%></p>
-					<p>
-						<strong>Price:</strong> ₹<%=event.getPrice()%></p>    </div>
-    <a href="eventTypes.jsp" class="back-link">Back to Events</a>
-    <a href="eventDetails.jsp?eventId=<%= event.getId() %>" class="book-now-button">Book Now</a>
-</div>
-
-<!-- Footer -->
-<div class="footer">
-    <p>&copy; 2024 Event Hive. All rights reserved.</p>
-</div>
-
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2024 Event Wave. All rights reserved.</p>
+    </div>
 </body>
 </html>

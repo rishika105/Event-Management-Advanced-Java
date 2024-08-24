@@ -13,15 +13,15 @@ body {
 	padding: 0;
 	box-sizing: border-box;
 }
-
 .container {
-	width: 100%;
-	max-width: 900px;
-	margin: 50px auto;
-	background-color: #fff;
-	padding: 40px;
-	box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-	border-radius: 15px;
+    width: 100%;
+    max-width: 900px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 40px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    box-sizing: border-box; /* Include padding and border in width */
 }
 
 h2 {
@@ -58,23 +58,26 @@ input[type="file"] {
 }
 
 .file-drop-area {
-	position: relative;
-	width: 100%;
-	padding: 30px;
-	border: 2px dashed #ddd;
-	border-radius: 5px;
-	text-align: center;
-	cursor: pointer;
-	background-color: #f8f8f8;
-	transition: background-color 0.3s ease;
+    position: relative;
+    width: 100%; /* Ensure it stays within its parent */
+    padding: 30px;
+    border: 2px dashed #ddd;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #f8f8f8;
+    transition: background-color 0.3s ease;
+    box-sizing: border-box; /* Include padding and border in width */
+    margin: 0; /* Remove any default margin */
 }
-
 .file-drop-area:hover {
 	background-color: #e6e6e6;
 }
 
 .file-drop-area img {
 	max-width: 100%;
+	max-height: 200px; /* Set a maximum height */
+	width: auto; /* Maintain aspect ratio */
 	height: auto;
 	display: none;
 	margin-top: 20px;
@@ -106,28 +109,26 @@ button:hover {
 	<div class="container">
 		<h1>Create New Event</h1>
 		<form action="insertEvent" method="post" enctype="multipart/form-data">
-			<label for="title">Event Title:</label> <input type="text" id="title"
-				name="title" required> 
-				<label for="location">Location:</label>
+			<label for="title">Event Title:</label>
+			<input type="text" id="title" name="title" required>
+
+			<label for="location">Location:</label>
 			<input type="text" id="location" name="location" required>
-			 <label
-				for="time">Time:</label> <input type="text" id="time" name="time"
-				placeholder="e.g., 2:00pm-5:00pm, 6:00pm-9:00pm" required>
-				 <label
-				for="description">Description:</label>
+
+			<label for="time">Time:</label>
+			<input type="text" id="time" name="time" placeholder="e.g., 2:00pm-5:00pm, 6:00pm-9:00pm" required>
+
+			<label for="description">Description:</label>
 			<textarea id="description" name="description" required></textarea>
 
-			<label for="price">Price:</label> <input type="number" id="price"
-				name="price" required oninput="showAdditionalChargesMessage()">
-
-			<p id="additional-charges-message"
-				style="display: none; color: #555; font-size: 0.9em;">You may
-				pay additional charges for transportation and food.</p>
+			<label for="price">Price:</label>
+			<input type="number" id="price" name="price" required oninput="showAdditionalChargesMessage()">
+			<p id="additional-charges-message" style="display: none; color: #555; font-size: 0.9em;">You may pay additional charges for transportation and food.</p>
 
 			<label for="eventImage">Event Image</label>
 			<div class="file-drop-area" id="file-drop-area">
-				<span>Drag and drop your image here or click to select</span> <input
-					type="file" name="eventImage" id="eventImage" accept="assets/*">
+				<span>Drag and drop your image here or click to select</span>
+				<input type="file" name="eventImage" id="eventImage" accept="image/*">
 				<img id="preview" alt="Image Preview">
 			</div>
 
