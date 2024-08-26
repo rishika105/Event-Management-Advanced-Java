@@ -17,25 +17,27 @@ import jakarta.servlet.http.Part;
                  maxFileSize = 1024 * 1024 * 10,      // 10MB
                  maxRequestSize = 1024 * 1024 * 50)   // 50MB
 public class CreateEvent extends HttpServlet {
-    private static final String UPLOAD_DIRECTORY = "assets"; // Updated directory
+    private static final long serialVersionUID = 1L;
+    private static final String UPLOAD_DIRECTORY = "images"; // Directory for uploaded images
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        handleInsertOrUpdate(request, response);
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+        if ("delete".equalsIgnoreCase(action)) {
+            handleDelete(request, response);
+        } else {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid action");
+        }
+    }
+    private void handleInsertOrUpdate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String title = request.getParameter("title");
         String location = request.getParameter("location");
         String time = request.getParameter("time");
         String description = request.getParameter("description");
-        String priceStr = request.getParameter("price");
-
-        if (title == null || location == null || time == null || description == null || priceStr == null) {
-            throw new ServletException("Missing form parameters");
-        }
-
-        double price;
-        try {
-            price = Double.parseDouble(priceStr);
-        } catch (NumberFormatException e) {
-            throw new ServletException("Invalid price format", e);
-        }
+        double price = Double.parseDouble(request.getParameter("price"));
 
         String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIRECTORY;
         File uploadDir = new File(uploadPath);
@@ -52,26 +54,50 @@ public class CreateEvent extends HttpServlet {
             }
         }
 
-        Event event = new Event();
-        event.setTitle(title);
-        event.setLocation(location);
-        event.setTime(time);
-        event.setDescription(description);
-        event.setPrice(price);
-        event.setImagePath(imagePath);
-
         EventDAO eventDAO = new EventDAO();
-        eventDAO.insertEvent(event);
+
+        String eventIdParam = request.getParameter("eventId");
+        int eventId = eventIdParam != null && !eventIdParam.isEmpty() ? Integer.parseInt(eventIdParam) : 0;
+
+        if (eventId > 0) {
+            // Update existing event
+            eventDAO.updateEvent(eventId, title, location, time, description, price, imagePath);
+        } else {
+            // Insert new event
+            Event event = new Event();
+            event.setTitle(title);
+            event.setLocation(location);
+            event.setTime(time);
+            event.setDescription(description);
+            event.setPrice(price);
+            event.setImagePath(imagePath);
+            eventDAO.insertEvent(event);
+        }
 
         response.sendRedirect("eventTypes.jsp");
     }
+
+    private void handleDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            String eventIdStr = request.getParameter("eventId");
+            int eventId = Integer.parseInt(eventIdStr);
+            System.out.println("Deleting event with ID: " + eventId);
+            EventDAO eventDAO = new EventDAO();
+            eventDAO.deleteEvent(eventId);
+            response.sendRedirect("eventTypes.jsp"); // Redirect to eventFront.jsp after deletion
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid event ID: " + e.getMessage());
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid event ID.");
+        }
+    }
+
 
     private String extractFileName(Part part) {
         String contentDisp = part.getHeader("content-disposition");
         String[] items = contentDisp.split(";");
         for (String s : items) {
             if (s.trim().startsWith("filename")) {
-                return s.substring(s.indexOf("=") + 2, s.length() - 1);
+                return s.substring(s.indexOf("=") + 2, s.length() - 1).replace("\"", "");
             }
         }
         return "";
