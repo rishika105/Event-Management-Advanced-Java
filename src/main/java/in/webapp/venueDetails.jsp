@@ -137,7 +137,7 @@
     <div class="container">
         <div class="event-hero">
             <!-- Back Button -->
-            <a href="eventTypes.jsp" class="back-link">&lt; Back</a>
+            <a href="venueTypes.jsp" class="back-link">&lt; Back</a>
             <!-- Event Image -->
             <img src="<%= request.getContextPath() + "/" + event.getImagePath() %>" alt="Event Image">
             <div class="event-title"><%= event.getTitle() %></div>
@@ -152,7 +152,7 @@
                 <p><strong>Price:</strong> ₹<%= event.getPrice() %></p>
             </div>
         </div>
-        <a href="eventDetails.jsp?eventId=<%= event.getEventId() %>" class="book-now-button">Book Now</a>
+        <a href="venueDetails.jsp?eventId=<%= event.getEventId() %>" class="book-now-button">Book Now</a>
     </div>
 
     <!-- Footer -->

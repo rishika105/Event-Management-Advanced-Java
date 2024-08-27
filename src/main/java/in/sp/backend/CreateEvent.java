@@ -74,7 +74,7 @@ public class CreateEvent extends HttpServlet {
             eventDAO.insertEvent(event);
         }
 
-        response.sendRedirect("eventTypes.jsp");
+        response.sendRedirect("venueTypes.jsp");
     }
 
     private void handleDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -84,7 +84,7 @@ public class CreateEvent extends HttpServlet {
             System.out.println("Deleting event with ID: " + eventId);
             EventDAO eventDAO = new EventDAO();
             eventDAO.deleteEvent(eventId);
-            response.sendRedirect("eventTypes.jsp"); // Redirect to eventFront.jsp after deletion
+            response.sendRedirect("venueTypes.jsp"); // Redirect to eventFront.jsp after deletion
         } catch (NumberFormatException e) {
             System.out.println("Invalid event ID: " + e.getMessage());
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid event ID.");

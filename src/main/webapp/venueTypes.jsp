@@ -61,7 +61,7 @@
 
     /* Hero Section */
     .hero-section {
-        background-image: url('images/hero-section.png'); /* Replace with the correct path to your image */
+        background-image: url('assets/hero-section.png'); /* Replace with the correct path to your image */
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -237,9 +237,9 @@
                     <p><strong>Time:</strong> <%= event.getTime() %></p>
                     <p><strong>Description:</strong> <%= event.getDescription() %></p>
                     <p><strong>Price:</strong> ₹<%= event.getPrice() %></p>
-                    <a href="eventDetails.jsp?eventId=<%= event.getEventId() %>" class="book-now-link">Book Now</a>
+                    <a href="venueDetails.jsp?eventId=<%= event.getEventId() %>" class="book-now-link">Book Now</a>
                     <!-- Edit Button -->
-                    <a href="createEvent.jsp?eventId=<%= event.getEventId() %>" class="edit-btn">Edit</a>
+                    <a href="createVenue.jsp?eventId=<%= event.getEventId() %>" class="edit-btn">Edit</a>
                     <!-- Delete Button with JavaScript Confirmation -->
                     <button onclick="confirmDelete('<%= event.getEventId() %>')" class="delete-btn">Delete</button>
                 </div>
