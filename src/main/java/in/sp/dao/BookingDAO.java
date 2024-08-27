@@ -11,47 +11,42 @@ import java.util.List;
 import in.sp.model.Booking;
 
 public class BookingDAO {
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/eventmanagement";
-    private static final String USER = "root";
-    private static final String PASS = "golu10";
 
+    private static final String DB_URL = System.getenv("DB_URL");
+    private static final String USER = System.getenv("DB_USERNAME");
+    private static final String PASS = System.getenv("DB_PASSWORD");
+
+    // Method to get database connection
     private static Connection getConnection() throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         return DriverManager.getConnection(DB_URL, USER, PASS);
     }
 
-    // Method to add a booking
-    public void addBooking(Booking booking) {
-        String sql = "INSERT INTO booking (event_id, number_of_tickets, total_price, email, date, status) VALUES (?, ?, ?, ?, ?, ?)";
-
+    // Insert a new booking into the database
+    public void insertBooking(Booking booking) {
+        String sql = "INSERT INTO event_booking (event_type, number_of_guests, event_price, email, date, phone) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, booking.getEvent_id());
-            ps.setInt(2, booking.getNumber_of_tickets());
-            ps.setBigDecimal(3, booking.getTotal_price());
+            ps.setString(1, booking.getEvent_type());
+            ps.setInt(2, booking.getNumber_of_guests());
+            ps.setBigDecimal(3, booking.getEvent_price());
             ps.setString(4, booking.getEmail());
-            
-            // Convert java.util.Date to java.sql.Date
-            java.sql.Date sqlDate = new java.sql.Date(booking.getDate().getTime());
-            ps.setDate(5, sqlDate);
-            ps.setString(6, "active");  // Set status as 'active'
+            ps.setDate(5, new java.sql.Date(booking.getDate().getTime()));
+            ps.setString(6, booking.getPhone());
 
-            int rowsAffected = ps.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("A new booking was inserted successfully!");
-            }
-
+            ps.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
+            // Log the exception using a logging framework
+            System.err.println("Error inserting booking: " + e.getMessage());
         }
     }
 
- // BookingDAO.java
-    public List<Booking> getBookingHistory(String email) {
+    // Retrieve bookings by email
+    public List<Booking> retrieveBookingsByEmail(String email) {
         List<Booking> bookings = new ArrayList<>();
-        String sql = "SELECT * FROM booking WHERE email = ?";
-
+        String sql = "SELECT * FROM event_booking WHERE email = ?";
+        
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -61,33 +56,34 @@ public class BookingDAO {
             while (rs.next()) {
                 Booking booking = new Booking();
                 booking.setBooking_id(rs.getInt("booking_id"));
-                booking.setEvent_id(rs.getInt("event_id"));
-                booking.setNumber_of_tickets(rs.getInt("number_of_tickets"));
-                booking.setTotal_price(rs.getBigDecimal("total_price"));
+                booking.setEvent_type(rs.getString("event_type"));
+                booking.setNumber_of_guests(rs.getInt("number_of_guests"));
+                booking.setEvent_price(rs.getBigDecimal("event_price"));
                 booking.setEmail(rs.getString("email"));
                 booking.setDate(rs.getDate("date"));
+                booking.setPhone(rs.getString("phone"));
 
                 bookings.add(booking);
             }
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
+            System.err.println("Error retrieving bookings: " + e.getMessage());
         }
 
         return bookings;
     }
 
-    public boolean cancelBooking(int bookingId) {
-        String sql = "DELETE FROM booking WHERE booking_id = ?";
+    // Cancel a booking by email and event type
+    public void cancelBookingByEmailAndEventType(String email, String eventType) {
+        String sql = "DELETE FROM event_booking WHERE email = ? AND event_type = ?";
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, bookingId);
-            int rowsAffected = ps.executeUpdate();
-            return rowsAffected > 0;
+            ps.setString(1, email);
+            ps.setString(2, eventType);
 
+            ps.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return false;
+            System.err.println("Error canceling booking: " + e.getMessage());
         }
     }
 }
