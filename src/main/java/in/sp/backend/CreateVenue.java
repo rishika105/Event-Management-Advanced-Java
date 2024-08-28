@@ -16,9 +16,9 @@ import jakarta.servlet.http.Part;
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
                  maxFileSize = 1024 * 1024 * 10,      // 10MB
                  maxRequestSize = 1024 * 1024 * 50)   // 50MB
-public class CreateEvent extends HttpServlet {
+public class CreateVenue extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private static final String UPLOAD_DIRECTORY = "images"; // Directory for uploaded images
+    private static final String UPLOAD_DIRECTORY = "assets"; // Directory for uploaded images
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         handleInsertOrUpdate(request, response);
@@ -32,8 +32,9 @@ public class CreateEvent extends HttpServlet {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid action");
         }
     }
+
     private void handleInsertOrUpdate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String title = request.getParameter("title");
+        String venueName = request.getParameter("venue_name");
         String location = request.getParameter("location");
         String time = request.getParameter("time");
         String description = request.getParameter("description");
@@ -61,11 +62,11 @@ public class CreateEvent extends HttpServlet {
 
         if (eventId > 0) {
             // Update existing event
-            eventDAO.updateEvent(eventId, title, location, time, description, price, imagePath);
+            eventDAO.updateEvent(eventId, venueName, location, time, description, price, imagePath);
         } else {
             // Insert new event
             Event event = new Event();
-            event.setTitle(title);
+            event.setVenueName(venueName);
             event.setLocation(location);
             event.setTime(time);
             event.setDescription(description);

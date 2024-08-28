@@ -187,12 +187,12 @@
     }
 
     .edit-btn {
-        background-color: #4E4AE8;
+        background-color:#9491F5;
         color: white;
     }
 
     .delete-btn {
-        background-color: #ff4c4c;
+        background-color: #4E4AE8;
         color: white;
     }
 
@@ -201,7 +201,7 @@
     }
 
     .delete-btn:hover {
-        background-color: #d32f2f;
+        background-color: #3a3a3a;
     }
 </style>
 </head>
@@ -232,7 +232,7 @@
             <div class="event-card">
                 <img src="<%= event.getImagePath() %>" alt="Event Image">
                 <div>
-                    <h2><%= event.getTitle() %></h2>
+                    <h2><%= event.getVenueName() %></h2>
                     <p><strong>Location:</strong> <%= event.getLocation() %></p>
                     <p><strong>Time:</strong> <%= event.getTime() %></p>
                     <p><strong>Description:</strong> <%= event.getDescription() %></p>
@@ -252,9 +252,9 @@
 
     <script>
     function confirmDelete(eventId) {
-        const confirmation = confirm("Are you sure you want to delete this event?");
+        const confirmation = confirm("Are you sure you want to delete this venue?");
         if (confirmation) {
-            window.location.href = 'insertEvent?action=delete&eventId=' + eventId;
+            window.location.href = 'insertEvent?action=delete&eventId='+ eventId;
         }
     }
 </script>

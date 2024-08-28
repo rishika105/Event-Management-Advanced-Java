@@ -2,12 +2,12 @@ package in.sp.model;
 
 public class Event {
     private int eventId;
-    private String title;
+    private String venueName;
     private String location;
-    private String time;  // Renamed from slots to time
+    private String time; 
     private String description;
     private String imagePath;
-    private double price;  // New field for price
+    private double price; 
 
     // Getters and Setters
 
@@ -19,12 +19,12 @@ public class Event {
         this.eventId = eventId;
     }
 
-    public String getTitle() {
-        return title;
+    public String getVenueName() {
+        return venueName;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setVenueName(String venueName) {
+        this.venueName = venueName;
     }
 
     public String getLocation() {
@@ -59,11 +59,11 @@ public class Event {
         this.imagePath = imagePath;
     }
 
-    public double getPrice() {  // Getter for price
+    public double getPrice() { 
         return price;
     }
 
-    public void setPrice(double price) {  // Setter for price
+    public void setPrice(double price) { 
         this.price = price;
     }
 }

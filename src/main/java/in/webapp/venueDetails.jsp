@@ -12,7 +12,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title><%= event.getTitle() %> - Event Details</title>
+    <title><%= event.getVenueName() %> - Event Details</title>
     <link rel="stylesheet" href="styles.css">
     <style>
         body {
@@ -46,8 +46,8 @@
             background-color: rgba(0, 0, 0, 0.6);
             padding: 10px 20px;
             border-radius: 5px;
-            font-size: 28px; /* Increased font size for more emphasis */
-            font-weight: bold; /* Bold title */
+            font-size: 28px; 
+            font-weight: bold; 
             max-width: 50%;
         }
 
@@ -57,7 +57,7 @@
             left: 20px;
             text-decoration: none;
             color: #fff;
-            background-color: #6a0dad; /* Purple background */
+            background-color: #6a0dad; 
             padding: 10px 20px;
             border-radius: 5px;
             font-size: 18px;
@@ -66,7 +66,7 @@
         }
 
         .back-link:hover {
-            background-color: #4b0082; /* Dark purple on hover */
+            background-color: #4b0082; 
         }
 
         .book-now-button {
@@ -74,7 +74,7 @@
             margin-top: 20px;
             text-decoration: none;
             color: #fff;
-            background-color: #6a0dad; /* Purple background */
+            background-color: #6a0dad; 
             padding: 10px 20px;
             border-radius: 5px;
             font-size: 16px;
@@ -82,7 +82,7 @@
         }
 
         .book-now-button:hover {
-            background-color: #4b0082; /* Dark purple on hover */
+            background-color: #4b0082; 
         }
 
         .container {
@@ -120,8 +120,8 @@
         }
 
         .info-left p span {
-            color: #6a0dad; /* Purple text for time value */
-            font-weight: bold; /* Bold time value */
+            color: #6a0dad; 
+            font-weight: bold; 
         }
 
         .footer {
@@ -140,7 +140,7 @@
             <a href="venueTypes.jsp" class="back-link">&lt; Back</a>
             <!-- Event Image -->
             <img src="<%= request.getContextPath() + "/" + event.getImagePath() %>" alt="Event Image">
-            <div class="event-title"><%= event.getTitle() %></div>
+            <div class="event-title"><%= event.getVenueName() %></div>
         </div>
         <div class="event-info">
             <div class="info-left">

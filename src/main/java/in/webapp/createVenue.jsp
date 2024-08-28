@@ -1,14 +1,15 @@
-<%@ page import="in.sp.model.Event" %>
-<%@ page import="in.sp.dao.EventDAO" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="in.sp.model.Event"%>
+<%@ page import="in.sp.dao.EventDAO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Create Event</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-       body {
+<meta charset="UTF-8">
+<title>Create Event</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+body {
 	font-family: Arial, sans-serif;
 	background-color: #f8f8f8;
 	color: #333;
@@ -114,63 +115,70 @@ button:hover {
 	font-size: 0.9em;
 	display: none;
 }
-    </style>
+</style>
 </head>
 <body>
-<%
-    // Initialize variables for event details
-    String eventId = request.getParameter("eventId");
-    EventDAO eventDAO = new EventDAO();
-    Event event = null;
-    
-    // Check if an event ID is provided to edit an existing event
-    if (eventId != null && !eventId.trim().isEmpty()) {
-        try {
-            event = eventDAO.getEventById(Integer.parseInt(eventId));
-        } catch (NumberFormatException e) {
-            event = null; // Handle invalid eventId scenario
-            System.out.println("Invalid eventId provided: " + e.getMessage());
-        } catch (Exception e) {
-            event = null;
-            System.out.println("Error fetching event: " + e.getMessage());
-        }
-    }
-%>
-<div class="container">
-    <h2><%= (event != null) ? "Edit Event" : "Create New Event" %></h2>
-    <form action="insertEvent" method="post" enctype="multipart/form-data">
-        <!-- Hidden input to store event ID if editing -->
-        <input type="hidden" name="eventId" value="<%= (event != null) ? event.getEventId() : "" %>">
-        
-        <!-- Event title input, pre-filled if editing -->
-        <label for="title">Event Title:</label>
-        <input type="text" id="title" name="title" value="<%= (event != null) ? event.getTitle() : "" %>" required>
+	<%
+	// Initialize variables for event details
+	String eventId = request.getParameter("eventId");
+	EventDAO eventDAO = new EventDAO();
+	Event event = null;
 
-        <!-- Other form fields -->
-        <label for="location">Location:</label>
-        <input type="text" id="location" name="location" value="<%= (event != null) ? event.getLocation() : "" %>" required>
+	// Check if an event ID is provided to edit an existing event
+	if (eventId != null && !eventId.trim().isEmpty()) {
+		try {
+			event = eventDAO.getEventById(Integer.parseInt(eventId));
+		} catch (NumberFormatException e) {
+			event = null; // Handle invalid eventId scenario
+			System.out.println("Invalid eventId provided: " + e.getMessage());
+		} catch (Exception e) {
+			event = null;
+			System.out.println("Error fetching event: " + e.getMessage());
+		}
+	}
+	%>
+	<div class="container">
+		<h2><%=(event != null) ? "Edit Event" : "Create New Event"%></h2>
+		<form action="insertEvent" method="post" enctype="multipart/form-data">
+			<!-- Hidden input to store event ID if editing -->
+			<input type="hidden" name="eventId"
+				value="<%=(event != null) ? event.getEventId() : ""%>">
 
-        <label for="time">Time:</label>
-        <input type="text" id="time" name="time" placeholder="e.g., 2:00pm-5:00pm, 6:00pm-9:00pm" value="<%= (event != null) ? event.getTime() : "" %>" required>
+			<!-- Event title input, pre-filled if editing -->
+			<label for="venue_name">Venue Name:</label> <input type="text"
+				id="venue_name" name="venue_name"
+				value="<%=(event != null) ? event.getVenueName() : ""%>"
+				required>
 
-        <label for="description">Description:</label>
-        <textarea id="description" name="description" required><%= (event != null) ? event.getDescription() : "" %></textarea>
+			<!-- Other form fields -->
+			<label for="location">Location:</label> <input type="text"
+				id="location" name="location"
+				value="<%=(event != null) ? event.getLocation() : ""%>" required>
 
-        <label for="price">Price:</label>
-        <input type="number" id="price" name="price" value="<%= (event != null) ? event.getPrice() : "" %>" required oninput="showAdditionalChargesMessage()">
-        <p id="additional-charges-message">You may pay additional charges for transportation and food.</p>
+			<label for="time">Time:</label> <input type="text" id="time"
+				name="time" placeholder="e.g., 2:00pm-5:00pm, 6:00pm-9:00pm"
+				value="<%=(event != null) ? event.getTime() : ""%>" required>
 
-        <label for="eventImage">Event Image</label>
-        <div class="file-drop-area" id="file-drop-area">
-            <span>Drag and drop your image here or click to select</span>
-            <input type="file" name="eventImage" id="eventImage" accept="image/*">
-            <img id="preview" alt="Image Preview">
-        </div>
+			<label for="description">Description:</label>
+			<textarea id="description" name="description" required><%=(event != null) ? event.getDescription() : ""%></textarea>
 
-        <button type="submit"><%= (event != null) ? "Update Event" : "Create Event" %></button>
-    </form>
-</div>
-<script>
+			<label for="price">Price:</label> <input type="number" id="price"
+				name="price" value="<%=(event != null) ? event.getPrice() : ""%>"
+				required oninput="showAdditionalChargesMessage()">
+			<p id="additional-charges-message">You may pay additional charges
+				for transportation and food.</p>
+
+			<label for="eventImage">Event Image</label>
+			<div class="file-drop-area" id="file-drop-area">
+				<span>Drag and drop your image here or click to select</span> <input
+					type="file" name="eventImage" id="eventImage" accept="image/*">
+				<img id="preview" alt="Image Preview">
+			</div>
+
+			<button type="submit"><%=(event != null) ? "Update Event" : "Create Event"%></button>
+		</form>
+	</div>
+	<script>
     // JavaScript for file upload and additional charges message
     const fileDropArea = document.getElementById('file-drop-area');
     const fileInput = document.getElementById('eventImage');
