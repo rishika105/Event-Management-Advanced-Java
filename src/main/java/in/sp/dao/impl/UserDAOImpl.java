@@ -11,7 +11,7 @@ import in.sp.dao.UserDAO;
 import in.sp.model.UserModel;
 
 public class UserDAOImpl implements UserDAO {
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/eventmanagement";
+    private static final String DB_URL = System.getenv("DB_URL");
     private static final String DB_USER = System.getenv("DB_USERNAME");
     private static final String DB_PASSWORD = System.getenv("DB_PASSWORD");
 

@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class FoodBookingDAO {
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/eventmanagement";
+    private static final String DB_URL = System.getenv("DB_URL");
     private static final String USER = System.getenv("DB_USERNAME");
     private static final String PASS = System.getenv("DB_PASSWORD");
 
