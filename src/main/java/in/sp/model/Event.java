@@ -1,30 +1,30 @@
 package in.sp.model;
 
 public class Event {
-    private int id;
-    private String title;
+    private int eventId;
+    private String venueName;
     private String location;
-    private String date;
-    private String time;
+    private String time; 
     private String description;
     private String imagePath;
+    private double price; 
 
     // Getters and Setters
 
-    public int getId() {
-        return id;
+    public int getEventId() {
+        return eventId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setEventId(int eventId) {
+        this.eventId = eventId;
     }
 
-    public String getTitle() {
-        return title;
+    public String getVenueName() {
+        return venueName;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setVenueName(String venueName) {
+        this.venueName = venueName;
     }
 
     public String getLocation() {
@@ -33,14 +33,6 @@ public class Event {
 
     public void setLocation(String location) {
         this.location = location;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
     }
 
     public String getTime() {
@@ -65,5 +57,13 @@ public class Event {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public double getPrice() { 
+        return price;
+    }
+
+    public void setPrice(double price) { 
+        this.price = price;
     }
 }
