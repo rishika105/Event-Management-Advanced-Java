@@ -1,6 +1,5 @@
 package in.sp.dao;
 
-import in.sp.model.Event;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import in.sp.model.Event;
 
 public class EventDAO {
     private static final String DB_URL = System.getenv("DB_URL");

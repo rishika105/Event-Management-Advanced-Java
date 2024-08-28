@@ -1,20 +1,19 @@
 package in.sp.backend;
 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.UUID;
+
+import in.sp.dao.UserDAO;
+import in.sp.dao.impl.UserDAOImpl;
+import in.sp.util.EmailSender;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.UUID;
-import java.sql.Timestamp;
-
-import in.sp.dao.UserDAO;
-import in.sp.dao.impl.UserDAOImpl;
-import in.sp.util.EmailSender;
 
 @WebServlet("/forgot-password3")
 public class ForgotPassword extends HttpServlet {
