@@ -2,6 +2,10 @@ package in.sp.backend;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 import in.sp.dao.BookingDAO;
 import in.sp.model.Booking;
@@ -11,52 +15,97 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/booking")
+@WebServlet("/bookingg")
 public class Createbooking extends HttpServlet {
-    private BookingDAO bookingDAO;
+    private BookingDAO bookingDAO = new BookingDAO();
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     @Override
-    public void init() {
-        bookingDAO = new BookingDAO();
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Retrieve and validate form data
-        String eventIdStr = request.getParameter("event_id");
-        String numberOfTicketsStr = request.getParameter("number_of_tickets");
-        String totalPriceStr = request.getParameter("total_price");
-        String email = request.getParameter("email");
+        String action = request.getParameter("action");
+
+        if ("book".equalsIgnoreCase(action)) {
+            bookEvent(request, response);
+        } else if ("cancel".equalsIgnoreCase(action)) {
+            cancelBooking(request, response);
+        } else if ("history".equalsIgnoreCase(action)) {
+            showBookingHistory(request, response);
+        } else {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid action");
+        }
+    }
+
+    private void bookEvent(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
         try {
-            if (eventIdStr == null || eventIdStr.isEmpty() ||
-                numberOfTicketsStr == null || numberOfTicketsStr.isEmpty() ||
-                totalPriceStr == null || totalPriceStr.isEmpty() ||
-                email == null || email.isEmpty()) {
-                
+            // Validate required parameters
+            String eventType = request.getParameter("event_type");
+            String numberOfGuestsStr = request.getParameter("number_of_guests");
+            String eventPriceStr = request.getParameter("event_price");
+            String email = request.getParameter("email");
+            String dateStr = request.getParameter("date");
+            String phone = request.getParameter("phone");
+
+            if (isNullOrEmpty(eventType, numberOfGuestsStr, eventPriceStr, email, dateStr, phone)) {
                 throw new IllegalArgumentException("All fields must be filled out.");
             }
 
-            int event_id = Integer.parseInt(eventIdStr);
-            int number_of_tickets = Integer.parseInt(numberOfTicketsStr);
-            BigDecimal total_price = new BigDecimal(totalPriceStr);
-          
-            // Create a new Booking object and populate it with data
             Booking booking = new Booking();
-            booking.setEvent_id(event_id);
-            booking.setNumber_of_tickets(number_of_tickets);
-            booking.setTotal_price(total_price);
+            booking.setEvent_type(eventType);
+            booking.setNumber_of_guests(Integer.parseInt(numberOfGuestsStr));
+            booking.setEvent_price(new BigDecimal(eventPriceStr));
             booking.setEmail(email);
+            booking.setDate(DATE_FORMAT.parse(dateStr));
+            booking.setPhone(phone);
 
-            // Save the booking using BookingDAO
-            bookingDAO.addBooking(booking);
-
-            // Redirect to a confirmation page
+            bookingDAO.insertBooking(booking);
             response.sendRedirect("bookingConfirmation.jsp");
+        } catch (NumberFormatException | ParseException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid input format");
+        } catch (IllegalArgumentException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+        }
+    }
 
-        } catch (NumberFormatException e) {
-                }
+    private void cancelBooking(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String email = request.getParameter("email");
+        String eventType = request.getParameter("event_type");
+
+        if (isNullOrEmpty(email, eventType)) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Email and Event Type are required");
+            return;
+        }
+
+        bookingDAO.cancelBookingByEmailAndEventType(email, eventType);
+        response.sendRedirect("bookingCancel.jsp");
+    }
+
+    private void showBookingHistory(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String email = request.getParameter("email");
+
+        if (isNullOrEmpty(email)) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Email is required");
+            return;
+        }
+
+        List<Booking> bookings = bookingDAO.retrieveBookingsByEmail(email);
+        request.setAttribute("bookings", bookings);
+        request.getRequestDispatcher("bookingHistory.jsp").forward(request, response);
+    }
+
+    private boolean isNullOrEmpty(String... params) {
+        for (String param : params) {
+            if (param == null || param.trim().isEmpty()) {
+                return true;
+            }
+        }
+        return false;
     }
 }
