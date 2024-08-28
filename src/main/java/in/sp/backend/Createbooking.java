@@ -82,7 +82,7 @@ public class Createbooking extends HttpServlet {
         }
 
         bookingDAO.cancelBookingByEmailAndEventType(email, eventType);
-        response.sendRedirect("bookingCancellation.jsp");
+        response.sendRedirect("bookingCancel.jsp");
     }
 
     private void showBookingHistory(HttpServletRequest request, HttpServletResponse response)

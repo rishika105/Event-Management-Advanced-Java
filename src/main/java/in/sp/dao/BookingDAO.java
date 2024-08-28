@@ -62,7 +62,6 @@ public class BookingDAO {
                 booking.setEmail(rs.getString("email"));
                 booking.setDate(rs.getDate("date"));
                 booking.setPhone(rs.getString("phone"));
-
                 bookings.add(booking);
             }
         } catch (SQLException | ClassNotFoundException e) {

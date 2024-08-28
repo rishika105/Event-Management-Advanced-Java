@@ -4,13 +4,18 @@
 <html>
 <head>
     <title>Booking History</title>
-    <style>
-        /* Add your styles here */
-    </style>
 </head>
 <body>
     <h2>Your Booking History</h2>
-        <table border="1">
+    
+    <form action="bookingg" method="post">
+        <input type="hidden" name="action" value="history"/>
+        <label for="email">Enter your email to view booking history:</label>
+        <input type="email" name="email" id="email" required>
+        <input type="submit" value="View History">
+    </form>
+
+    <table border="1">
         <thead>
             <tr>
                 <th>Event Type</th>
