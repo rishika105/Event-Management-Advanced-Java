@@ -1,73 +1,31 @@
-
-  <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.math.BigDecimal" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Payment</title>
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body>
-    <h2>Review Your Charges</h2>
+    <h1>Payment Details</h1>
+    
+    <p>Booking ID: ${param.booking_id}</p>
+    <p>Event Price: ₹<%= request.getAttribute("eventPrice") != null ? request.getAttribute("eventPrice") : "N/A" %></p>
+ <p>Food Price: ₹<%= request.getAttribute("foodPrice") != null ? request.getAttribute("foodPrice") : "N/A" %></p>
 
-    <table border="1">
-        <tr>
-            <th>Item</th>
-            <th>Cost (INR)</th>
-        </tr>
-        <tr>
-            <td>Event</td>
-            <td>${eventCost}</td>
-        </tr>
-        <tr>
-            <td>Food</td>
-            <td>${foodCost}</td>
-        </tr>
-        <tr>
-            <td>Transportation</td>
-            <td>${transportationCost}</td>
-        </tr>
-        <tr>
-            <th>Total</th>
-            <th>${totalCost}</th>
-        </tr>
-    </table>
+    <p>Total Amount: ₹<%= request.getAttribute("totalPrice") != null ? request.getAttribute("totalPrice") : "N/A" %></p>
 
-    <h3>Total Amount to be Paid: ₹${totalCost}</h3>
-
-    <form id="paymentForm">
-        <input type="hidden" id="amount" value="${totalCost}">
-        <input type="hidden" id="bookingId" value="${bookingId}">
-
-        <button type="button" id="rzp-button">Pay Now</button>
-    </form>
-  <%
-    String api_key = System.getenv("RAZORPAY_KEY");
-    %>
-    <script>
-        var options = {
-            "key": "YOUR_API_KEY", // Enter the Key ID generated from the Dashboard
-            "amount": document.getElementById('amount').value * 100, // Amount in paise
-            "currency": "INR",
-            "name": "Event Management System",
-            "description": "Booking Payment",
-            "handler": function (response){
-                alert('Payment successful!');
-                // Send the response to your server here to save the transaction details
-                window.location.href = "confirmation.jsp";
-            },
-            "prefill": {
-                "name": "Customer Name",
-                "email": "customer@example.com"
-            },
-            "theme": {
-                "color": "#F37254"
+    <!-- Razorpay Payment Form -->
+    <form action="payment" method="POST">
+        <%
+            BigDecimal totalPrice = (BigDecimal) request.getAttribute("totalPrice");
+            if (totalPrice == null) {
+                totalPrice = BigDecimal.ZERO;
             }
-        };
-
-        var rzp1 = new Razorpay(options);
-        document.getElementById('rzp-button').onclick = function(e){
-            rzp1.open();
-            e.preventDefault();
-        }
-    </script>
+            int amount = totalPrice.multiply(new BigDecimal(100)).intValue();
+        %>
+        <input type="hidden" name="amount" value="<%= amount %>"/>
+        <input type="hidden" name="order_id" value="<%= request.getAttribute("razorpayOrderId") %>"/>
+        <input type="hidden" name="callback_url" value="/paymentSuccess"/>
+        <button type="submit">Pay Now</button>
+    </form>
 </body>
 </html>
