@@ -60,7 +60,7 @@
 <body>
 <div class="form">
     <h2>Book Now</h2>
-    <form action="bookingg" method="post">
+    <form action="booking2" method="post">
         <label for="event_type">Event Type:</label>
         <select id="event_type" name="event_type" required>
             <option value="Wedding and Reception">Wedding and Reception</option>
