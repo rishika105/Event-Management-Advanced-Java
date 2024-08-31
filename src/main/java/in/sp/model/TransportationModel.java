@@ -1,23 +1,17 @@
 package in.sp.model;
 
+import java.math.BigDecimal;
+import java.sql.Time;
+
 public class TransportationModel {
-    private int transportId; // This will be auto-incremented
-    private int bookingId;    // Foreign key
+    private int bookingId;
     private String vehicleType;
     private String pickupLocation;
     private String dropoffLocation;
-    private String pickupTime;
-    private double price;
+    private Time pickupTime; // Use java.sql.Time
+    private BigDecimal price;
 
     // Getters and Setters
-    public int getTransportId() {
-        return transportId;
-    }
-
-    public void setTransportId(int transportId) {
-        this.transportId = transportId;
-    }
-
     public int getBookingId() {
         return bookingId;
     }
@@ -50,19 +44,19 @@ public class TransportationModel {
         this.dropoffLocation = dropoffLocation;
     }
 
-    public String getPickupTime() {
+    public Time getPickupTime() {
         return pickupTime;
     }
 
-    public void setPickupTime(String pickupTime) {
+    public void setPickupTime(Time pickupTime) {
         this.pickupTime = pickupTime;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 }

@@ -7,14 +7,21 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
         .form-container {
             width: 50%;
-            margin: 0 auto;
             padding: 20px;
             border: 1px solid #ccc;
             border-radius: 10px;
-            background-color: #f9f9f9;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         .form-group {
             margin-bottom: 15px;
@@ -28,16 +35,20 @@
             width: 100%;
             padding: 8px;
             box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
         .submit-btn {
             display: inline-block;
-            padding: 10px 20px;
+            width: 100%;
+            padding: 10px;
             background-color: #007BFF;
             color: white;
             text-align: center;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 16px;
         }
         .submit-btn:hover {
             background-color: #0056b3;
@@ -74,6 +85,9 @@
 <div class="form-container">
     <h2>Transportation Booking</h2>
     <form action="TransportationBooking" method="post">
+        <!-- Hidden field for booking ID -->
+        <input type="hidden" id="booking_id" name="booking_id">
+
         <div class="form-group">
             <label for="vehicle_type">Vehicle Type:</label>
             <select id="vehicle_type" name="vehicle_type" onchange="updatePrice()" required>
@@ -94,7 +108,7 @@
         </div>
         <div class="form-group">
             <label for="pickup_time">Pickup Time:</label>
-            <input type="text" id="pickup_time" name="pickup_time" required>
+            <input type="time" id="pickup_time" name="pickup_time" required>
         </div>
         <div class="form-group">
             <label for="price">Price:</label>
