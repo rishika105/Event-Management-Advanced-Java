@@ -85,8 +85,8 @@
 <div class="form-container">
     <h2>Transportation Booking</h2>
     <form action="TransportationBooking" method="post">
-        <!-- Hidden field for booking ID -->
-        <input type="hidden" id="booking_id" name="booking_id">
+        <!-- Hidden field for booking ID (Ensure this is pre-filled in backend or frontend) -->
+        <input type="hidden" id="booking_id" name="booking_id" value="${booking_id}">
 
         <div class="form-group">
             <label for="vehicle_type">Vehicle Type:</label>
@@ -108,7 +108,7 @@
         </div>
         <div class="form-group">
             <label for="pickup_time">Pickup Time:</label>
-            <input type="time" id="pickup_time" name="pickup_time" required>
+            <input type="datetime-local" id="pickup_time" name="pickup_time" required>
         </div>
         <div class="form-group">
             <label for="price">Price:</label>

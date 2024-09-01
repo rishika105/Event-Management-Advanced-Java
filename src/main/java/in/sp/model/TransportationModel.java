@@ -1,17 +1,23 @@
 package in.sp.model;
 
-import java.math.BigDecimal;
-import java.sql.Time;
-
 public class TransportationModel {
-    private int bookingId;
-    private String vehicleType;
+    private int transportationId;      // Primary Key, Auto-Increment
+    private int bookingId;        // Foreign Key, references Booking
+    private String vehicleType;   // e.g., Car, Bus
     private String pickupLocation;
     private String dropoffLocation;
-    private Time pickupTime; // Use java.sql.Time
-    private BigDecimal price;
+    private String pickupTime;
+    private double price;         // Price according to the vehicle type
 
     // Getters and Setters
+    public int getTransportationId() {
+        return transportationId;
+    }
+
+    public void setTransportationId(int transportationId) {
+        this.transportationId = transportationId;
+    }
+
     public int getBookingId() {
         return bookingId;
     }
@@ -44,19 +50,19 @@ public class TransportationModel {
         this.dropoffLocation = dropoffLocation;
     }
 
-    public Time getPickupTime() {
+    public String getPickupTime() {
         return pickupTime;
     }
 
-    public void setPickupTime(Time pickupTime) {
+    public void setPickupTime(String pickupTime) {
         this.pickupTime = pickupTime;
     }
 
-    public BigDecimal getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 }
