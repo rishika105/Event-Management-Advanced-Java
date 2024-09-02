@@ -13,6 +13,7 @@ import java.util.List;
 
 import in.sp.model.Booking;
 import in.sp.model.FoodModel;
+import in.sp.model.TransportationModel;
 
 public class BookingDAO {
 
@@ -181,4 +182,51 @@ public class BookingDAO {
         }
         return null;
     }
+    
+
+    // Get transportation booking details by booking ID
+    public TransportationModel getTransportationByBookingId(int bookingId) throws SQLException {
+        String sql = "SELECT * FROM transportation WHERE booking_id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, bookingId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                TransportationModel transportation = new TransportationModel();
+                transportation.setBookingId(bookingId);
+                transportation.setVehicleType(rs.getString("vehicle_type"));
+                transportation.setPickupLocation(rs.getString("pickup_location"));
+                transportation.setDropoffLocation(rs.getString("dropoff_location"));
+                transportation.setPickupTime(rs.getString("pickup_time"));
+                transportation.setPrice(rs.getDouble("price"));
+                return transportation;
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    // Insert a new transportation booking into the database
+    public boolean addTransportationBooking(TransportationModel transportationBooking) throws SQLException {
+        String sql = "INSERT INTO transportation (booking_id, vehicle_type, pickup_location, dropoff_location, pickup_time, price) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, transportationBooking.getBookingId());
+            ps.setString(2, transportationBooking.getVehicleType());
+            ps.setString(3, transportationBooking.getPickupLocation());
+            ps.setString(4, transportationBooking.getDropoffLocation());
+            ps.setString(5, transportationBooking.getPickupTime());
+            ps.setDouble(6, transportationBooking.getPrice());
+
+            int affectedRows = ps.executeUpdate();
+            return affectedRows > 0;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
 }

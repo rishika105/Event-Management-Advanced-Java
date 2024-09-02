@@ -53,9 +53,9 @@ public class FoodBooking extends HttpServlet {
         try {
             boolean isInserted = bookingDAO.addFoodBooking(foodBooking);
             if (isInserted) {
-                request.setAttribute("success", "Food booking successfully added.");
-                request.getRequestDispatcher("payment.jsp").forward(request, response);
-                
+                // Redirect to the Transportation page with the booking ID
+                response.sendRedirect("Transportation.jsp?booking_id=" + bookingId);
+                return;
             } else {
                 request.setAttribute("error", "Failed to add food booking.");
             }
@@ -64,7 +64,7 @@ public class FoodBooking extends HttpServlet {
             request.setAttribute("error", "Database error: " + e.getMessage());
         }
 
-        // Forward to the appropriate JSP page
+        // Forward to the food.jsp page if there was an error
         request.getRequestDispatcher("food.jsp").forward(request, response);
     }
 
