@@ -16,7 +16,11 @@
 </head>
 <body>
     <h1>Book Food for Your Event</h1>
+
+    
     <form action="FoodBooking" method="post">
+        <input type="hidden" name="booking_id" value="<%= request.getParameter("booking_id") %>">
+        
         <label for="food_provider_name">Food Provider Name:</label>
         <select id="food_provider_name" name="food_provider_name" required>
             <!-- Prepopulate food provider names from the database -->

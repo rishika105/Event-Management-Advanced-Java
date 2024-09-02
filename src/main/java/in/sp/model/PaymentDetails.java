@@ -1,16 +1,17 @@
 package in.sp.model;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class PaymentDetails {
-    private int paymentId;
-    private int bookingId;
-    private double paymentAmount;
-    private Date paymentDate;
-    private String paymentStatus;
-    private String razorpayOrderId;
-    private String razorpayPaymentId;
-    private String razorpaySignature;
+    private int paymentId;          // Unique ID for the payment
+    private int bookingId;          // ID of the related booking
+    private BigDecimal paymentAmount; // The amount paid
+    private Date paymentDate;       // The date and time when the payment was made
+    private String paymentStatus;   // Status of the payment (e.g., CREATED, SUCCESS, FAILED)
+    private String razorpayOrderId;   // Razorpay order ID
+    private String razorpayPaymentId; // Razorpay payment ID
+    private String razorpaySignature; // Razorpay signature for verifying the payment
 
     // Getters and Setters
 
@@ -30,11 +31,11 @@ public class PaymentDetails {
         this.bookingId = bookingId;
     }
 
-    public double getPaymentAmount() {
+    public BigDecimal getPaymentAmount() {
         return paymentAmount;
     }
 
-    public void setPaymentAmount(double paymentAmount) {
+    public void setPaymentAmount(BigDecimal paymentAmount) {
         this.paymentAmount = paymentAmount;
     }
 
