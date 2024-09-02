@@ -29,7 +29,7 @@ public class TransportationBooking extends HttpServlet {
         // Validate and parse inputs
         if (isNullOrEmpty(bookingIdStr, vehicleType, pickupLocation, dropoffLocation, pickupTime, priceStr)) {
             request.setAttribute("error", "All fields are required.");
-            request.getRequestDispatcher("transportation.jsp").forward(request, response);
+            request.getRequestDispatcher("Transportation.jsp").forward(request, response);
             return;
         }
 
@@ -40,7 +40,7 @@ public class TransportationBooking extends HttpServlet {
             price = Double.parseDouble(priceStr);
         } catch (NumberFormatException e) {
             request.setAttribute("error", "Invalid number format.");
-            request.getRequestDispatcher("transportation.jsp").forward(request, response);
+            request.getRequestDispatcher("Transportation.jsp").forward(request, response);
             return;
         }
 
@@ -59,6 +59,8 @@ public class TransportationBooking extends HttpServlet {
             if (isInserted) {
                 request.setAttribute("success", "Transportation booking successfully added.");
                 request.getRequestDispatcher("payment.jsp").forward(request, response);
+                // Redirect to food.jsp with booking_id as a parameter
+                response.sendRedirect("payment.jsp?booking_id=" + bookingId);
             } else {
                 request.setAttribute("error", "Failed to add transportation booking.");
             }
@@ -68,7 +70,7 @@ public class TransportationBooking extends HttpServlet {
         }
 
         // Forward to the appropriate JSP page
-        request.getRequestDispatcher("transportation.jsp").forward(request, response);
+        request.getRequestDispatcher("Transportation.jsp").forward(request, response);
     }
 
     // Utility method to check if any of the provided strings are null or empty
