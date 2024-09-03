@@ -23,9 +23,10 @@ public class FoodBooking extends HttpServlet {
         String foodItems = request.getParameter("food_items");
         String totalCostStr = request.getParameter("total_cost");
         String foodProviderName = request.getParameter("food_provider_name");
+        String eventPriceStr = request.getParameter("event_price");  // Retrieve event price
 
         // Validate and parse inputs
-        if (isNullOrEmpty(bookingIdStr, foodItems, totalCostStr, foodProviderName)) {
+        if (isNullOrEmpty(bookingIdStr, foodItems, totalCostStr, foodProviderName, eventPriceStr)) {
             request.setAttribute("error", "All fields are required.");
             request.getRequestDispatcher("food.jsp").forward(request, response);
             return;
@@ -33,9 +34,11 @@ public class FoodBooking extends HttpServlet {
 
         int bookingId;
         double totalCost;
+        double eventPrice;
         try {
             bookingId = Integer.parseInt(bookingIdStr);
             totalCost = Double.parseDouble(totalCostStr);
+            eventPrice = Double.parseDouble(eventPriceStr);  // Parse event price
         } catch (NumberFormatException e) {
             request.setAttribute("error", "Invalid number format.");
             request.getRequestDispatcher("food.jsp").forward(request, response);
@@ -53,8 +56,10 @@ public class FoodBooking extends HttpServlet {
         try {
             boolean isInserted = bookingDAO.addFoodBooking(foodBooking);
             if (isInserted) {
-                // Redirect to the Transportation page with the booking ID
-                response.sendRedirect("Transportation.jsp?booking_id=" + bookingId);
+                // Redirect to the Transportation page with the booking ID, event price, and food cost
+                response.sendRedirect("Transportation.jsp?booking_id=" + bookingId 
+                                      + "&event_price=" + eventPrice 
+                                      + "&food_cost=" + totalCost);
                 return;
             } else {
                 request.setAttribute("error", "Failed to add food booking.");

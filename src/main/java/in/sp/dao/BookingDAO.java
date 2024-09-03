@@ -2,7 +2,6 @@ package in.sp.dao;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +12,7 @@ import java.util.List;
 
 import in.sp.model.Booking;
 import in.sp.model.FoodModel;
+import in.sp.model.PaymentModel;
 import in.sp.model.TransportationModel;
 
 public class BookingDAO {
@@ -128,25 +128,7 @@ public class BookingDAO {
         return null;
     }
 
-    // Get food booking details by booking ID
-    public FoodModel getFoodByBookingId(int bookingId) throws SQLException {
-        String sql = "SELECT * FROM food WHERE booking_id = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, bookingId);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                FoodModel food = new FoodModel();
-                food.setFoodItems(rs.getString("food_items"));
-                food.setTotalCost(rs.getDouble("total_cost"));
-                food.setFoodProviderName(rs.getString("food_provider_name"));
-                return food;
-            }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+ 
 
     // Insert a new food booking into the database
     public boolean addFoodBooking(FoodModel foodBooking) throws SQLException {
@@ -167,21 +149,7 @@ public class BookingDAO {
         }
     }
     
-    // Get event price by booking ID
-    public BigDecimal getEventPriceByBookingId(int bookingId) throws SQLException {
-        String sql = "SELECT event_price FROM event_booking WHERE booking_id = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, bookingId);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getBigDecimal("event_price");
-            }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+
     
 
     // Get transportation booking details by booking ID
@@ -227,7 +195,89 @@ public class BookingDAO {
             return false;
         }
     }
+    
+    
+    public FoodModel getFoodByBookingId(int bookingId) throws SQLException {
+        String sql = "SELECT * FROM food WHERE booking_id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, bookingId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                FoodModel food = new FoodModel();
+                food.setFoodItems(rs.getString("food_items"));
+                food.setTotalCost(rs.getDouble("total_cost"));
+                return food;
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
+
+
+    public BigDecimal getEventPriceByBookingId(int bookingId) throws SQLException {
+        String sql = "SELECT event_price FROM event_booking WHERE booking_id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, bookingId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getBigDecimal("event_price");
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return BigDecimal.ZERO;
+    }
+    
+    // Method to save payment details to the database
+    public boolean savePayment(PaymentModel paymentDetails) {
+        boolean isSaved = false;
+        String query = "INSERT INTO payment (booking_id, payment_amount, payment_date, payment_status, razorpay_order_id, razorpay_payment_id, razorpay_signature) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setInt(1, paymentDetails.getBookingId());
+            ps.setBigDecimal(2, paymentDetails.getPaymentAmount());
+            ps.setTimestamp(3, new java.sql.Timestamp(paymentDetails.getPaymentDate().getTime()));
+            ps.setString(4, paymentDetails.getPaymentStatus());
+            ps.setString(5, paymentDetails.getRazorpayOrderId());
+            ps.setString(6, paymentDetails.getRazorpayPaymentId());
+            ps.setString(7, paymentDetails.getRazorpaySignature());
+
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                isSaved = true;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        return isSaved;
+    }
+
+    public BigDecimal calculateTotalCost(int bookingId) throws SQLException {
+        BigDecimal totalCost = getEventPriceByBookingId(bookingId);
+        FoodModel food = getFoodByBookingId(bookingId);
+        TransportationModel transportation = getTransportationByBookingId(bookingId);
+
+        if (food != null) {
+            totalCost = totalCost.add(BigDecimal.valueOf(food.getTotalCost()));
+        }
+        if (transportation != null) {
+            totalCost = totalCost.add(BigDecimal.valueOf(transportation.getPrice()));
+        }
+
+        return totalCost;
+    }
 
 }
-
