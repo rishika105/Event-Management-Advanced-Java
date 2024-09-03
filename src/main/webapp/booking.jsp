@@ -57,13 +57,16 @@
         }
     </style>
 </head>
+
 <body>
 <div class="form">
     <h2>Book Now</h2>
     <form action="booking2" method="post">
+        <!-- Removed redundant hidden event_price field -->
+        
         <label for="event_type">Event Type:</label>
         <select id="event_type" name="event_type" required>
-            <option value="Wedding and Reception">Wedding and Reception</option>
+          <option value="Wedding and Reception">Wedding and Reception</option>
             <option value="Wedding">Wedding</option>
             <option value="Reception">Reception</option>
             <option value="Sangeet">Sangeet</option>
@@ -96,6 +99,10 @@
         
         <button type="submit" name="action" value="book">Book Now</button>
     </form>
+    
+    <!-- Display error messages if any -->
+
 </div>
 </body>
 </html>
+

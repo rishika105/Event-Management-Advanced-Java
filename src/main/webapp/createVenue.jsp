@@ -20,7 +20,7 @@ body {
 
 .container {
 	width: 100%;
-	max-width: 900px;
+	max-width: 720px;
 	margin: 50px auto;
 	background-color: #fff;
 	padding: 40px;
@@ -28,7 +28,21 @@ body {
 	border-radius: 15px;
 	box-sizing: border-box; /* Include padding and border in width */
 }
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            font-size: 25px;
+            font-weight: bold;
+            color: #000;
+            z-index: 10;
+        }
 
+        .logo .wave {
+            color: #7848f4;
+        }
+
+        
 h2 {
 	text-align: center;
 	color: #333;
@@ -137,6 +151,9 @@ button:hover {
 		}
 	}
 	%>
+  <div class="logo">
+            Event <span class="wave">Wave</span>
+        </div>
 	<div class="container">
 		<h2><%=(event != null) ? "Edit Event" : "Create New Event"%></h2>
 		<form action="insertEvent" method="post" enctype="multipart/form-data">

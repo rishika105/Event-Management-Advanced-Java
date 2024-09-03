@@ -54,7 +54,7 @@
             background-color: #0056b3;
         }
     </style>
-    <script>
+   <script>
         function updatePrice() {
             const vehicleType = document.getElementById("vehicle_type").value;
             let price = 0;
@@ -85,8 +85,10 @@
 <div class="form-container">
     <h2>Transportation Booking</h2>
     <form action="TransportationBooking" method="post">
-        <!-- Hidden field for booking ID (Ensure this is pre-filled in backend or frontend) -->
-       <input type="hidden" name="booking_id" value="<%= request.getParameter("booking_id") %>">
+        <!-- Use EL to retrieve booking_id, event_price, and food_cost from request parameters -->
+        <input type="hidden" name="booking_id" value="${param.booking_id}">
+        <input type="hidden" name="event_price" value="${param.event_price}">
+        <input type="hidden" name="food_cost" value="${param.food_cost}">
 
         <div class="form-group">
             <label for="vehicle_type">Vehicle Type:</label>
@@ -116,7 +118,11 @@
         </div>
         <button type="submit" class="submit-btn">Book Transportation</button>
     </form>
-</div>
 
+    <!-- Display error messages if any -->
+    <c:if test="${not empty error}">
+        <div style="color: red;">${error}</div>
+    </c:if>
+</div>
 </body>
 </html>

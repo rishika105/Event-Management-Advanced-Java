@@ -25,9 +25,11 @@ public class TransportationBooking extends HttpServlet {
         String dropoffLocation = request.getParameter("dropoff_location");
         String pickupTime = request.getParameter("pickup_time");
         String priceStr = request.getParameter("price");
+        String eventPriceStr = request.getParameter("event_price");  // Retrieve event price
+        String foodCostStr = request.getParameter("food_cost");  // Retrieve food cost
 
         // Validate and parse inputs
-        if (isNullOrEmpty(bookingIdStr, vehicleType, pickupLocation, dropoffLocation, pickupTime, priceStr)) {
+        if (isNullOrEmpty(bookingIdStr, vehicleType, pickupLocation, dropoffLocation, pickupTime, priceStr, eventPriceStr, foodCostStr)) {
             request.setAttribute("error", "All fields are required.");
             request.getRequestDispatcher("Transportation.jsp").forward(request, response);
             return;
@@ -35,9 +37,13 @@ public class TransportationBooking extends HttpServlet {
 
         int bookingId;
         double price;
+        double eventPrice;
+        double foodCost;
         try {
             bookingId = Integer.parseInt(bookingIdStr);
             price = Double.parseDouble(priceStr);
+            eventPrice = Double.parseDouble(eventPriceStr);  // Parse event price
+            foodCost = Double.parseDouble(foodCostStr);  // Parse food cost
         } catch (NumberFormatException e) {
             request.setAttribute("error", "Invalid number format.");
             request.getRequestDispatcher("Transportation.jsp").forward(request, response);
@@ -57,10 +63,12 @@ public class TransportationBooking extends HttpServlet {
         try {
             boolean isInserted = bookingDAO.addTransportationBooking(transportationBooking);
             if (isInserted) {
-                request.setAttribute("success", "Transportation booking successfully added.");
-                request.getRequestDispatcher("payment.jsp").forward(request, response);
-                // Redirect to food.jsp with booking_id as a parameter
-                response.sendRedirect("payment.jsp?booking_id=" + bookingId);
+                // Redirect to the Payment page with the booking ID, event price, food cost, and transportation price
+                response.sendRedirect("payment.jsp?booking_id=" + bookingId 
+                                      + "&event_price=" + eventPrice 
+                                      + "&food_cost=" + foodCost 
+                                      + "&transport_price=" + price);
+                return;
             } else {
                 request.setAttribute("error", "Failed to add transportation booking.");
             }
@@ -69,7 +77,7 @@ public class TransportationBooking extends HttpServlet {
             request.setAttribute("error", "Database error: " + e.getMessage());
         }
 
-        // Forward to the appropriate JSP page
+        // Forward to the Transportation.jsp page if there was an error
         request.getRequestDispatcher("Transportation.jsp").forward(request, response);
     }
 
