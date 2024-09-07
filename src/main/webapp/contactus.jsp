@@ -135,17 +135,92 @@
             text-decoration: none;
         }
 
-        footer p {
-            margin: 10px 0;
-            font-size: 14px;
-            color: #687c94;
-        }
+       .footer {
+    background-color: #0A0F34;
+    color: white;
+    padding: 20px 30px;
+    text-align: center;
+}
 
-        footer img {
-            width: 24px;
-            height: 24px;
-            margin: 0 10px;
-        }
+.footer .logo {
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 30px;
+}
+
+.footer .highlight {
+    color: #6A3DF0;
+}
+
+.footer .newsletter {
+    margin-bottom: 30px;
+}
+
+.footer .newsletter form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.footer .newsletter input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 5px 0 0 5px;
+}
+
+.footer {
+    text-align: center;
+}
+
+.footer .newsletter button {
+    display: block;
+    margin: 20px auto; /* Centers the button and adds vertical spacing */
+    padding: 10px 20px;
+    background-color: #6A3DF0;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+
+.footer .footer-lower-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #AAA;
+}
+
+.footer .language-links {
+    display: flex;
+    justify-content: left;
+}
+
+.footer .language-links a {
+    margin: 0 10px;
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-align: left;
+}
+
+.footer .language-links a:first-child {
+    color: #6A3DF0;
+    font-weight: bold;
+}
+
+.footer .footer-note {
+    font-size: 14px;
+    color: #AAA;
+    text-align: right;
+}
 
         .logo {
             font-size: 24px;
@@ -236,15 +311,27 @@
         </div>
     </div>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 Event Management System. All rights reserved.</p>
-            <p>Follow us on:</p>
-            <a href="#"><img src="facebook-icon.png" alt="Facebook"></a>
-            <a href="#"><img src="twitter-icon.png" alt="Twitter"></a>
-            <a href="#"><img src="instagram-icon.png" alt="Instagram"></a>
-            <a href="#"><img src="linkedin-icon.png" alt="LinkedIn"></a>
+    <footer class="footer">
+        <div class="logo">
+            Event <span class="highlight">Wave</span>
+        </div>
+        <div class="newsletter">
+            <form>
+                <input type="email" placeholder="Enter your mail">
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+
+        <div class="footer-lower-section">
+            <div class="language-links">
+                <a href="#">English</a>
+                <a href="#">French</a>
+                <a href="#">Hindi</a>
+            </div>  
+            
+
+            <div class="footer-note">
+                <p>Non Copyrighted © 2023 Upload by rich technologies</p>
+            </div>
         </div>
     </footer>
-</body>
-</html>
