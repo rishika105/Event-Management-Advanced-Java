@@ -197,7 +197,7 @@
             <a href="#" class="active"><i class="fas fa-user"></i> Profile</a>
             <a href="createVenue.jsp"><i class="fas fa-calendar-alt"></i> Create Event</a>
             <a href="venueTypes.jsp"><i class="fas fa-book"></i> View Events</a>
-            <a href="#"><i class="fas fa-envelope"></i> All Bookings</a>
+            <a href="All bookings.jsp"><i class="fas fa-envelope"></i> All Bookings</a>
             <a href="#" onclick="showLogoutModal()"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </ul>
     </div>

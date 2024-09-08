@@ -121,4 +121,27 @@ public class EventDAO {
             e.printStackTrace();
         }
     }
+    public Event getEventByType(String eventType) throws ClassNotFoundException {
+        String query = "SELECT * FROM events WHERE event_type = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, eventType);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Event event = new Event();
+                    event.setEventId(rs.getInt("venue_id"));
+                    event.setVenueName(rs.getString("venue_name"));
+                    event.setLocation(rs.getString("location"));
+                    event.setTime(rs.getString("time"));
+                    event.setDescription(rs.getString("description"));
+                    event.setPrice(rs.getDouble("price"));
+                    event.setImagePath(rs.getString("imagePath"));
+                    return event;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
