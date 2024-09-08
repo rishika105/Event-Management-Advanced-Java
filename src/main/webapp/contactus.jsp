@@ -258,8 +258,8 @@
         <div class="logo">Event Wave</div>
         <div>
             <a href="index.jsp">Home</a>
-            <a href="about.jsp">About Us</a>
-            <a href="contact.jsp">Contact Us</a>
+            <a href="aboutus.jsp">About Us</a>
+            <a href="contactus.jsp">Contact Us</a>
         </div>
     </nav>
     

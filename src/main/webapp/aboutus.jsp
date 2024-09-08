@@ -222,8 +222,8 @@
             <div class="logo">Event Wave</div>
             <ul>
                 <li><a href="index.jsp">Home</a></li>
-                <li class="active"><a href="about.jsp">About Us</a></li>
-                <li><a href="contact.jsp">Contact Us</a></li>
+                <li class="active"><a href="aboutus.jsp">About Us</a></li>
+                <li><a href="contactus.jsp">Contact Us</a></li>
             </ul>
         </nav>
     </header>
