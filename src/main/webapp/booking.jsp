@@ -68,9 +68,20 @@
     <form action="booking2" method="post">
         <label for="event_type">Event Type:</label>
         <select id="event_type" name="event_type" required>
-            <option value="<%= request.getParameter("event_type") != null ? request.getParameter("event_type") : "" %>">
-                <%= request.getParameter("event_type") != null ? request.getParameter("event_type") : "Select Event Type" %>
-            </option>
+            <option value="Wedding and Reception">Wedding and Reception</option>
+            <option value="Wedding">Wedding</option>
+            <option value="Reception">Reception</option>
+            <option value="Sangeet">Sangeet</option>
+            <option value="Ring Ceremony">Ring Ceremony</option>
+            <option value="Mehendi">Mehendi</option>
+            <option value="Pre wedding photography">Pre wedding photography</option>
+            <option value="Anniversary">Anniversary</option>
+            <option value="Barat">Barat</option>
+            <option value="Birthday">Birthday</option>
+            <option value="Conference">Conference</option>
+            <option value="Get-together">Get-together</option>
+            <option value="Cocktail">Cocktail</option>
+            <option value="Thread Ceremony">Thread Ceremony</option>
             <!-- Add other event type options here -->
         </select>
 

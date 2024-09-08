@@ -67,4 +67,12 @@ public class Booking {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+	public void setFoodModel(FoodModel food) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void setTransportationModel(TransportationModel transportation) {
+		// TODO Auto-generated method stub
+		
+	}
 }

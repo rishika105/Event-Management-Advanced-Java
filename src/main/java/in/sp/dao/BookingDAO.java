@@ -60,34 +60,7 @@ public class BookingDAO {
         return generatedId;
     }
 
-    // Retrieve bookings by email
-    public List<Booking> retrieveBookingsByEmail(String email) {
-        List<Booking> bookings = new ArrayList<>();
-        String sql = "SELECT * FROM event_booking WHERE email = ?";
-
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setString(1, email);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                Booking booking = new Booking();
-                booking.setBooking_id(rs.getInt("booking_id"));
-                booking.setEvent_type(rs.getString("event_type"));
-                booking.setNumber_of_guests(rs.getInt("number_of_guests"));
-                booking.setEvent_price(rs.getBigDecimal("event_price"));
-                booking.setEmail(rs.getString("email"));
-                booking.setDate(rs.getDate("date"));
-                booking.setPhone(rs.getString("phone"));
-                bookings.add(booking);
-            }
-        } catch (SQLException | ClassNotFoundException e) {
-            System.err.println("Error retrieving bookings: " + e.getMessage());
-        }
-
-        return bookings;
-    }
+   
 
     // Cancel a booking by email and event type
     public void cancelBookingByEmailAndEventType(String email, String eventType) {
@@ -279,5 +252,59 @@ public class BookingDAO {
 
         return totalCost;
     }
+    public List<Booking> getBookingHistoryByEmail(String email) {
+        List<Booking> bookings = new ArrayList<>();
+        String sql = "SELECT eb.booking_id, eb.event_type, eb.number_of_guests, eb.event_price, eb.email, eb.date, eb.phone, " +
+                     "f.food_items, f.total_cost AS food_total_cost, f.food_provider_name, " +
+                     "t.vehicle_type, t.pickup_location, t.dropoff_location, t.pickup_time, t.price AS transportation_price " +
+                     "FROM event_booking eb " +
+                     "LEFT JOIN food f ON eb.booking_id = f.booking_id " +
+                     "LEFT JOIN transportation t ON eb.booking_id = t.booking_id " +
+                     "WHERE eb.email = ?";
 
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Booking booking = new Booking();
+                booking.setBooking_id(rs.getInt("booking_id"));
+                booking.setEvent_type(rs.getString("event_type"));
+                booking.setNumber_of_guests(rs.getInt("number_of_guests"));
+                booking.setEvent_price(rs.getBigDecimal("event_price"));
+                booking.setEmail(rs.getString("email"));
+                booking.setDate(rs.getDate("date"));
+                booking.setPhone(rs.getString("phone"));
+
+                FoodModel food = new FoodModel();
+                food.setFoodItems(rs.getString("food_items"));
+                food.setTotalCost(rs.getDouble("food_total_cost"));
+                food.setFoodProviderName(rs.getString("food_provider_name"));
+                booking.setFoodModel(food);
+
+                TransportationModel transportation = new TransportationModel();
+                transportation.setVehicleType(rs.getString("vehicle_type"));
+                transportation.setPickupLocation(rs.getString("pickup_location"));
+                transportation.setDropoffLocation(rs.getString("dropoff_location"));
+                transportation.setPickupTime(rs.getString("pickup_time"));
+                transportation.setPrice(rs.getDouble("transportation_price"));
+                booking.setTransportationModel(transportation);
+
+                bookings.add(booking);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return bookings;
+    }
+
+	public List<Booking> getAllUserBookings() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
+
+

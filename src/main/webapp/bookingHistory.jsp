@@ -8,7 +8,7 @@
 <body>
     <h2>Your Booking History</h2>
     
-    <form action="bookingg" method="post">
+    <form action="booking2" method="post">
         <input type="hidden" name="action" value="history"/>
         <label for="email">Enter your email to view booking history:</label>
         <input type="email" name="email" id="email" required>
@@ -23,6 +23,13 @@
                 <th>Event Price</th>
                 <th>Date</th>
                 <th>Phone</th>
+                <th>Pickup Location</th>
+                <th>Dropoff Location</th>
+                <th>Pickup Time</th>
+                <th>Vehicle Type</th>
+                <th>Food Provider</th>
+                <th>Food Items</th>
+                <th>Total Food Cost</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -32,10 +39,75 @@
                     <td>${booking.event_type}</td>
                     <td>${booking.number_of_guests}</td>
                     <td>${booking.event_price}</td>
-                    <td>${booking.date}</td>
+                    <td><fmt:formatDate value="${booking.date}" pattern="yyyy-MM-dd"/></td>
                     <td>${booking.phone}</td>
                     <td>
-                        <form action="bookingg" method="post">
+                        <c:choose>
+                            <c:when test="${not empty booking.pickup_location}">
+                                ${booking.pickup_location}
+                            </c:when>
+                            <c:otherwise>
+                                N/A
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${not empty booking.dropoff_location}">
+                                ${booking.dropoff_location}
+                            </c:when>
+                            <c:otherwise>
+                                N/A
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${not empty booking.pickup_time}">
+                                ${booking.pickup_time}
+                            </c:when>
+                            <c:otherwise>
+                                N/A
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${not empty booking.vehicle_type}">
+                                ${booking.vehicle_type}
+                            </c:when>
+                            <c:otherwise>
+                                N/A
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${not empty booking.food_provider_name}">
+                                ${booking.food_provider_name}
+                            </c:when>
+                            <c:otherwise>
+                                N/A
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                    <td>
+                        <c:forEach var="item" items="${booking.food_items}">
+                            ${item}<br>
+                        </c:forEach>
+                    </td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${not empty booking.total_food_cost}">
+                                ${booking.total_food_cost}
+                            </c:when>
+                            <c:otherwise>
+                                N/A
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                    <td>
+                        <form action="booking2" method="post">
                             <input type="hidden" name="action" value="cancel"/>
                             <input type="hidden" name="email" value="${booking.email}"/>
                             <input type="hidden" name="event_type" value="${booking.event_type}"/>

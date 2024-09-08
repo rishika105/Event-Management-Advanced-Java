@@ -32,6 +32,8 @@ public class Createbooking extends HttpServlet {
             cancelBooking(request, response);
         } else if ("history".equalsIgnoreCase(action)) {
             showBookingHistory(request, response);
+        } else if ("adminBookings".equalsIgnoreCase(action)) {
+            showAllBookings(request, response);
         } else {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid action");
         }
@@ -39,7 +41,6 @@ public class Createbooking extends HttpServlet {
 
     private void bookEvent(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         try {
             String eventType = request.getParameter("event_type");
             String numberOfGuestsStr = request.getParameter("number_of_guests");
@@ -78,7 +79,6 @@ public class Createbooking extends HttpServlet {
 
     private void cancelBooking(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         String email = request.getParameter("email");
         String eventType = request.getParameter("event_type");
 
@@ -90,22 +90,30 @@ public class Createbooking extends HttpServlet {
         bookingDAO.cancelBookingByEmailAndEventType(email, eventType);
 
         request.setAttribute("success", "Booking canceled successfully.");
-        request.getRequestDispatcher("food.jsp").forward(request, response);
+        request.getRequestDispatcher("bookingCancel.jsp").forward(request, response);
     }
 
     private void showBookingHistory(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         String email = request.getParameter("email");
         if (isNullOrEmpty(email)) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Email is required");
             return;
         }
 
-        List<Booking> bookings = bookingDAO.retrieveBookingsByEmail(email);
+        // Use the updated DAO method to get detailed booking history
+        List<Booking> bookings = bookingDAO.getBookingHistoryByEmail(email);
 
         request.setAttribute("bookings", bookings);
-        request.getRequestDispatcher("history.jsp").forward(request, response);
+        request.getRequestDispatcher("bookingHistory.jsp").forward(request, response);
+    }
+
+    private void showAllBookings(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        List<Booking> allBookings = bookingDAO.getAllUserBookings();
+
+        request.setAttribute("allBookings", allBookings);
+        request.getRequestDispatcher("adminBookings.jsp").forward(request, response);
     }
 
     // Utility method to check if any of the provided strings are null or empty
