@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile - Event Wave</title>
+    <title>Admin Profile - Event Wave</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         body {
@@ -197,7 +197,7 @@
             <a href="#" class="active"><i class="fas fa-user"></i> Profile</a>
             <a href="createVenue.jsp"><i class="fas fa-calendar-alt"></i> Create Event</a>
             <a href="venueTypes.jsp"><i class="fas fa-book"></i> View Events</a>
-            <a href="All bookings.jsp"><i class="fas fa-envelope"></i> All Bookings</a>
+            <a href="allBookings.jsp"><i class="fas fa-envelope"></i> All Bookings</a>
             <a href="#" onclick="showLogoutModal()"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </ul>
     </div>

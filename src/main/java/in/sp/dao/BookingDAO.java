@@ -279,5 +279,33 @@ public class BookingDAO {
 
         return totalCost;
     }
+    
+    public List<Booking> getAllUserBookings() {
+        List<Booking> bookings = new ArrayList<>();
+        String sql = "SELECT * FROM event_booking";
+
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Booking booking = new Booking();
+                booking.setBooking_id(rs.getInt("booking_id"));
+                booking.setEvent_type(rs.getString("event_type"));
+                booking.setNumber_of_guests(rs.getInt("number_of_guests"));
+                booking.setEvent_price(rs.getBigDecimal("event_price"));
+                booking.setEmail(rs.getString("email"));
+                booking.setDate(rs.getDate("date"));
+                booking.setPhone(rs.getString("phone"));
+                bookings.add(booking);
+            }
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return bookings;
+    }
 
 }
