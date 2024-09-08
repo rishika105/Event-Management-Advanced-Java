@@ -46,11 +46,6 @@
             font-size: 18px;
         }
 
-        nav ul li a:hover,
-        nav ul li.active a {
-            text-decoration: underline;
-        }
-
         .about-section {
             padding: 40px 20px;
             text-align: center;
@@ -99,8 +94,18 @@
 
         .image-placeholder {
             width: 100%;
-            height: 200px;
+            height: 250px;
             background-color: #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Ensuring the image fits within the placeholder */
+        .image-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .stats-section {
@@ -120,6 +125,94 @@
         .stats-section .stat-item p {
             font-size: 16px;
             color: #687c94;
+        }
+        
+        .footer {
+            background-color: #0A0F34;
+            color: white;
+            padding: 20px 20px;
+            text-align: center;
+        }
+
+        .footer .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .footer .highlight {
+            color: #6A3DF0;
+        }
+
+        .footer .newsletter {
+            margin-bottom: 30px;
+        }
+
+        .footer .newsletter form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 500px;
+            margin: 0 auto;
+            flex-direction: row;
+        }
+
+        .footer .newsletter input {
+            flex-grow: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            width: 70%;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .footer .newsletter button {
+            padding: 10px 20px;
+            margin-left: 10px; /* Add space between input and button */
+            background-color: #6A3DF0;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            white-space: nowrap;
+            flex-grow: 0;
+        }
+
+        .footer .footer-lower-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #AAA;
+        }
+
+        .footer .language-links {
+            display: flex;
+            justify-content: left;
+        }
+
+        .footer .language-links a {
+            margin: 0 10px;
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-align: left;
+        }
+
+        .footer .language-links a:first-child {
+            color: #6A3DF0;
+            font-weight: bold;
+        }
+
+        .footer .footer-note {
+            font-size: 14px;
+            color: #AAA;
+            text-align: right;
         }
     </style>
 </head>
@@ -147,7 +240,9 @@
             </div>
             <div class="about-image">
                 <!-- Placeholder for an image -->
-                <div class="image-placeholder"></div>
+                <div class="image-placeholder">
+                    <img src="assets/party.jpeg" alt="image1">
+                </div>
             </div>
         </div>
         
@@ -173,7 +268,9 @@
         <div class="about-content">
             <div class="about-image">
                 <!-- Placeholder for an image -->
-                <div class="image-placeholder"></div>
+                <div class="image-placeholder">
+                    <img src="assets/conference meeting.jpeg" alt="image2">
+                </div>
             </div>
             <div class="about-text">
                 <h2>Our Mission</h2>
@@ -192,9 +289,37 @@
             </div>
             <div class="about-image">
                 <!-- Placeholder for an image -->
-                <div class="image-placeholder"></div>
+                <div class="image-placeholder">
+                    <img src="assets/weeding.jpeg" alt="image3">
+                </div>
             </div>
         </div>
     </section>
+    
+    <footer class="footer">
+        <div class="logo">
+            Event <span class="highlight">Wave</span>
+        </div>
+        
+        <div class="newsletter">
+            <form>
+                <input type="email" placeholder="Enter your mail">
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+        
+        <div class="footer-lower-section">
+            <div class="language-links">
+                <a href="#">English</a>
+                <a href="#">French</a>
+                <a href="#">Hindi</a>
+            </div>
+            
+            <div class="footer-note">
+                <p>Non Copyrighted © 2023 Upload by rich technologies</p>
+            </div>
+        </div>
+    </footer>
+    
 </body>
 </html>
