@@ -135,10 +135,11 @@
             text-decoration: none;
         }
 
-       .footer {
+     
+.footer {
     background-color: #0A0F34;
     color: white;
-    padding: 20px 30px;
+    padding: 20px 20px;
     text-align: center;
 }
 
@@ -161,30 +162,33 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    max-width: 400px;
+    max-width: 500px;
     margin: 0 auto;
+    flex-direction: row;
 }
 
 .footer .newsletter input {
-    flex: 1;
+    flex-grow: 1;
     padding: 10px;
     border: none;
-    border-radius: 5px 0 0 5px;
-}
-
-.footer {
-    text-align: center;
+    border-radius: 5px;
+    width: 70%;
+    margin: 0; 
+    box-sizing: border-box;
 }
 
 .footer .newsletter button {
-    display: block;
-    margin: 20px auto; /* Centers the button and adds vertical spacing */
     padding: 10px 20px;
+    margin-left: 10px; /* Add space between input and button */
     background-color: #6A3DF0;
     color: white;
     border: none;
     border-radius: 5px;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-grow: 0;
 }
+
 
 
 .footer .footer-lower-section {
@@ -311,27 +315,28 @@
         </div>
     </div>
 
-    <footer class="footer">
-        <div class="logo">
-            Event <span class="highlight">Wave</span>
+   <footer class="footer">
+    <div class="logo">
+        Event <span class="highlight">Wave</span>
+    </div>
+    
+    <div class="newsletter">
+        <form>
+            <input type="email" placeholder="Enter your mail">
+            <button type="submit">Subscribe</button>
+        </form>
+    </div>
+    
+    <div class="footer-lower-section">
+        <div class="language-links">
+            <a href="#">English</a>
+            <a href="#">French</a>
+            <a href="#">Hindi</a>
         </div>
-        <div class="newsletter">
-            <form>
-                <input type="email" placeholder="Enter your mail">
-                <button type="submit">Subscribe</button>
-            </form>
+        
+        
+        <div class="footer-note">
+            <p>Non Copyrighted © 2023 Upload by rich technologies</p>
         </div>
-
-        <div class="footer-lower-section">
-            <div class="language-links">
-                <a href="#">English</a>
-                <a href="#">French</a>
-                <a href="#">Hindi</a>
-            </div>  
-            
-
-            <div class="footer-note">
-                <p>Non Copyrighted © 2023 Upload by rich technologies</p>
-            </div>
-        </div>
-    </footer>
+    </div>
+</footer>
