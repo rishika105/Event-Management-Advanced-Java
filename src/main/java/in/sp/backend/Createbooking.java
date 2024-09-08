@@ -32,6 +32,8 @@ public class Createbooking extends HttpServlet {
             cancelBooking(request, response);
         } else if ("history".equalsIgnoreCase(action)) {
             showBookingHistory(request, response);
+        } else if ("adminBookings".equalsIgnoreCase(action)) {
+            showAllBookings(request, response);
         } else {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid action");
         }
@@ -39,7 +41,6 @@ public class Createbooking extends HttpServlet {
 
     private void bookEvent(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         try {
             String eventType = request.getParameter("event_type");
             String numberOfGuestsStr = request.getParameter("number_of_guests");
@@ -78,7 +79,6 @@ public class Createbooking extends HttpServlet {
 
     private void cancelBooking(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         String email = request.getParameter("email");
         String eventType = request.getParameter("event_type");
 
@@ -95,7 +95,6 @@ public class Createbooking extends HttpServlet {
 
     private void showBookingHistory(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         String email = request.getParameter("email");
         if (isNullOrEmpty(email)) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Email is required");
@@ -106,6 +105,14 @@ public class Createbooking extends HttpServlet {
 
         request.setAttribute("bookings", bookings);
         request.getRequestDispatcher("history.jsp").forward(request, response);
+    }
+
+    private void showAllBookings(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        List<Booking> allBookings = bookingDAO.getAllUserBookings();
+
+        request.setAttribute("allBookings", allBookings);
+        
     }
 
     // Utility method to check if any of the provided strings are null or empty
