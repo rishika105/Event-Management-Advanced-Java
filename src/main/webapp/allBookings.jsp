@@ -86,11 +86,12 @@
                         Event event = eventDAO.getEventByType(eventType);
                         PaymentModel paymentModel = paymentDAO.getPaymentByBookingId(booking.getBooking_id());
                         String status = getStatus(booking.getDate());
+                        String venueName = event != null ? event.getVenueName() : "N/A"; 
                 %>
                 <tr>
                     <td><%=booking.getBooking_id()%></td>
-                    <td><%=event != null ? event.getVenueName() : "N/A"%></td>
-                    <td><%=booking.getEmail()%></td>
+                    <td><%=venueName%></td>                  
+                      <td><%=booking.getEmail()%></td>
                     <td><%=booking.getDate()%></td>
                     <td><%=paymentModel != null ? paymentModel.getPaymentAmount() : "N/A"%></td>
                     <td><%=status%></td>

@@ -144,4 +144,27 @@ public class EventDAO {
         }
         return null;
     }
+    public Event getEventByName(String eventName) throws ClassNotFoundException {
+        String query = "SELECT * FROM events WHERE venue_name = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, eventName);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Event event = new Event();
+                    event.setEventId(rs.getInt("venue_id"));
+                    event.setVenueName(rs.getString("venue_name"));
+                    event.setLocation(rs.getString("location"));
+                    event.setTime(rs.getString("time"));
+                    event.setDescription(rs.getString("description"));
+                    event.setPrice(rs.getDouble("price"));
+                    event.setImagePath(rs.getString("imagePath"));
+                    return event;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
