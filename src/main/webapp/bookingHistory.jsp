@@ -8,7 +8,7 @@
 <body>
     <h2>Your Booking History</h2>
     
-    <form action="bookingg" method="post">
+    <form action="booking2" method="post">
         <input type="hidden" name="action" value="history"/>
         <label for="email">Enter your email to view booking history:</label>
         <input type="email" name="email" id="email" required>
@@ -35,7 +35,7 @@
                     <td>${booking.date}</td>
                     <td>${booking.phone}</td>
                     <td>
-                        <form action="bookingg" method="post">
+                        <form action="booking2" method="post">
                             <input type="hidden" name="action" value="cancel"/>
                             <input type="hidden" name="email" value="${booking.email}"/>
                             <input type="hidden" name="event_type" value="${booking.event_type}"/>

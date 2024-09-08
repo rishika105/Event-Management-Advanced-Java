@@ -237,7 +237,7 @@
                     <p><strong>Time:</strong> <%= event.getTime() %></p>
                     <p><strong>Description:</strong> <%= event.getDescription() %></p>
                     <p><strong>Price:</strong> ₹<%= event.getPrice() %></p>
-                    <a href="venueDetails.jsp?eventId=<%= event.getEventId() %>" class="book-now-link">Book Now</a>
+                   
                     <!-- Edit Button -->
                     <a href="createVenue.jsp?eventId=<%= event.getEventId() %>" class="edit-btn">Edit</a>
                     <!-- Delete Button with JavaScript Confirmation -->
