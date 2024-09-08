@@ -37,7 +37,7 @@
             color: #555;
             font-weight: bold;
         }
-        input, textarea, select {
+        input, select {
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
@@ -54,6 +54,10 @@
             font-size: 1.2em;
             cursor: pointer;
             width: 100%;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #5a4ecf;
         }
     </style>
 </head>
@@ -62,47 +66,31 @@
 <div class="form">
     <h2>Book Now</h2>
     <form action="booking2" method="post">
-        <!-- Removed redundant hidden event_price field -->
-        
         <label for="event_type">Event Type:</label>
         <select id="event_type" name="event_type" required>
-          <option value="Wedding and Reception">Wedding and Reception</option>
-            <option value="Wedding">Wedding</option>
-            <option value="Reception">Reception</option>
-            <option value="Sangeet">Sangeet</option>
-            <option value="Ring Ceremony">Ring Ceremony</option>
-            <option value="Mehendi">Mehendi</option>
-            <option value="Pre wedding photography">Pre wedding photography</option>
-            <option value="Anniversary">Anniversary</option>
-            <option value="Barat">Barat</option>
-            <option value="Birthday">Birthday</option>
-            <option value="Conference">Conference</option>
-            <option value="Get-together">Get-together</option>
-            <option value="Cocktail">Cocktail</option>
-            <option value="Thread Ceremony">Thread Ceremony</option>
+            <option value="<%= request.getParameter("event_type") != null ? request.getParameter("event_type") : "" %>">
+                <%= request.getParameter("event_type") != null ? request.getParameter("event_type") : "Select Event Type" %>
+            </option>
+            <!-- Add other event type options here -->
         </select>
-        
+
         <label for="date">Event Date:</label>
         <input type="date" id="date" name="date" required>
-        
+
         <label for="number_of_guests">Number of Guests:</label>
         <input type="number" id="number_of_guests" name="number_of_guests" required>
-        
+
         <label for="event_price">Event Price:</label>
-        <input type="text" id="event_price" name="event_price" required>
-        
+        <input type="text" id="event_price" name="event_price" value="<%= request.getParameter("event_price") != null ? request.getParameter("event_price") : "" %>" required>
+
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required>
-        
+
         <label for="phone">Phone:</label>
         <input type="text" id="phone" name="phone" required>
-        
+
         <button type="submit" name="action" value="book">Book Now</button>
     </form>
-    
-    <!-- Display error messages if any -->
-
 </div>
 </body>
 </html>
-

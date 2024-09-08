@@ -11,10 +11,9 @@ import java.util.List;
 import in.sp.model.Event;
 
 public class EventDAO {
-    private static final String DB_URL = System.getenv("DB_URL");
-   
-    private static final String DB_USER = System.getenv("DB_USERNAME");
-    private static final String DB_PASSWORD = System.getenv("DB_PASSWORD");
+    private static final String DB_URL =  "jdbc:mysql://localhost:3306/eventmanagement";
+    private static final String DB_USER = "root";
+    private static final String DB_PASSWORD = "golu10";
 
 
     private static Connection getConnection() throws SQLException, ClassNotFoundException {
