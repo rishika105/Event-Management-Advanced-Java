@@ -152,7 +152,7 @@
                 <p><strong>Price:</strong> ₹<%= event.getPrice() %></p>
             </div>
         </div>
-        <a href="booking.jsp" class="book-now-button">Book Now</a>
+        <a href="booking.jsp?eventId=<%= event.getEventId() %>" class="book-now-button">Book Now</a>
     </div>
 
     <!-- Footer -->

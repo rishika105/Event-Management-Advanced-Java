@@ -48,6 +48,7 @@ public class EventDAO {
     }
 
     // Method to get all events
+ // Method to get all events
     public List<Event> getAllEvents() {
         List<Event> events = new ArrayList<>();
         String query = "SELECT * FROM events";
@@ -70,6 +71,8 @@ public class EventDAO {
         }
         return events;
     }
+
+
 
     // Method to insert a new event
     public boolean insertEvent(Event event) {

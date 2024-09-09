@@ -255,8 +255,9 @@ public class BookingDAO {
     public List<Booking> getBookingHistoryByEmail(String email) {
         List<Booking> bookings = new ArrayList<>();
         String sql = "SELECT eb.booking_id, eb.event_type, eb.number_of_guests, eb.event_price, eb.email, eb.date, eb.phone, " +
-                     "f.food_items, f.total_cost AS food_total_cost, f.food_provider_name, " +
-                     "t.vehicle_type, t.pickup_location, t.dropoff_location, t.pickup_time, t.price AS transportation_price " +
+                     "COALESCE(f.food_items, '') AS food_items, COALESCE(f.total_cost, 0) AS food_total_cost, COALESCE(f.food_provider_name, '') AS food_provider_name, " +
+                     "COALESCE(t.vehicle_type, '') AS vehicle_type, COALESCE(t.pickup_location, '') AS pickup_location, " +
+                     "COALESCE(t.dropoff_location, '') AS dropoff_location, COALESCE(t.pickup_time, '') AS pickup_time, COALESCE(t.price, 0) AS transportation_price " +
                      "FROM event_booking eb " +
                      "LEFT JOIN food f ON eb.booking_id = f.booking_id " +
                      "LEFT JOIN transportation t ON eb.booking_id = t.booking_id " +
@@ -278,12 +279,14 @@ public class BookingDAO {
                 booking.setDate(rs.getDate("date"));
                 booking.setPhone(rs.getString("phone"));
 
+                // Set food details
                 FoodModel food = new FoodModel();
                 food.setFoodItems(rs.getString("food_items"));
                 food.setTotalCost(rs.getDouble("food_total_cost"));
                 food.setFoodProviderName(rs.getString("food_provider_name"));
                 booking.setFoodModel(food);
 
+                // Set transportation details
                 TransportationModel transportation = new TransportationModel();
                 transportation.setVehicleType(rs.getString("vehicle_type"));
                 transportation.setPickupLocation(rs.getString("pickup_location"));
@@ -300,6 +303,7 @@ public class BookingDAO {
 
         return bookings;
     }
+
 
 	public List<Booking> getAllUserBookings() {
 		// TODO Auto-generated method stub
