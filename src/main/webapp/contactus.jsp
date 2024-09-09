@@ -135,17 +135,96 @@
             text-decoration: none;
         }
 
-        footer p {
-            margin: 10px 0;
-            font-size: 14px;
-            color: #687c94;
-        }
+     
+.footer {
+    background-color: #0A0F34;
+    color: white;
+    padding: 20px 20px;
+    text-align: center;
+}
 
-        footer img {
-            width: 24px;
-            height: 24px;
-            margin: 0 10px;
-        }
+.footer .logo {
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 30px;
+}
+
+.footer .highlight {
+    color: #6A3DF0;
+}
+
+.footer .newsletter {
+    margin-bottom: 30px;
+}
+
+.footer .newsletter form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 500px;
+    margin: 0 auto;
+    flex-direction: row;
+}
+
+.footer .newsletter input {
+    flex-grow: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    width: 70%;
+    margin: 0; 
+    box-sizing: border-box;
+}
+
+.footer .newsletter button {
+    padding: 10px 20px;
+    margin-left: 10px; /* Add space between input and button */
+    background-color: #6A3DF0;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-grow: 0;
+}
+
+
+
+.footer .footer-lower-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #AAA;
+}
+
+.footer .language-links {
+    display: flex;
+    justify-content: left;
+}
+
+.footer .language-links a {
+    margin: 0 10px;
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-align: left;
+}
+
+.footer .language-links a:first-child {
+    color: #6A3DF0;
+    font-weight: bold;
+}
+
+.footer .footer-note {
+    font-size: 14px;
+    color: #AAA;
+    text-align: right;
+}
 
         .logo {
             font-size: 24px;
@@ -179,8 +258,8 @@
         <div class="logo">Event Wave</div>
         <div>
             <a href="index.jsp">Home</a>
-            <a href="about.jsp">About Us</a>
-            <a href="contact.jsp">Contact Us</a>
+            <a href="aboutus.jsp">About Us</a>
+            <a href="contactus.jsp">Contact Us</a>
         </div>
     </nav>
     
@@ -236,15 +315,28 @@
         </div>
     </div>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 Event Management System. All rights reserved.</p>
-            <p>Follow us on:</p>
-            <a href="#"><img src="facebook-icon.png" alt="Facebook"></a>
-            <a href="#"><img src="twitter-icon.png" alt="Twitter"></a>
-            <a href="#"><img src="instagram-icon.png" alt="Instagram"></a>
-            <a href="#"><img src="linkedin-icon.png" alt="LinkedIn"></a>
+   <footer class="footer">
+    <div class="logo">
+        Event <span class="highlight">Wave</span>
+    </div>
+    
+    <div class="newsletter">
+        <form>
+            <input type="email" placeholder="Enter your mail">
+            <button type="submit">Subscribe</button>
+        </form>
+    </div>
+    
+    <div class="footer-lower-section">
+        <div class="language-links">
+            <a href="#">English</a>
+            <a href="#">French</a>
+            <a href="#">Hindi</a>
         </div>
-    </footer>
-</body>
-</html>
+        
+        
+        <div class="footer-note">
+            <p>Non Copyrighted © 2023 Upload by rich technologies</p>
+        </div>
+    </div>
+</footer>
