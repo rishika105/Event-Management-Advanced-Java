@@ -2,11 +2,10 @@
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.Date"%>
 <%@ page import="in.sp.model.Booking"%>
-<%@ page import="in.sp.model.Event"%>
 <%@ page import="in.sp.dao.EventDAO"%>
-<%@ page import="in.sp.model.PaymentModel"%>
 <%@ page import="in.sp.dao.PaymentDAO"%>
 <%@ page import="in.sp.dao.BookingDAO"%>
+<%@ page import="in.sp.model.PaymentModel"%>
 
 <!DOCTYPE html>
 <html>
@@ -63,7 +62,6 @@
             <thead>
                 <tr>
                     <th>Booking ID</th>
-                    <th>Venue Name</th>
                     <th>User Email</th>
                     <th>Date</th>
                     <th>Total Payment</th>
@@ -73,7 +71,6 @@
             <tbody>
                 <%
                 // Instantiate DAOs
-                EventDAO eventDAO = new EventDAO();
                 PaymentDAO paymentDAO = new PaymentDAO();
                 BookingDAO bookingDAO = new BookingDAO();
 
@@ -82,16 +79,13 @@
 
                 if (bookings != null && bookings.size() > 0) {
                     for (Booking booking : bookings) {
-                        String eventType = booking.getEvent_type();
-                        Event event = eventDAO.getEventByType(eventType);
                         PaymentModel paymentModel = paymentDAO.getPaymentByBookingId(booking.getBooking_id());
                         String status = getStatus(booking.getDate());
-                        String venueName = event != null ? event.getVenueName() : "N/A"; 
                 %>
+
                 <tr>
                     <td><%=booking.getBooking_id()%></td>
-                    <td><%=venueName%></td>                  
-                      <td><%=booking.getEmail()%></td>
+                    <td><%=booking.getEmail()%></td>
                     <td><%=booking.getDate()%></td>
                     <td><%=paymentModel != null ? paymentModel.getPaymentAmount() : "N/A"%></td>
                     <td><%=status%></td>
@@ -101,7 +95,7 @@
                 } else {
                 %>
                 <tr>
-                    <td colspan="6" style="text-align:center;">No bookings found.</td>
+                    <td colspan="5" style="text-align:center;">No bookings found.</td>
                 </tr>
                 <%
                 }
