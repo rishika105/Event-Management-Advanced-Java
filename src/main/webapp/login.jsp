@@ -38,6 +38,11 @@
         .logo .wave {
             color: #7848f4;
         }
+        
+          .logo a {
+            text-decoration: none;
+            color: inherit;
+        }
 
         .left-panel {
             width: 45%;
@@ -227,9 +232,10 @@
 <body>
     <div class="container">
         <!-- Logo -->
-        <div class="logo">
-            Event <span class="wave">Wave</span>
-        </div>
+<div class="logo">
+    <a href="index.jsp">Event <span class="wave">Wave</span></a>
+</div>
+
         <!-- Left Panel -->
         <div class="left-panel">
             <div class="overlay">
