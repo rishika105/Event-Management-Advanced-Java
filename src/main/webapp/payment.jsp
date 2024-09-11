@@ -38,6 +38,11 @@
         .logo .wave {
             color: #7848f4;
         }
+        
+          .logo a {
+            text-decoration: none;
+            color: inherit;
+        }
         h2 {
             text-align: center;
             color: #333;
@@ -77,8 +82,9 @@
 <body>
 
 <div class="logo">
-    Event <span class="wave">Wave</span>
+    <a href="index.jsp">Event <span class="wave">Wave</span></a>
 </div>
+
 
 <div class="container">
     <h2>Payment Details</h2>

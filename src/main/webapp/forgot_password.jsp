@@ -28,6 +28,11 @@
             font-weight: bold;
             color: #000;
         }
+        
+          .logo a {
+            text-decoration: none;
+            color: inherit;
+        }
         .wave {
             color: #7848f4;
         }
@@ -84,9 +89,10 @@
 </head>
 <body>
     <!-- Logo -->
-    <div class="logo">
-        Event <span class="wave">Wave</span>
-    </div>
+   <div class="logo">
+    <a href="index.jsp">Event <span class="wave">Wave</span></a>
+</div>
+
     <!-- Reset Password Box -->
     <div class="reset-password-container">
         <h1>Reset Password</h1>

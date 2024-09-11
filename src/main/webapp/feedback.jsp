@@ -37,6 +37,11 @@
         .logo .wave {
             color: #7848f4;
         }
+        
+          .logo a {
+            text-decoration: none;
+            color: inherit;
+        }
 
         .form-container {
             background-color: #ffffff;
@@ -104,9 +109,10 @@
 </head>
 <body>
     <div class="container">
-        <div class="logo">
-            Event <span class="wave">Wave</span>
-        </div>
+      <div class="logo">
+    <a href="index.jsp">Event <span class="wave">Wave</span></a>
+</div>
+
 
         <div class="form-container">
             <!-- Display success message -->

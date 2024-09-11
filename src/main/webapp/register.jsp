@@ -33,8 +33,14 @@
             color: #000;
             z-index: 10;
         }
+        
         .wave {
             color: #7848f4;
+        }
+        
+          .logo a {
+            text-decoration: none;
+            color: inherit;
         }
         .left-panel {
             width: 55%;
@@ -193,10 +199,10 @@
 </head>
 <body>
     <div class="container">
-        <!-- Logo -->
-        <div class="logo">
-            Event <span class="wave">Wave</span>
-        </div>
+      <div class="logo">
+    <a href="index.jsp">Event <span class="wave">Wave</span></a>
+</div>
+
         <!-- Left Panel (Register Form) -->
         <div class="left-panel">
             <div class="register-container">

@@ -35,12 +35,17 @@ body {
             font-size: 25px;
             font-weight: bold;
             color: #000;
-            z-index: 10;
+        }
+
+        .logo a {
+            text-decoration: none;
+            color: inherit;
         }
 
         .logo .wave {
             color: #7848f4;
         }
+
 
         
 h2 {
@@ -151,9 +156,10 @@ button:hover {
 		}
 	}
 	%>
-  <div class="logo">
-            Event <span class="wave">Wave</span>
-        </div>
+ <div class="logo">
+    <a href="index.jsp">Event <span class="wave">Wave</span></a>
+</div>
+
 	<div class="container">
 		<h2><%=(event != null) ? "Edit Event" : "Create New Event"%></h2>
 		<form action="insertEvent" method="post" enctype="multipart/form-data">
