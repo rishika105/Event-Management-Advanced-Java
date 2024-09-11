@@ -1,12 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://jakarta.ee/xml/ns/jakartaee" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd" id="WebApp_ID" version="5.0">
-  <display-name>Event Management System_final</display-name>
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-  </welcome-file-list>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="https://jakarta.ee/xml/ns/jakartaee"
+	xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+	id="WebApp_ID" version="5.0">
+
+	<display-name>Event Management System_final</display-name>
+
+	<!-- Welcome files -->
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+	</welcome-file-list>
+
+	<!-- Authentication Filter -->
+	<filter>
+		<filter-name>AuthenticationFilter</filter-name>
+		<filter-class>in.sp.backend.AuthenticationFilter</filter-class>
+	</filter>
+
+
+	<filter-mapping>
+		<filter-name>AuthenticationFilter</filter-name>
+		<url-pattern>/insertEvent</url-pattern>
+		<url-pattern>/booking2</url-pattern>
+		<url-pattern>/FoodBooking</url-pattern>
+		<url-pattern>/FeedbackServlet</url-pattern>
+		<url-pattern>/TransportationBooking</url-pattern>
+		<url-pattern>/PaymentServlet</url-pattern>
+		<url-pattern>/updateProfile</url-pattern>
+		<url-pattern>/createVenue.jsp</url-pattern>
+		<url-pattern>/booking.jsp</url-pattern>
+		<url-pattern>/Transportation.jsp</url-pattern>
+		<url-pattern>/adminProfile.jsp</url-pattern>
+		<url-pattern>/venueTypes.jsp</url-pattern>
+		<url-pattern>/venueDetails.jsp</url-pattern>
+		<url-pattern>/venueTypesUser.jsp</url-pattern>
+		
+
+
+	</filter-mapping>
+
 </web-app>

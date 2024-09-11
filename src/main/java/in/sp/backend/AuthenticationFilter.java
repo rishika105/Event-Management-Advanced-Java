@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 public class AuthenticationFilter implements Filter {
+
     public void init(FilterConfig filterConfig) throws ServletException {
         // Initialization code if needed
     }
@@ -28,10 +29,8 @@ public class AuthenticationFilter implements Filter {
         if (loggedIn) {
             chain.doFilter(request, response); // User is logged in, continue request
         } else {
-            httpResponse.sendRedirect("login.jsp"); // Redirect to login page if not logged in
+            httpResponse.sendRedirect("errorPage.jsp"); 
         }
-        
-       
     }
 
     public void destroy() {
