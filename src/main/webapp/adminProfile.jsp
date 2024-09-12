@@ -37,13 +37,17 @@
             text-align: center;
         }
 
+     
         .logo {
             font-size: 25px;
             color: white;
             font-weight: bold;
             margin-bottom: 40px;
         }
-
+  .logo a {
+            text-decoration: none;
+            color: inherit;
+        }
         .sidebar-menu {
             list-style: none;
             padding: 0;

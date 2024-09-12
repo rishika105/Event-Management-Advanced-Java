@@ -11,16 +11,15 @@ import java.util.List;
 import in.sp.model.Event;
 
 public class EventDAO {
-	  private static final String DB_URL = System.getenv("DB_URL");
-	    private static final String DB_USER = System.getenv("DB_USERNAME");
-	    private static final String DB_PASSWORD = System.getenv("DB_PASSWORD");
 
+    private static final String DB_URL = System.getenv("DB_URL");
+    private static final String DB_USER = System.getenv("DB_USERNAME");
+    private static final String DB_PASSWORD = System.getenv("DB_PASSWORD");
 
     private static Connection getConnection() throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
     }
-
 
     // Method to get an event by its ID
     public Event getEventById(int id) {
@@ -46,6 +45,7 @@ public class EventDAO {
         }
         return event;
     }
+
     // Method to get an event by venue name
     public Event getEventByVenueName(String venueName) {
         Event event = null;
@@ -70,6 +70,24 @@ public class EventDAO {
         }
         return event;
     }
+
+    public String getVenueNameById(int venueId) {
+        String venueName = null;
+        String query = "SELECT venue_name FROM events WHERE venue_id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, venueId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    venueName = rs.getString("venue_name");
+                }
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return venueName;
+    }
+
 
     // Method to get all events
     public List<Event> getAllEvents() {
@@ -136,12 +154,12 @@ public class EventDAO {
     // Method to delete an event by its ID
     public void deleteEvent(int eventId) {
         String query = "DELETE FROM events WHERE venue_id = ?";
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, eventId);
-            statement.executeUpdate();
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, eventId);
+            ps.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
-   }
+}
