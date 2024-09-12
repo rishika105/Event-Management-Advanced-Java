@@ -15,6 +15,7 @@
     <title><%= event.getVenueName() %> - Event Details</title>
     <link rel="stylesheet" href="styles.css">
     <style>
+        <style>
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #f0f0f0;
@@ -132,13 +133,12 @@
             margin-top: 40px;
         }
     </style>
+    </style>
 </head>
 <body>
     <div class="container">
         <div class="event-hero">
-            <!-- Back Button -->
             <a href="venueTypes.jsp" class="back-link">&lt; Back</a>
-            <!-- Event Image -->
             <img src="<%= request.getContextPath() + "/" + event.getImagePath() %>" alt="Event Image">
             <div class="event-title"><%= event.getVenueName() %></div>
         </div>
@@ -152,10 +152,8 @@
                 <p><strong>Price:</strong> ₹<%= event.getPrice() %></p>
             </div>
         </div>
-        <a href="booking.jsp" class="book-now-button">Book Now</a>
+        <a href="booking.jsp?eventId=<%= event.getEventId()%>" class="book-now-button">Book Now</a>
     </div>
-
-    <!-- Footer -->
     <div class="footer">
         <p>&copy; 2024 Event Wave. All rights reserved.</p>
     </div>

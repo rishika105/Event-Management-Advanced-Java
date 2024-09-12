@@ -66,7 +66,7 @@ public class Createbooking extends HttpServlet {
             // Insert booking and retrieve the generated id
             int bookingId = bookingDAO.insertBooking(booking);
 
-            // Redirect to food.jsp with booking_id as a parameter
+            // Redirect to food.jsp with booking_id and event_price as parameters
             response.sendRedirect("food.jsp?booking_id=" + bookingId + "&event_price=" + eventPriceStr);
         } catch (NumberFormatException | ParseException e) {
             request.setAttribute("error", "Invalid input format.");
