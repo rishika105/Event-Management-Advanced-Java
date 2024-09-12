@@ -43,8 +43,8 @@
                     <td>${booking.phone}</td>
                     <td>
                         <c:choose>
-                            <c:when test="${not empty booking.pickup_location}">
-                                ${booking.pickup_location}
+                            <c:when test="${not empty transportationmodel.pickup_location}">
+                                ${transportationmodel.pickup_location}
                             </c:when>
                             <c:otherwise>
                                 N/A
@@ -53,8 +53,8 @@
                     </td>
                     <td>
                         <c:choose>
-                            <c:when test="${not empty booking.dropoff_location}">
-                                ${booking.dropoff_location}
+                            <c:when test="${not empty transportationmodel.dropoff_location}">
+                                ${transportationmodel.dropoff_location}
                             </c:when>
                             <c:otherwise>
                                 N/A
@@ -63,8 +63,8 @@
                     </td>
                     <td>
                         <c:choose>
-                            <c:when test="${not empty booking.pickup_time}">
-                                ${booking.pickup_time}
+                            <c:when test="${not empty transportationmodel.pickup_time}">
+                                ${transportationmodel.pickup_time}
                             </c:when>
                             <c:otherwise>
                                 N/A
@@ -73,8 +73,8 @@
                     </td>
                     <td>
                         <c:choose>
-                            <c:when test="${not empty booking.vehicle_type}">
-                                ${booking.vehicle_type}
+                            <c:when test="${not empty transportationmodel.vehicle_type}">
+                                ${transportationmodel.vehicle_type}
                             </c:when>
                             <c:otherwise>
                                 N/A
@@ -83,8 +83,8 @@
                     </td>
                     <td>
                         <c:choose>
-                            <c:when test="${not empty booking.food_provider_name}">
-                                ${booking.food_provider_name}
+                            <c:when test="${not empty foodmodel.food_provider_name}">
+                                ${foodmodel.food_provider_name}
                             </c:when>
                             <c:otherwise>
                                 N/A
@@ -92,14 +92,14 @@
                         </c:choose>
                     </td>
                     <td>
-                        <c:forEach var="item" items="${booking.food_items}">
+                        <c:forEach var="item" items="${foodmodel.food_items}">
                             ${item}<br>
                         </c:forEach>
                     </td>
                     <td>
                         <c:choose>
-                            <c:when test="${not empty booking.total_food_cost}">
-                                ${booking.total_food_cost}
+                            <c:when test="${not empty foodmodel.total_food_cost}">
+                                ${foodmodel.total_food_cost}
                             </c:when>
                             <c:otherwise>
                                 N/A

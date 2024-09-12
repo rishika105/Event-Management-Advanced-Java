@@ -255,13 +255,14 @@ public class BookingDAO {
     public List<Booking> getBookingHistoryByEmail(String email) {
         List<Booking> bookings = new ArrayList<>();
         String sql = "SELECT eb.booking_id, eb.event_type, eb.number_of_guests, eb.event_price, eb.email, eb.date, eb.phone, " +
-                     "COALESCE(f.food_items, '') AS food_items, COALESCE(f.total_cost, 0) AS food_total_cost, COALESCE(f.food_provider_name, '') AS food_provider_name, " +
-                     "COALESCE(t.vehicle_type, '') AS vehicle_type, COALESCE(t.pickup_location, '') AS pickup_location, " +
-                     "COALESCE(t.dropoff_location, '') AS dropoff_location, COALESCE(t.pickup_time, '') AS pickup_time, COALESCE(t.price, 0) AS transportation_price " +
-                     "FROM event_booking eb " +
-                     "LEFT JOIN food f ON eb.booking_id = f.booking_id " +
-                     "LEFT JOIN transportation t ON eb.booking_id = t.booking_id " +
-                     "WHERE eb.email = ?";
+                "COALESCE(f.food_items, '') AS food_items, COALESCE(f.total_cost, 0) AS food_total_cost, COALESCE(f.food_provider_name, '') AS food_provider_name, " +
+                "COALESCE(t.vehicle_type, '') AS vehicle_type, COALESCE(t.pickup_location, '') AS pickup_location, " +
+                "COALESCE(t.dropoff_location, '') AS dropoff_location, COALESCE(t.pickup_time, '') AS pickup_time, COALESCE(t.price, 0) AS transportation_price " +
+                "FROM event_booking eb " +
+                "LEFT JOIN food f ON eb.booking_id = f.booking_id " +
+                "LEFT JOIN transportation t ON eb.booking_id = t.booking_id " +
+                "WHERE eb.email = ?"; 
+
 
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -303,12 +304,11 @@ public class BookingDAO {
 
         return bookings;
     }
-
-
 	public List<Booking> getAllUserBookings() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+	
 }
-
-

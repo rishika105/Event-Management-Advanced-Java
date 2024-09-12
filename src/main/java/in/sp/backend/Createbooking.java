@@ -116,7 +116,7 @@ public class Createbooking extends HttpServlet {
         request.getRequestDispatcher("adminBookings.jsp").forward(request, response);
     }
 
-    // Utility method to check if any of the provided strings are null or empty
+ // Utility method to check if any of the provided strings are null or empty
     private boolean isNullOrEmpty(String... params) {
         for (String param : params) {
             if (param == null || param.trim().isEmpty()) {
@@ -125,4 +125,5 @@ public class Createbooking extends HttpServlet {
         }
         return false;
     }
+
 }
