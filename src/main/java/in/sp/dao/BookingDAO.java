@@ -30,17 +30,19 @@ public class BookingDAO {
     // Insert a new booking into the database
     public int insertBooking(Booking booking) {
         int generatedId = 0;
-        String sql = "INSERT INTO event_booking (event_type, number_of_guests, event_price, email, date, phone) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO event_booking (venue_id, event_type, number_of_guests, event_price, email, date, phone) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            stmt.setString(1, booking.getEvent_type());
-            stmt.setInt(2, booking.getNumber_of_guests());
-            stmt.setBigDecimal(3, booking.getEvent_price());
-            stmt.setString(4, booking.getEmail());
-            stmt.setDate(5, new java.sql.Date(booking.getDate().getTime()));
-            stmt.setString(6, booking.getPhone());
+        	stmt.setInt(1, booking.getVenue_id());  // Set venue_id
+        	stmt.setString(2, booking.getEvent_type());
+        	stmt.setInt(3, booking.getNumber_of_guests());
+        	stmt.setBigDecimal(4, booking.getEvent_price());
+        	stmt.setString(5, booking.getEmail());
+        	stmt.setDate(6, new java.sql.Date(booking.getDate().getTime()));
+        	stmt.setString(7, booking.getPhone());
+
 
             int affectedRows = stmt.executeUpdate();
 
@@ -88,19 +90,56 @@ public class BookingDAO {
 
         return bookings;
     }
+    
+ // Method to get user bookings by email
+    public List<Booking> getUserBookingsByEmail(String email) {
+        return retrieveBookingsByEmail(email);
+    }
 
-    // Cancel a booking by email and event type
-    public void cancelBookingByEmailAndEventType(String email, String eventType) {
-        String sql = "DELETE FROM event_booking WHERE email = ? AND event_type = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setString(1, email);
-            ps.setString(2, eventType);
+    // Cancel booking and delete related data from food, transportation, and payment tables
+    public boolean cancelBookingAndRelatedEntries(int bookingId) {
+        String deleteBookingSQL = "DELETE FROM event_booking WHERE booking_id = ?";
+        String deleteFoodSQL = "DELETE FROM food WHERE booking_id = ?";
+        String deleteTransportSQL = "DELETE FROM transportation WHERE booking_id = ?";
+        String deletePaymentSQL = "DELETE FROM payment WHERE booking_id = ?";
 
-            ps.executeUpdate();
+        try (Connection conn = getConnection()) {
+            conn.setAutoCommit(false); // Start transaction
+
+            try (PreparedStatement psBooking = conn.prepareStatement(deleteBookingSQL);
+                 PreparedStatement psFood = conn.prepareStatement(deleteFoodSQL);
+                 PreparedStatement psTransport = conn.prepareStatement(deleteTransportSQL);
+                 PreparedStatement psPayment = conn.prepareStatement(deletePaymentSQL)) {
+
+                // Delete booking
+                psBooking.setInt(1, bookingId);
+                psBooking.executeUpdate();
+
+                // Delete food entry
+                psFood.setInt(1, bookingId);
+                psFood.executeUpdate();
+
+                // Delete transportation entry
+                psTransport.setInt(1, bookingId);
+                psTransport.executeUpdate();
+
+                // Delete payment entry
+                psPayment.setInt(1, bookingId);
+                psPayment.executeUpdate();
+
+                conn.commit(); // Commit transaction
+                return true;
+
+            } catch (SQLException e) {
+                conn.rollback(); // Rollback on error
+                e.printStackTrace();
+                return false;
+            }
+
         } catch (SQLException | ClassNotFoundException e) {
-            System.err.println("Error canceling booking: " + e.getMessage());
+            e.printStackTrace();
+            return false;
         }
     }
 

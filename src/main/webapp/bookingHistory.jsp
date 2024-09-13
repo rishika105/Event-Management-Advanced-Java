@@ -1,50 +1,142 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page import="java.util.List"%>
+<%@ page import="java.util.Date"%>
+<%@ page import="in.sp.model.Booking"%>
+<%@ page import="in.sp.dao.BookingDAO"%>
+<%@ page import="in.sp.dao.PaymentDAO"%>
+<%@ page import="in.sp.dao.EventDAO"%>
+<%@ page import="in.sp.model.PaymentModel"%>
 
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Booking History</title>
+    <title>User Bookings</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            text-align: center;
+            padding: 20px;
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #7848f4;
+            color: #fff;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .cancel-btn {
+            padding: 5px 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <h2>Your Booking History</h2>
-    
-    <form action="booking2" method="post">
-        <input type="hidden" name="action" value="history"/>
-        <label for="email">Enter your email to view booking history:</label>
-        <input type="email" name="email" id="email" required>
-        <input type="submit" value="View History">
-    </form>
+    <div class="container">
+        <h2>My Bookings</h2>
 
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Event Type</th>
-                <th>Number of Guests</th>
-                <th>Event Price</th>
-                <th>Date</th>
-                <th>Phone</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <c:forEach var="booking" items="${bookings}">
+        <table>
+            <thead>
                 <tr>
-                    <td>${booking.event_type}</td>
-                    <td>${booking.number_of_guests}</td>
-                    <td>${booking.event_price}</td>
-                    <td>${booking.date}</td>
-                    <td>${booking.phone}</td>
+                    <th>Booking ID</th>
+                    <th>Venue Name</th>
+                    <th>Date</th>
+                    <th>Total Payment</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%
+                String userEmail = (String) session.getAttribute("userEmail");
+
+                if (userEmail == null) {
+                    out.println("No user email found in session.");
+                } else {
+                    BookingDAO bookingDAO = new BookingDAO();
+                    PaymentDAO paymentDAO = new PaymentDAO();
+                    EventDAO venueDAO = new EventDAO(); // Assuming a VenueDAO to fetch venue details
+
+                    List<Booking> bookings = bookingDAO.retrieveBookingsByEmail(userEmail);
+
+                    if (bookings != null && bookings.size() > 0) {
+                        for (Booking booking : bookings) {
+                            PaymentModel paymentModel = paymentDAO.getPaymentByBookingId(booking.getBooking_id());
+                            String venueName = venueDAO.getVenueNameById(booking.getVenue_id()); // Get venue name
+                            String status = getStatus(booking.getDate());
+                %>
+
+                <tr>
+                    <td><%=booking.getBooking_id()%></td>
+                    <td><%=venueName%></td>
+                    <td><%=booking.getDate()%></td>
+                    <td><%=paymentModel != null ? paymentModel.getPaymentAmount() : "N/A"%></td>
+                    <td><%=status%></td>
                     <td>
-                        <form action="booking2" method="post">
-                            <input type="hidden" name="action" value="cancel"/>
-                            <input type="hidden" name="email" value="${booking.email}"/>
-                            <input type="hidden" name="event_type" value="${booking.event_type}"/>
-                            <input type="submit" value="Cancel Booking"/>
+                        <form method="post" action="CancelBookingServlet">
+                            <input type="hidden" name="bookingId" value="<%=booking.getBooking_id()%>" />
+                            <button type="submit" class="cancel-btn">Cancel Event</button>
                         </form>
                     </td>
                 </tr>
-            </c:forEach>
-        </tbody>
-    </table>
+                <%
+                        }
+                    } else {
+                %>
+                <tr>
+                    <td colspan="6" style="text-align:center;">No bookings found for user: <%=userEmail%></td>
+                </tr>
+                <%
+                    }
+                }
+                %>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
+
+<%!
+// Method to calculate booking status based on date
+private String getStatus(Date date) {
+    Date currentDate = new Date();
+    if (date.before(currentDate)) {
+        return "Completed";
+    } else if (date.equals(currentDate)) {
+        return "Upcoming";
+    } else {
+        return "Pending";
+    }
+}
+%>

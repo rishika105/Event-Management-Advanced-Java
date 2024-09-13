@@ -122,6 +122,7 @@
     <form action="booking2" method="post">
         <input type="hidden" name="booking_id" value="<%= request.getParameter("booking_id") %>" />
         <input type="hidden" name="event_price" value="<%= eventPrice %>" />
+        <input type="hidden" name="venue_id" value="<%= request.getParameter("eventId") %>">
         
         <label for="event_type">Event Type:</label>
         <select id="event_type" name="event_type" required>

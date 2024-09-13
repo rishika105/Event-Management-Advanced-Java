@@ -36,6 +36,8 @@ public class Login extends HttpServlet {
                 // Create a session and store the user object in session
                 HttpSession session = request.getSession();
                 session.setAttribute("session_user", user); // Store the entire user object in session
+                session.setAttribute("userEmail", user.getEmail()); // Store user email in session for easy access
+
 
                 // Check if the user is an admin
                 if (myemail.equals("admi2n106@gmail.com") && mypass.equals("event@8910013793")) {

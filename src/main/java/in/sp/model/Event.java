@@ -7,11 +7,20 @@ public class Event {
     private String time; 
     private String description;
     private String imagePath;
-    private double price; 
+    private double price;
+    private int venue_id;
 
     // Getters and Setters
 
-    public int getEventId() {
+    public int getVenue_id() {
+		return venue_id;
+	}
+
+	public void setVenue_id(int venue_id) {
+		this.venue_id = venue_id;
+	}
+
+	public int getEventId() {
         return eventId;
     }
 

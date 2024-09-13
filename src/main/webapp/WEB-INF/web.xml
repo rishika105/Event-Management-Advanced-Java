@@ -39,7 +39,6 @@
 		<url-pattern>/adminProfile.jsp</url-pattern>
 		<url-pattern>/venueTypes.jsp</url-pattern>
 		<url-pattern>/venueDetails.jsp</url-pattern>
-		<url-pattern>/venueTypesUser.jsp</url-pattern>
 		<url-pattern>/allBookings.jsp</url-pattern>
 		<url-pattern>/bookingCancel.jsp</url-pattern>
 		<url-pattern>/bookingConfirmation.jsp</url-pattern>

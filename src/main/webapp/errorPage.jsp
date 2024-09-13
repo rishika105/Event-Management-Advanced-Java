@@ -242,7 +242,7 @@ p {
 				<a href="login.jsp">Click here to log in</a>
 			</p>
 			<p>We can't seem to find the page you are looking for</p>
-			<a href="index.html" class="btn">Back to Homepage</a>
+			<a href="index.jsp" class="btn">Back to Homepage</a>
 
 			<div class="follow-us-text">Follow us on</div>
 
