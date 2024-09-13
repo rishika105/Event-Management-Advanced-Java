@@ -2,7 +2,6 @@ package in.sp.backend;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,7 +9,6 @@ import java.util.List;
 
 import in.sp.dao.BookingDAO;
 import in.sp.model.Booking;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -31,14 +29,9 @@ public class Createbooking extends HttpServlet {
         if ("book".equalsIgnoreCase(action)) {
             bookEvent(request, response);
         } else if ("cancel".equalsIgnoreCase(action)) {
-            cancelBooking(request, response);
+        	refundAndCancelBooking(request, response);
         } else if ("history".equalsIgnoreCase(action)) {
-            try {
-				showBookingHistory(request, response);
-			} catch (ServletException | IOException | SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+            showBookingHistory(request, response);
         } else if ("adminBookings".equalsIgnoreCase(action)) {
             showAllBookings(request, response);
         } else {
@@ -49,20 +42,24 @@ public class Createbooking extends HttpServlet {
     private void bookEvent(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            // Extract parameters from the request
             String eventType = request.getParameter("event_type");
+            String venueIdStr = request.getParameter("venue_id"); // New parameter for venue ID
             String numberOfGuestsStr = request.getParameter("number_of_guests");
             String eventPriceStr = request.getParameter("event_price");
             String email = request.getParameter("email");
             String dateStr = request.getParameter("date");
             String phone = request.getParameter("phone");
+           
 
-            if (isNullOrEmpty(eventType, numberOfGuestsStr, eventPriceStr, email, dateStr, phone)) {
+            // Check if all required fields are filled
+            if (isNullOrEmpty(eventType, numberOfGuestsStr, eventPriceStr, email, dateStr, phone, venueIdStr)) {
                 request.setAttribute("error", "All fields must be filled out.");
-                RequestDispatcher dispatcher = request.getRequestDispatcher("food.jsp");
-                dispatcher.forward(request, response);
+                request.getRequestDispatcher("food.jsp").forward(request, response);
                 return;
             }
 
+            // Create a new Booking object and populate it
             Booking booking = new Booking();
             booking.setEvent_type(eventType);
             booking.setNumber_of_guests(Integer.parseInt(numberOfGuestsStr));
@@ -70,6 +67,7 @@ public class Createbooking extends HttpServlet {
             booking.setEmail(email);
             booking.setDate(DATE_FORMAT.parse(dateStr));
             booking.setPhone(phone);
+            booking.setVenue_id(Integer.parseInt(venueIdStr)); // Set venue ID
 
             // Insert booking and retrieve the generated id
             int bookingId = bookingDAO.insertBooking(booking);
@@ -78,60 +76,64 @@ public class Createbooking extends HttpServlet {
             response.sendRedirect("food.jsp?booking_id=" + bookingId + "&event_price=" + eventPriceStr);
         } catch (NumberFormatException | ParseException e) {
             request.setAttribute("error", "Invalid input format.");
-            RequestDispatcher dispatcher = request.getRequestDispatcher("food.jsp");
-            dispatcher.forward(request, response);
+            request.getRequestDispatcher("food.jsp").forward(request, response);
         } catch (IllegalArgumentException e) {
             request.setAttribute("error", e.getMessage());
-            RequestDispatcher dispatcher = request.getRequestDispatcher("food.jsp");
-            dispatcher.forward(request, response);
-        } catch (Exception e) {
-            e.printStackTrace(); // Log the exception
-            request.setAttribute("error", "An unexpected error occurred.");
-            RequestDispatcher dispatcher = request.getRequestDispatcher("food.jsp");
-            dispatcher.forward(request, response);
+            request.getRequestDispatcher("food.jsp").forward(request, response);
         }
     }
 
-    private void cancelBooking(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        // Implementation needed for canceling a booking
-        // Use bookingDAO to cancel the booking
+
+ // Function to cancel a booking and process a refund
+    private void refundAndCancelBooking(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String bookingIdStr = request.getParameter("booking_id");
+
+        try {
+            int bookingId = Integer.parseInt(bookingIdStr);
+
+            // Get the total cost (event price, food, transportation) before cancellation
+            BigDecimal totalCost = bookingDAO.calculateTotalCost(bookingId);
+
+            // Delete the booking and related entries (food, transportation, payment) within the BookingDAO
+            boolean cancellationSuccess = bookingDAO.cancelBookingAndRelatedEntries(bookingId);
+
+            if (cancellationSuccess) {
+                // Set success message with the refund amount
+                request.setAttribute("success", "Booking canceled. A total refund of " + totalCost + " has been initiated.");
+            } else {
+                request.setAttribute("error", "Failed to cancel the booking.");
+            }
+            request.getRequestDispatcher("history.jsp").forward(request, response);
+        } catch (NumberFormatException e) {
+            request.setAttribute("error", "Invalid booking ID.");
+            request.getRequestDispatcher("history.jsp").forward(request, response);
+        } catch (Exception e) {
+            request.setAttribute("error", "Error occurred while canceling the booking: " + e.getMessage());
+            request.getRequestDispatcher("history.jsp").forward(request, response);
+        }
     }
 
+
     private void showBookingHistory(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException {
         String email = request.getParameter("email");
         if (isNullOrEmpty(email)) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Email is required");
             return;
         }
 
-        List<Booking> bookings = bookingDAO.getBookingHistoryByEmail(email);
-        request.setAttribute("bookings", bookings);
-        if (bookings != null) {
-            System.out.println("Bookings retrieved: " + bookings.size());
-            
-            // Optionally print details of each booking
-            for (Booking booking : bookings) {
-                System.out.println("Booking ID: " + booking.getBooking_id() + ", Event Type: " + booking.getEvent_type());
-            }
-        } else {
-            System.out.println("No bookings found for email: " + email);
-        }
-        
-        // Set bookings in the request attribute and forward to JSP
-        request.setAttribute("bookings", bookings);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("booking_history.jsp");
-        dispatcher.forward(request, response);
+        List<Booking> bookings = bookingDAO.retrieveBookingsByEmail(email);
 
+        request.setAttribute("bookings", bookings);
+        request.getRequestDispatcher("history.jsp").forward(request, response);
     }
 
     private void showAllBookings(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         List<Booking> allBookings = bookingDAO.getAllUserBookings();
+
         request.setAttribute("allBookings", allBookings);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("adminBookings.jsp");
-        dispatcher.forward(request, response);
+        
     }
 
     // Utility method to check if any of the provided strings are null or empty

@@ -6,7 +6,7 @@ import java.util.Date;
 public class Booking {
     private int booking_id;
     private int venue_id;
-	private String event_type;
+    private String event_type;
     private int number_of_guests;
     private BigDecimal event_price;
     private String email;
@@ -44,12 +44,15 @@ public class Booking {
         this.booking_id = booking_id;
     }
     
+
+    
     public int getVenue_id() {
-  		return venue_id;
-  	}
-  	public void setVenue_id(int venue_id) {
-  		this.venue_id = venue_id;
-  	}
+        return venue_id;
+    }
+
+    public void setVenue_id(int venue_id) {
+        this.venue_id = venue_id;
+    }
     
     // Getter and Setter for event_type
     public String getEvent_type() {

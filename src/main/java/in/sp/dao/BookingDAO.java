@@ -30,17 +30,19 @@ public class BookingDAO {
     // Insert a new booking into the database
     public int insertBooking(Booking booking) {
         int generatedId = 0;
-        String sql = "INSERT INTO event_booking (event_type, number_of_guests, event_price, email, date, phone) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO event_booking (venue_id, event_type, number_of_guests, event_price, email, date, phone) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            stmt.setString(1, booking.getEvent_type());
-            stmt.setInt(2, booking.getNumber_of_guests());
-            stmt.setBigDecimal(3, booking.getEvent_price());
-            stmt.setString(4, booking.getEmail());
-            stmt.setDate(5, new java.sql.Date(booking.getDate().getTime()));
-            stmt.setString(6, booking.getPhone());
+        	stmt.setInt(1, booking.getVenue_id());  // Set venue_id
+        	stmt.setString(2, booking.getEvent_type());
+        	stmt.setInt(3, booking.getNumber_of_guests());
+        	stmt.setBigDecimal(4, booking.getEvent_price());
+        	stmt.setString(5, booking.getEmail());
+        	stmt.setDate(6, new java.sql.Date(booking.getDate().getTime()));
+        	stmt.setString(7, booking.getPhone());
+
 
             int affectedRows = stmt.executeUpdate();
 
@@ -60,9 +62,86 @@ public class BookingDAO {
         return generatedId;
     }
 
-   
+    // Retrieve bookings by email
+    public List<Booking> retrieveBookingsByEmail(String email) {
+        List<Booking> bookings = new ArrayList<>();
+        String sql = "SELECT * FROM event_booking WHERE email = ?";
 
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Booking booking = new Booking();
+                booking.setBooking_id(rs.getInt("booking_id"));
+                booking.setEvent_type(rs.getString("event_type"));
+                booking.setNumber_of_guests(rs.getInt("number_of_guests"));
+                booking.setEvent_price(rs.getBigDecimal("event_price"));
+                booking.setEmail(rs.getString("email"));
+                booking.setDate(rs.getDate("date"));
+                booking.setPhone(rs.getString("phone"));
+                bookings.add(booking);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            System.err.println("Error retrieving bookings: " + e.getMessage());
+        }
+
+        return bookings;
+    }
     
+ // Method to get user bookings by email
+    public List<Booking> getUserBookingsByEmail(String email) {
+        return retrieveBookingsByEmail(email);
+    }
+
+
+    // Cancel booking and delete related data from food, transportation, and payment tables
+    public boolean cancelBookingAndRelatedEntries(int bookingId) {
+        String deleteBookingSQL = "DELETE FROM event_booking WHERE booking_id = ?";
+        String deleteFoodSQL = "DELETE FROM food WHERE booking_id = ?";
+        String deleteTransportSQL = "DELETE FROM transportation WHERE booking_id = ?";
+        String deletePaymentSQL = "DELETE FROM payment WHERE booking_id = ?";
+
+        try (Connection conn = getConnection()) {
+            conn.setAutoCommit(false); // Start transaction
+
+            try (PreparedStatement psBooking = conn.prepareStatement(deleteBookingSQL);
+                 PreparedStatement psFood = conn.prepareStatement(deleteFoodSQL);
+                 PreparedStatement psTransport = conn.prepareStatement(deleteTransportSQL);
+                 PreparedStatement psPayment = conn.prepareStatement(deletePaymentSQL)) {
+
+                // Delete booking
+                psBooking.setInt(1, bookingId);
+                psBooking.executeUpdate();
+
+                // Delete food entry
+                psFood.setInt(1, bookingId);
+                psFood.executeUpdate();
+
+                // Delete transportation entry
+                psTransport.setInt(1, bookingId);
+                psTransport.executeUpdate();
+
+                // Delete payment entry
+                psPayment.setInt(1, bookingId);
+                psPayment.executeUpdate();
+
+                conn.commit(); // Commit transaction
+                return true;
+
+            } catch (SQLException e) {
+                conn.rollback(); // Rollback on error
+                e.printStackTrace();
+                return false;
+            }
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     // Get booking by ID
     public Booking getBookingById(int bookingId) throws SQLException {
@@ -240,97 +319,32 @@ public class BookingDAO {
         return totalCost;
     }
     
-    
-    
-    private Connection conn;
+    public List<Booking> getAllUserBookings() {
+        List<Booking> bookings = new ArrayList<>();
+        String sql = "SELECT * FROM event_booking";
 
-    public BookingDAO(Connection conn) {
-        this.conn = conn;
-    }
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
-    public BookingDAO() {
-		// TODO Auto-generated constructor stub
-	}
+            ResultSet rs = ps.executeQuery();
 
-	public List<Booking> getBookingHistoryByEmail(String email) throws SQLException {
-        String sql = "SELECT eb.*, f.*, t.*, p.* " +
-                     "FROM event_booking eb " +
-                     "LEFT JOIN food f ON eb.booking_id = f.booking_id " +
-                     "LEFT JOIN transportation t ON eb.booking_id = t.booking_id " +
-                     "LEFT JOIN payment p ON eb.booking_id = p.booking_id " +
-                     "WHERE eb.email = ?";
-        
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setString(1, email);
-        ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Booking booking = new Booking();
+                booking.setBooking_id(rs.getInt("booking_id"));
+                booking.setEvent_type(rs.getString("event_type"));
+                booking.setNumber_of_guests(rs.getInt("number_of_guests"));
+                booking.setEvent_price(rs.getBigDecimal("event_price"));
+                booking.setEmail(rs.getString("email"));
+                booking.setDate(rs.getDate("date"));
+                booking.setPhone(rs.getString("phone"));
+                bookings.add(booking);
+            }
 
-        List<Booking> bookingList = new ArrayList<>();
-
-        while (rs.next()) {
-            Booking booking = new Booking();
-            // Set booking details
-            booking.setBooking_id(rs.getInt("booking_id"));
-            booking.setEvent_type(rs.getString("event_type"));
-            booking.setNumber_of_guests(rs.getInt("number_of_guests"));
-            booking.setEvent_price(rs.getBigDecimal("event_price"));
-            booking.setEmail(rs.getString("email"));
-            booking.setDate(rs.getDate("date"));
-            booking.setPhone(rs.getString("phone"));
-
-            // Set food details
-            FoodModel food = new FoodModel();
-            food.setFoodId(rs.getInt("food_id"));
-            food.setFoodItems(rs.getString("food_items"));
-            food.setTotalCost(rs.getDouble("total_cost"));
-            food.setFoodProviderName(rs.getString("food_provider_name"));
-            booking.setFoodDetails(food);
-
-            // Set transportation details
-            TransportationModel transport = new TransportationModel();
-            transport.setTransportationId(rs.getInt("transportationId"));
-            transport.setVehicleType(rs.getString("vehicle_type"));
-            transport.setPickupLocation(rs.getString("pickupLocation"));
-            transport.setDropoffLocation(rs.getString("dropoffLocation"));
-            
-            transport.setPrice(rs.getDouble ("price"));
-            booking.setTransportationDetails(transport);
-
-            // Set payment details
-            PaymentModel payment = new PaymentModel();
-            payment.setPaymentAmount(rs.getBigDecimal("paymentAmount"));
-            payment.setPaymentDate(rs.getTimestamp("paymentDate"));
-            payment.setPaymentStatus(rs.getString("paymentStatus"));
-            payment.setRazorpayOrderId(rs.getString("razorpayOrderId"));
-            payment.setRazorpayPaymentId(rs.getString("razorpayOrderId"));
-            payment.setRazorpaySignature(rs.getString("razorpaySignature"));
-            booking.setPaymentDetails(payment);
-
-            // Add to the list
-            bookingList.add(booking);
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
 
-        return bookingList;
+        return bookings;
     }
 
-
-
-    // Method to cancel a booking by booking ID
-    public boolean cancelBooking(int bookingId) throws SQLException {
-        String sql = "DELETE FROM event_booking WHERE booking_id = ?";
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setInt(1, bookingId);
-        int rowsDeleted = ps.executeUpdate();
-
-        return rowsDeleted > 0;
-    }
-
-
-
-	public List<Booking> getAllUserBookings() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	
 }
