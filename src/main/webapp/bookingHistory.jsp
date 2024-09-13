@@ -66,64 +66,64 @@
     <div class="container">
         <h2>My Bookings</h2>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Booking ID</th>
-                    <th>Venue Name</th>
-                    <th>Date</th>
-                    <th>Total Payment</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <%
-                String userEmail = (String) session.getAttribute("userEmail");
+           <table>
+        <thead>
+            <tr>
+                <th>Booking ID</th>
+                <th>Venue Name</th>
+                <th>Date</th>
+                <th>Total Payment</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <%
+            String userEmail = (String) session.getAttribute("userEmail");
 
-                if (userEmail == null) {
-                    out.println("No user email found in session.");
-                } else {
-                    BookingDAO bookingDAO = new BookingDAO();
-                    PaymentDAO paymentDAO = new PaymentDAO();
-                    EventDAO venueDAO = new EventDAO(); // Assuming a VenueDAO to fetch venue details
+            if (userEmail == null) {
+                out.println("No user email found in session.");
+            } else {
+                BookingDAO bookingDAO = new BookingDAO();
+                PaymentDAO paymentDAO = new PaymentDAO();
+                EventDAO eventDAO = new EventDAO(); // Assuming a VenueDAO to fetch venue details
 
-                    List<Booking> bookings = bookingDAO.retrieveBookingsByEmail(userEmail);
+                List<Booking> bookings = bookingDAO.retrieveBookingsByEmail(userEmail);
 
-                    if (bookings != null && bookings.size() > 0) {
-                        for (Booking booking : bookings) {
-                            PaymentModel paymentModel = paymentDAO.getPaymentByBookingId(booking.getBooking_id());
-                            String venueName = venueDAO.getVenueNameById(booking.getVenue_id()); // Get venue name
-                            String status = getStatus(booking.getDate());
-                %>
+                if (bookings != null && bookings.size() > 0) {
+                    for (Booking booking : bookings) {
+                        PaymentModel paymentModel = paymentDAO.getPaymentByBookingId(booking.getBooking_id());
+                        String venueName = bookingDAO.getVenueNameByVenueId(booking.getVenue_id()); // Get venue name
+                        String status = getStatus(booking.getDate());
+            %>
 
-                <tr>
-                    <td><%=booking.getBooking_id()%></td>
-                    <td><%=venueName%></td>
+            <tr>
+                 <td><%=booking.getBooking_id()%></td>
+                    <td><%=venueName != null ? venueName : "N/A"%></td>
                     <td><%=booking.getDate()%></td>
                     <td><%=paymentModel != null ? paymentModel.getPaymentAmount() : "N/A"%></td>
                     <td><%=status%></td>
-                    <td>
-                        <form method="post" action="CancelBookingServlet">
-                            <input type="hidden" name="bookingId" value="<%=booking.getBooking_id()%>" />
-                            <button type="submit" class="cancel-btn">Cancel Event</button>
-                        </form>
-                    </td>
-                </tr>
-                <%
-                        }
-                    } else {
-                %>
-                <tr>
-                    <td colspan="6" style="text-align:center;">No bookings found for user: <%=userEmail%></td>
-                </tr>
-                <%
+                <td>
+                    <form action="CancelServlet" method="get">
+                        <input type="hidden" name="bookingId" value="<%=booking.getBooking_id()%>">
+                        <input type="submit" value="Cancel Event">
+                    </form>
+                </td>
+            </tr>
+            <%
                     }
+                } else {
+            %>
+            <tr>
+                <td colspan="6" style="text-align:center;">No bookings found for user: <%=userEmail%></td>
+            </tr>
+            <%
                 }
-                %>
-            </tbody>
-        </table>
-    </div>
+            }
+            %>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
 

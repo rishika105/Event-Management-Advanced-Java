@@ -337,6 +337,7 @@ public class BookingDAO {
                 booking.setEmail(rs.getString("email"));
                 booking.setDate(rs.getDate("date"));
                 booking.setPhone(rs.getString("phone"));
+                booking.setVenue_id(rs.getInt("venue_id")); // Add this line to get venue_id
                 bookings.add(booking);
             }
 
@@ -346,5 +347,22 @@ public class BookingDAO {
 
         return bookings;
     }
-
+    
+    // Add this method to get the venue name from venue ID
+    public String getVenueNameByVenueId(int venueId) throws ClassNotFoundException {
+        String venueName = null;
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement("SELECT venue_name FROM events WHERE venue_id = ?")) {
+            stmt.setInt(1, venueId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    venueName = rs.getString("venue_name");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return venueName;
+    }
+   
 }
