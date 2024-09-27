@@ -51,5 +51,17 @@
 
 
 	</filter-mapping>
+	
+	  <!-- Define the error page for 404 status -->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/errorPage.jsp</location>
+    </error-page>
+
+    <!-- You can define other error pages as needed -->
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/errorPage.jsp</location>
+    </error-page>
 
 </web-app>

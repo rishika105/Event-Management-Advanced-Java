@@ -233,7 +233,7 @@ p {
 			<div class="error-image">
 				<img src="assets/error page.png" alt="404">
 			</div>
-			<h2>Oops! Access Denied!</h2>
+			<h2>Oops! Not Found!</h2>
 			<p>
 				<a href="login.jsp">Click here to log in</a>
 			</p>
@@ -265,7 +265,7 @@ p {
 
 			<div class="footer-lower-section">
 				<div class="language-links">
-					<a href="#">English</a> <a href="#">French</a> <a href="#">Hindi</a>
+					<a href="#">English</a><a href="#">French</a> <a href="#">Hindi</a>
 				</div>
 
 				<div class="footer-note">
