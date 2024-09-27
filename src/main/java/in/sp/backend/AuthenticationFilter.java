@@ -77,6 +77,5 @@ public class AuthenticationFilter implements Filter {
         System.out.println("Password: " + ADMIN_PASSWORD);
 
         return ADMIN_EMAIL.equals(userEmail) && ADMIN_PASSWORD.equals(userPassword);
-
     }
 }

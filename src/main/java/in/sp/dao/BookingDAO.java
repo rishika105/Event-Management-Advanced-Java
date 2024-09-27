@@ -76,6 +76,7 @@ public class BookingDAO {
             while (rs.next()) {
                 Booking booking = new Booking();
                 booking.setBooking_id(rs.getInt("booking_id"));
+                booking.setVenue_id(rs.getInt("venue_id"));             
                 booking.setEvent_type(rs.getString("event_type"));
                 booking.setNumber_of_guests(rs.getInt("number_of_guests"));
                 booking.setEvent_price(rs.getBigDecimal("event_price"));
@@ -271,39 +272,7 @@ public class BookingDAO {
         return BigDecimal.ZERO;
     }
     
-    // Method to save payment details to the database
-    public boolean savePayment(PaymentModel paymentDetails) {
-        boolean isSaved = false;
-        String query = "INSERT INTO payment (booking_id, payment_amount, payment_date, payment_status, razorpay_order_id, razorpay_payment_id, razorpay_signature) VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
-
-            ps.setInt(1, paymentDetails.getBookingId());
-            ps.setBigDecimal(2, paymentDetails.getPaymentAmount());
-            ps.setTimestamp(3, new java.sql.Timestamp(paymentDetails.getPaymentDate().getTime()));
-            ps.setString(4, paymentDetails.getPaymentStatus());
-            ps.setString(5, paymentDetails.getRazorpayOrderId());
-            ps.setString(6, paymentDetails.getRazorpayPaymentId());
-            ps.setString(7, paymentDetails.getRazorpaySignature());
-
-            int rowsAffected = ps.executeUpdate();
-            if (rowsAffected > 0) {
-                isSaved = true;
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-        return isSaved;
-    }
-
+   
     public BigDecimal calculateTotalCost(int bookingId) throws SQLException {
         BigDecimal totalCost = getEventPriceByBookingId(bookingId);
         FoodModel food = getFoodByBookingId(bookingId);
@@ -350,6 +319,8 @@ public class BookingDAO {
     
     // Add this method to get the venue name from venue ID
     public String getVenueNameByVenueId(int venueId) throws ClassNotFoundException {
+//    	System.out.println("Fetching venue name for venue ID: " + venueId);
+
         String venueName = null;
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement("SELECT venue_name FROM events WHERE venue_id = ?")) {

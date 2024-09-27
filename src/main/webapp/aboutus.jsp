@@ -13,8 +13,7 @@
         }
 
         header {
-            background-color: #7848f4;
-            padding: 10px 20px;
+         
         }
 
         nav {
@@ -24,37 +23,34 @@
         }
 
         .logo {
-            color: #ffffff;
+            color: black;
             font-size: 25px;
             font-weight: bold;
+             top: 20px;
+            left: 30px;
+            color: #000;
+            padding: 20px;
         }
-
-        nav ul {
-            list-style-type: none;
-            display: flex;
-            margin: 0;
-            padding: 0;
-        }
-
-        nav ul li {
-            margin-left: 20px;
-        }
-
-        nav ul li a {
-            color: #ffffff;
+        
+        .logo a {
             text-decoration: none;
-            font-size: 18px;
+            color: inherit;
         }
 
+        .logo .wave {
+            color: #7848f4;
+        }
+
+       
         .about-section {
-            padding: 40px 20px;
+            padding: 20px 20px;
             text-align: center;
             background-color: #ffffff;
         }
 
         .about-section h1 {
             font-size: 36px;
-            margin-bottom: 10px;
+            margin-bottom: 30px;
             color: #000000;
         }
 
@@ -214,17 +210,21 @@
             color: #AAA;
             text-align: right;
         }
+        .back{
+          color:#6A3DF0;
+          padding: 25px;
+        }
     </style>
 </head>
 <body>
     <header>
         <nav>
-            <div class="logo">Event Wave</div>
-            <ul>
-                <li><a href="index.jsp">Home</a></li>
-                <li class="active"><a href="aboutus.jsp">About Us</a></li>
-                <li><a href="contactus.jsp">Contact Us</a></li>
-            </ul>
+            <div class="logo">
+    <a href="index.jsp">Event <span class="wave">Wave</span></a>
+</div>
+          <a href="index.jsp" class = "back">Back to Home</a>
+               
+          
         </nav>
     </header>
     
