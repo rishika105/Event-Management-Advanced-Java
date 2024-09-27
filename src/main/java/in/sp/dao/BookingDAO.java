@@ -252,59 +252,65 @@ public class BookingDAO {
 
         return totalCost;
     }
-    public List<Booking> getBookingHistoryByEmail(String email) {
-        List<Booking> bookings = new ArrayList<>();
+ // Method to get booking history by booking ID
+    public Booking getBookingHistoryById(int bookingId) {
+        Booking booking = null;
         String sql = "SELECT eb.booking_id, eb.event_type, eb.number_of_guests, eb.event_price, eb.email, eb.date, eb.phone, " +
-                "COALESCE(f.food_items, '') AS food_items, COALESCE(f.total_cost, 0) AS food_total_cost, COALESCE(f.food_provider_name, '') AS food_provider_name, " +
-                "COALESCE(t.vehicle_type, '') AS vehicle_type, COALESCE(t.pickup_location, '') AS pickup_location, " +
-                "COALESCE(t.dropoff_location, '') AS dropoff_location, COALESCE(t.pickup_time, '') AS pickup_time, COALESCE(t.price, 0) AS transportation_price " +
-                "FROM event_booking eb " +
-                "LEFT JOIN food f ON eb.booking_id = f.booking_id " +
-                "LEFT JOIN transportation t ON eb.booking_id = t.booking_id " +
-                "WHERE eb.email = ?"; 
-
+                     "COALESCE(f.food_items, '') AS food_items, COALESCE(f.total_cost, 0) AS food_total_cost, COALESCE(f.food_provider_name, '') AS food_provider_name, " +
+                     "COALESCE(t.vehicle_type, '') AS vehicle_type, COALESCE(t.pickup_location, '') AS pickup_location, " +
+                     "COALESCE(t.dropoff_location, '') AS dropoff_location, COALESCE(t.pickup_time, '') AS pickup_time, COALESCE(t.price, 0) AS transportation_price " +
+                     "FROM event_booking eb " +
+                     "LEFT JOIN food f ON eb.booking_id = f.booking_id " +
+                     "LEFT JOIN transportation t ON eb.booking_id = t.booking_id " +
+                     "WHERE eb.booking_id = ?";
 
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, bookingId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    booking = new Booking();
+                    booking.setBooking_id(rs.getInt("booking_id"));
+                    booking.setEvent_type(rs.getString("event_type"));
+                    booking.setNumber_of_guests(rs.getInt("number_of_guests"));
+                    booking.setEvent_price(rs.getBigDecimal("event_price"));
+                    booking.setEmail(rs.getString("email"));
+                    booking.setDate(rs.getDate("date"));
+                    booking.setPhone(rs.getString("phone"));
 
-            ps.setString(1, email);
-            ResultSet rs = ps.executeQuery();
 
-            while (rs.next()) {
-                Booking booking = new Booking();
-                booking.setBooking_id(rs.getInt("booking_id"));
-                booking.setEvent_type(rs.getString("event_type"));
-                booking.setNumber_of_guests(rs.getInt("number_of_guests"));
-                booking.setEvent_price(rs.getBigDecimal("event_price"));
-                booking.setEmail(rs.getString("email"));
-                booking.setDate(rs.getDate("date"));
-                booking.setPhone(rs.getString("phone"));
+                    // Set food details
+                    FoodModel food = new FoodModel();
+                    food.setFoodItems(rs.getString("food_items"));
+                    food.setTotalCost(rs.getDouble("food_total_cost"));
+                    food.setFoodProviderName(rs.getString("food_provider_name"));
+                    booking.setFoodModel(food);
 
-                // Set food details
-                FoodModel food = new FoodModel();
-                food.setFoodItems(rs.getString("food_items"));
-                food.setTotalCost(rs.getDouble("food_total_cost"));
-                food.setFoodProviderName(rs.getString("food_provider_name"));
-                booking.setFoodModel(food);
-
-                // Set transportation details
-                TransportationModel transportation = new TransportationModel();
-                transportation.setVehicleType(rs.getString("vehicle_type"));
-                transportation.setPickupLocation(rs.getString("pickup_location"));
-                transportation.setDropoffLocation(rs.getString("dropoff_location"));
-                transportation.setPickupTime(rs.getString("pickup_time"));
-                transportation.setPrice(rs.getDouble("transportation_price"));
-                booking.setTransportationModel(transportation);
-
-                bookings.add(booking);
+                    // Set transportation details
+                    TransportationModel transportation = new TransportationModel();
+                    transportation.setVehicleType(rs.getString("vehicle_type"));
+                    transportation.setPickupLocation(rs.getString("pickup_location"));
+                    transportation.setDropoffLocation(rs.getString("dropoff_location"));
+                    transportation.setPickupTime(rs.getString("pickup_time"));
+                    transportation.setPrice(rs.getDouble("transportation_price"));
+                    booking.setTransportationModel(transportation);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-        return bookings;
+        return booking;
     }
-	public List<Booking> getAllUserBookings() {
+
+    public List<Booking> getAllUserBookings() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Booking> getBookingHistoryByBooking_id(int parseInt) {
 		// TODO Auto-generated method stub
 		return null;
 	}

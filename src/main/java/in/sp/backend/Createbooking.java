@@ -95,18 +95,23 @@ public class Createbooking extends HttpServlet {
 
     private void showBookingHistory(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String email = request.getParameter("email");
-        if (isNullOrEmpty(email)) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Email is required");
-            return;
-        }
-
-        // Use the updated DAO method to get detailed booking history
-        List<Booking> bookings = bookingDAO.getBookingHistoryByEmail(email);
-
-        request.setAttribute("bookings", bookings);
-        request.getRequestDispatcher("bookingHistory.jsp").forward(request, response);
+    String booking_id = request.getParameter("booking_id");
+    if (isNullOrEmpty(booking_id)) {
+        response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+        return;
     }
+
+    // Use the updated DAO method to get detailed booking history
+    Booking booking = bookingDAO.getBookingHistoryById(Integer.parseInt(booking_id));
+
+    if (booking == null) {
+        response.sendError(HttpServletResponse.SC_NOT_FOUND);
+        return;
+    }
+
+    request.setAttribute("booking", booking);
+    request.getRequestDispatcher("bookingHistory.jsp").forward(request, response);
+}
 
     private void showAllBookings(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
