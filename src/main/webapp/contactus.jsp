@@ -31,24 +31,32 @@
             margin: 10px 0;
         }
 
-        .navbar {
+
+        nav {
             display: flex;
-            justify-content: space-around;
-            background-color: #333;
-            padding: 14px 0;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .navbar a {
-            color: white;
+        .logo {
+            color: black;
+            font-size: 25px;
+            font-weight: bold;
+             top: 20px;
+            left: 30px;
+            color: #000;
+            padding: 20px;
+        }
+        
+        .logo a {
             text-decoration: none;
-            padding: 14px 20px;
-            font-size: 18px;
+            color: inherit;
         }
 
-        .navbar a:hover {
-            background-color: #575757;
-            border-radius: 4px;
+        .logo .wave {
+            color: #7848f4;
         }
+
 
         .container {
             width: 80%;
@@ -226,44 +234,25 @@
     text-align: right;
 }
 
-        .logo {
-            font-size: 24px;
-            color: #ffffff;
-            font-weight: bold;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #7848f4; /* Updated color */
-            padding: 14px 20px;
-        }
-
-        nav a {
-            color: #ffffff;
-            text-decoration: none;
-            padding: 14px 20px;
-            font-size: 18px;
-        }
-
-        nav a:hover {
-            background-color: #ffffff;
-            border-radius: 4px;
+      
+          .back{
+          color:#6A3DF0;
+          padding: 25px;
         }
     </style>
 </head>
 <body>
-    <nav>
-        <div class="logo">Event Wave</div>
-        <div>
-            <a href="index.jsp">Home</a>
-            <a href="aboutus.jsp">About Us</a>
-            <a href="contactus.jsp">Contact Us</a>
-        </div>
-    </nav>
-    
-    <header>
+
+	<nav>
+		<div class="logo">
+			<a href="index.jsp">Event <span class="wave">Wave</span></a>
+		</div>
+		<a href="index.jsp" class="back">Back to Home</a>
+	</nav>
+
+
+
+	<header>
         <div class="container">
             <h1>Contact Event Wave</h1>
             <p>We bring <strong>dream events</strong> to life!</p>
