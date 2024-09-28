@@ -232,16 +232,7 @@
                 <p><strong>Price:</strong> ₹<%= event.getPrice() %></p>
             </div>
         </div>
-<<<<<<< HEAD
-        <a href="booking.jsp?eventId=<%= event.getEventId() %>" class="book-now-button">Book Now</a>
-    </div>
-
-    <!-- Footer -->
-    <div class="footer">
-        <p>&copy; 2024 Event Wave. All rights reserved.</p>
-=======
         <a href="booking.jsp?eventId=<%= event.getEventId()%>" class="book-now-button">Book Now</a>
->>>>>>> main
     </div>
     <footer class="footer">
         <div class="logo">

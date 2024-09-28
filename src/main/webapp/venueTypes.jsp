@@ -242,18 +242,8 @@
                     <p><strong>Location:</strong> <%= event.getLocation() %></p>
                     <p><strong>Time:</strong> <%= event.getTime() %></p>
                     <p><strong>Description:</strong> <%= event.getDescription() %></p>
-<<<<<<< HEAD
-
-                    <a href="booking.jsp?event_price=<%= event.getPrice() %>&event_type=<%= event.getVenueName() %>" class="book-now-link">Book Now</a>
-                    <a href="venueDetails.jsp?eventId=<%= event.getEventId() %>" class="book-now-link">Book Now</a>
-
                     <p><strong>Price:</strong> ₹<%= event.getPrice() %></p>
                    
-
-=======
-                    <p><strong>Price:</strong> ₹<%= event.getPrice() %></p>
-                   
->>>>>>> main
                     <!-- Edit Button -->
                     <a href="createVenue.jsp?eventId=<%= event.getEventId() %>" class="edit-btn">Edit</a>
                     <!-- Delete Button with JavaScript Confirmation -->
