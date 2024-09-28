@@ -11,16 +11,15 @@ import java.util.List;
 import in.sp.model.Event;
 
 public class EventDAO {
-    private static final String DB_URL =  "jdbc:mysql://localhost:3306/eventmanagement";
-    private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "golu10";
 
+    private static final String DB_URL = System.getenv("DB_URL");
+    private static final String DB_USER = System.getenv("DB_USERNAME");
+    private static final String DB_PASSWORD = System.getenv("DB_PASSWORD");
 
     private static Connection getConnection() throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
     }
-
 
     // Method to get an event by its ID
     public Event getEventById(int id) {
@@ -46,6 +45,49 @@ public class EventDAO {
         }
         return event;
     }
+
+    // Method to get an event by venue name
+    public Event getEventByVenueName(String venueName) {
+        Event event = null;
+        String query = "SELECT * FROM events WHERE venue_name = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, venueName);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    event = new Event();
+                    event.setEventId(rs.getInt("venue_id"));
+                    event.setVenueName(rs.getString("venue_name"));
+                    event.setLocation(rs.getString("location"));
+                    event.setTime(rs.getString("time"));
+                    event.setDescription(rs.getString("description"));
+                    event.setPrice(rs.getDouble("price"));
+                    event.setImagePath(rs.getString("imagePath"));
+                }
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return event;
+    }
+
+    public String getVenueNameById(int venueId) {
+        String venueName = null;
+        String query = "SELECT venue_name FROM events WHERE venue_id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, venueId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    venueName = rs.getString("venue_name");
+                }
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return venueName;
+    }
+
 
     // Method to get all events
  // Method to get all events
@@ -115,35 +157,12 @@ public class EventDAO {
     // Method to delete an event by its ID
     public void deleteEvent(int eventId) {
         String query = "DELETE FROM events WHERE venue_id = ?";
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, eventId);
-            statement.executeUpdate();
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, eventId);
+            ps.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-    }
-    public Event getEventByType(String eventType) throws ClassNotFoundException {
-        String query = "SELECT * FROM events WHERE event_type = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
-            ps.setString(1, eventType);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    Event event = new Event();
-                    event.setEventId(rs.getInt("venue_id"));
-                    event.setVenueName(rs.getString("venue_name"));
-                    event.setLocation(rs.getString("location"));
-                    event.setTime(rs.getString("time"));
-                    event.setDescription(rs.getString("description"));
-                    event.setPrice(rs.getDouble("price"));
-                    event.setImagePath(rs.getString("imagePath"));
-                    return event;
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }

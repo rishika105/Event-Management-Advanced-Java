@@ -5,19 +5,53 @@ import java.util.Date;
 
 public class Booking {
     private int booking_id;
+    private int venue_id;
     private String event_type;
     private int number_of_guests;
     private BigDecimal event_price;
     private String email;
     private Date date;
     private String phone;
+    private FoodModel foodDetails;
+    private TransportationModel transportationDetails;
+    private PaymentModel paymentDetails;
+
     
-    // Getter and Setter for booking_id
+    
+    public FoodModel getFoodDetails() {
+		return foodDetails;
+	}
+	public void setFoodDetails(FoodModel foodDetails) {
+		this.foodDetails = foodDetails;
+	}
+	public TransportationModel getTransportationDetails() {
+		return transportationDetails;
+	}
+	public void setTransportationDetails(TransportationModel transportationDetails) {
+		this.transportationDetails = transportationDetails;
+	}
+	public PaymentModel getPaymentDetails() {
+		return paymentDetails;
+	}
+	public void setPaymentDetails(PaymentModel paymentDetails) {
+		this.paymentDetails = paymentDetails;
+	}
+	// Getter and Setter for booking_id
     public int getBooking_id() {
         return booking_id;
     }
     public void setBooking_id(int booking_id) {
         this.booking_id = booking_id;
+    }
+    
+
+    
+    public int getVenue_id() {
+        return venue_id;
+    }
+
+    public void setVenue_id(int venue_id) {
+        this.venue_id = venue_id;
     }
     
     // Getter and Setter for event_type

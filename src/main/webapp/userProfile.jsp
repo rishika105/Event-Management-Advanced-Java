@@ -44,7 +44,10 @@
             font-weight: bold;
             margin-bottom: 40px;
         }
-
+  .logo a {
+            text-decoration: none;
+            color: inherit;
+        }
         .sidebar-menu {
             list-style: none;
             padding: 0;
@@ -208,7 +211,10 @@
     <div class="profile-edit-container">
         <div class="sidebar">
             <div class="sidebar-header">
-                <div class="logo">Event Wave</div>
+               <div class="logo">
+    <a href="index.jsp">Event <span class="wave">Wave</span></a>
+</div>
+
             </div>
             <ul class="sidebar-menu">
                 <a href="#" class="active"><i class="fas fa-user"></i> Profile</a>

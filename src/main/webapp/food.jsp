@@ -11,7 +11,6 @@
             color: #333;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
 
         .container {
@@ -22,8 +21,6 @@
             padding: 40px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
             border-radius: 15px;
-            box-sizing: border-box; /* Include padding and border in width */
-            position: relative;
         }
 
         .logo {
@@ -33,7 +30,6 @@
             font-size: 25px;
             font-weight: bold;
             color: #000;
-            z-index: 10;
         }
 
         .logo .wave {
@@ -43,7 +39,7 @@
         h1 {
             text-align: center;
             color: #333;
-            font-size: 1.8em; /* Adjusted heading size */
+            font-size: 1.8em;
             margin-bottom: 20px;
         }
 
@@ -51,8 +47,8 @@
             font-size: 1.1em;
             color: #555;
             font-weight: bold;
-            margin-bottom: 10px; /* Added margin below labels */
-            display: block; /* Ensures labels are block elements */
+            margin-bottom: 10px;
+            display: block;
         }
 
         select, input[type="text"], input[type="number"] {
@@ -61,8 +57,7 @@
             border-radius: 5px;
             font-size: 1em;
             width: 100%;
-            box-sizing: border-box;
-            margin-bottom: 15px; /* Added margin below inputs */
+            margin-bottom: 15px;
         }
 
         input[type="submit"] {
@@ -81,12 +76,46 @@
             background-color: #483d8b;
         }
 
-        .error-message {
-            color: red;
-            text-align: center;
+        .food-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .food-item img {
+            width: 160px;
+            height: 120px;
+            border-radius: 5px;
+        }
+
+        .food-item label {
+            flex: 1;
+            text-align: left;
+            margin-left: 20px;
+        }
+
+        .food-item input[type="checkbox"] {
+            margin-right: 15px;
+            transform: scale(1.5);
+            cursor: pointer;
+        }
+
+        .total-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-top: 20px;
         }
-      
+
+        .total-section input[type="text"] {
+            width: auto;
+            padding: 10px;
+            font-size: 1.2em;
+        }
     </style>
     <script>
         function updateTotalCost() {
@@ -105,7 +134,7 @@
     </div>
 
     <div class="container">
-        <h1>Book Food for Your Event</h1>
+        <h1>Food Booking</h1>
 
         <form action="FoodBooking" method="post">
             <!-- Use EL to retrieve booking_id and event_price from request parameters -->
@@ -114,26 +143,61 @@
 
             <label for="food_provider_name">Food Provider Name:</label>
             <select id="food_provider_name" name="food_provider_name" required>
-                <!-- Prepopulate food provider names from the database or static options -->
-                <option value="Provider1">Provider1</option>
-                <option value="Provider2">Provider2</option>
+                <option value="Bharat Caterers">Bharat Caterers</option>
+                <option value="Ravi Caterers">Ravi Caterers</option>
+                <option value="Kailash Caterers">Kailash Caterers</option>
+                <option value="Sanjay Caterers">Sanjay Caterers</option>
+                <option value="Gourmet Caterers">Gourmet Caterers</option>
                 <!-- Add more providers as needed -->
             </select>
             <br><br>
 
-            <label class = "items">Food Items:</label>
-            <input type="checkbox" name="food_items" value="Veg Item 1" data-cost="10.00" onchange="updateTotalCost()"> Veg Item 1 - $10.00<br><br>
-            <input type="checkbox" name="food_items" value="Veg Item 2" data-cost="15.00" onchange="updateTotalCost()"> Veg Item 2 - $15.00<br><br>
-            <input type="checkbox" name="food_items" value="Non-Veg Item 1" data-cost="20.00" onchange="updateTotalCost()"> Non-Veg Item 1 - $20.00<br><br>
-            <input type="checkbox" name="food_items" value="Non-Veg Item 2" data-cost="25.00" onchange="updateTotalCost()"> Non-Veg Item 2 - $25.00<br><br>
+            <label class="items">Food Items:</label>
 
-           <br><label for="total_cost">Total Cost:</label>
-            <input type="text" id="total_cost" name="total_cost" readonly>
+            <!-- Food Item 1 -->
+            <div class="food-item">
+                <input type="checkbox" name="food_items" value="Veg Item 1" data-cost="750" id="veg_item_1" onchange="updateTotalCost()">
+                <img src="assets/veg.webp" alt="Veg Item 1">
+                <label for="veg_item_1">
+                    Veg Cuisine - 750/-
+                </label>
+            </div>
+
+            <!-- Food Item 2 -->
+            <div class="food-item">
+                <input type="checkbox" name="food_items" value="Non-Veg Item 1" data-cost="1250" id="non_veg_item_1" onchange="updateTotalCost()">
+                <img src="assets/non veg.jpg" alt="Non-Veg Item 1">
+                <label for="non_veg_item_1">
+                    Non-Veg Cuisine - 1250/-
+                </label>
+            </div>
+
+            <!-- Food Item 3 -->
+            <div class="food-item">
+                <input type="checkbox" name="food_items" value="Snacks" data-cost="500" id="snacks" onchange="updateTotalCost()">
+                <img src="assets/snacks.avif" alt="Snacks">
+                <label for="snacks">
+                    Snacks - 500/-
+                </label>
+            </div>
+
+            <!-- Food Item 4 -->
+            <div class="food-item">
+                <input type="checkbox" name="food_items" value="Desserts" data-cost="800" id="desserts" onchange="updateTotalCost()">
+                <img src="assets/desert.jpg" alt="Desserts">
+                <label for="desserts">
+                    Desserts - 800/-
+                </label>
+            </div>
+
+            <div class="total-section">
+                <label for="total_cost">Total Cost:</label>
+                <input type="text" id="total_cost" name="total_cost" readonly>
+            </div>
 
             <input type="submit" value="Book Food">
         </form>
-
-      
     </div>
 </body>
 </html>
+    

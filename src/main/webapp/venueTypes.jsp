@@ -73,7 +73,7 @@
         position: relative;
         z-index: 1;
         overflow: hidden;
-        height: 400px;
+        height: 300px;
     }
 
     .hero-section::before {
@@ -91,6 +91,7 @@
         margin: 0;
         font-size: 32px;
         font-weight: bold;
+         color: #fff;
     }
 
     .hero-section p {
@@ -112,7 +113,11 @@
     .hero-section button:hover {
         background-color: #eaeaea;
     }
-
+     
+     .hero-text{
+     margin-top: 80px;
+     width:400px;
+     }
     h1 {
         font-size: 28px;
         margin-bottom: 20px;
@@ -208,20 +213,21 @@
 <body>
     <div class="sidebar">
         <h2>Event Wave</h2>
-        <a href="#" class="active"><i class="fas fa-user"></i> Profile</a>
-        <a href="#"><i class="fas fa-calendar-alt"></i> Create Event</a>
-        <a href="#"><i class="fas fa-envelope"></i> Events</a>
-        <a href="#"><i class="fas fa-book"></i> All Bookings</a>
-        <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        <a href="adminProfile.jsp" class="active"><i class="fas fa-user"></i> Profile</a>
+            <a href="createVenue.jsp"><i class="fas fa-calendar-alt"></i> Create Event</a>
+            <a href="#"><i class="fas fa-book"></i> View Events</a>
+            <a href="allBookings.jsp"><i class="fas fa-envelope"></i> All Bookings</a>
+            <a href="#" onclick="showLogoutModal()"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
 
     <div class="container">
         <div class="hero-section">
+            <div class = "hero-text">
             <h1>Discover and experience extraordinary Events</h1>
             <p>Enter the world of events. Discover more!</p>
             <button>Discover now</button>
+            </div>
         </div>
-
         <h1>Available Events</h1>
         <div class="events-grid">
             <%
@@ -236,6 +242,7 @@
                     <p><strong>Location:</strong> <%= event.getLocation() %></p>
                     <p><strong>Time:</strong> <%= event.getTime() %></p>
                     <p><strong>Description:</strong> <%= event.getDescription() %></p>
+<<<<<<< HEAD
 
                     <a href="booking.jsp?event_price=<%= event.getPrice() %>&event_type=<%= event.getVenueName() %>" class="book-now-link">Book Now</a>
                     <a href="venueDetails.jsp?eventId=<%= event.getEventId() %>" class="book-now-link">Book Now</a>
@@ -243,6 +250,10 @@
                     <p><strong>Price:</strong> ₹<%= event.getPrice() %></p>
                    
 
+=======
+                    <p><strong>Price:</strong> ₹<%= event.getPrice() %></p>
+                   
+>>>>>>> main
                     <!-- Edit Button -->
                     <a href="createVenue.jsp?eventId=<%= event.getEventId() %>" class="edit-btn">Edit</a>
                     <!-- Delete Button with JavaScript Confirmation -->
