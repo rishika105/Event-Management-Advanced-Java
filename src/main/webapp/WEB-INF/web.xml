@@ -21,6 +21,16 @@
 		<filter-name>AuthenticationFilter</filter-name>
 		<filter-class>in.sp.backend.AuthenticationFilter</filter-class>
 	</filter>
+	
+	<filter>
+    <filter-name>CacheControlFilter</filter-name>
+    <filter-class>in.sp.backend.CacheControlFilter</filter-class>
+</filter>
+<filter-mapping>
+    <filter-name>CacheControlFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>
+	
 
 
 	<filter-mapping>
