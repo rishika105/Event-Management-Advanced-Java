@@ -47,8 +47,9 @@ and open the template in the editor.
         .footer {
             background-color: #0A0F34;
             color: white;
-            padding: 20px 20px;
+            padding: 20px 20px 20px 20px;
             text-align: center;
+            margin-top:20px;
         }
 
         .footer .logo {
@@ -99,7 +100,7 @@ and open the template in the editor.
 
         .footer .footer-lower-section {
             display: flex;
-            justify-content: space-between;
+            justify-content: space-evenly;
             align-items: center;
             flex-wrap: wrap;
             margin-top: 30px;
@@ -141,14 +142,14 @@ and open the template in the editor.
             <a href="aboutus.jsp" style="text-decoration:none;margin-left:40px;color:blue;float:left;margin-top:10px;">About Us</a>
             <a href="contactus.jsp" style="text-decoration:none;margin-left:40px;color:blue;float:left;margin-top:10px;">Contact Us </a>
             <div style="height:25px;width:110px;float:left;margin-top:5px;margin-left:750px;border-radius:3px;font-size:0.4cm;box-shadow:2px;background:whitesmoke;padding-top:3px;border-color:grey;">
-                    <a href="login.jsp" style="text-decoration:none;margin-left:30px;margin-top:5px;font-size:0.5cm;padding:6px;">Login</a>
+                    <a href="login.jsp" style="text-decoration:none;margin-left:20px;margin-top:5px;font-size:0.5cm;padding:6px;">Login</a>
                 </div>
                 <div style="height:25px;width:110px;background:blueviolet;float:left;color:white;margin-top:5px;margin-left:25px;border-radius:3px;font-size:0.4cm;padding-top:3px;">
-                    <a href="register.jsp" style="text-decoration:none;margin-left:30px;color:white;margin-top:5px;font-size:0.5cm;">Signup</a>
+                    <a href="register.jsp" style="text-decoration:none;margin-left:20px;color:white;margin-top:5px;font-size:0.5cm;">Signup</a>
                 </div>
         </div>
         
-        <div class = "container">
+        <div class="container">
            <div class="logo">
             Event <span class="wave">Wave</span>
         </div>
@@ -156,8 +157,7 @@ and open the template in the editor.
             
         
         <div style="height:450px;width:1150px;background-image:url('assets/head1.jpg');margin-left:150px;margin-top:5px;border-radius:20px;">
-            <p style="color:white;font-size:1.5cm;margin-left:340px;padding-top:60px;">MADE FOR THOSE<br>
-WHO DO EVENT WAVE</p>
+            <p style="color:white;font-size:1.5cm;margin-left:220px;padding-top:60px;">WELCOME TO EVENT WAVE</p>
         </div>
         <div style="height:100px;width:1000px;background:blueviolet;margin-left:225px;border-radius:20px;">
             <div style="height:100px;width:300px;background:blueviolet;float:left;border-radius:20px;font-size:0.5cm;">
@@ -165,7 +165,8 @@ WHO DO EVENT WAVE</p>
                 <select style=" height:30px;width:170px;margin-left:50px;border-radius:4px;border-color:blue;color:blue;">
                     <option style="padding-left:5px;">Choose event type</option>
                     <option>wedding</option>
-                    <option>wedding</option>
+                    <option>birthday</option>
+                    <option>more</option>
                 </select>
             </div>
             <div style="height:100px;width:300px;background:blueviolet;float:left;border-radius:20px;font-size:0.5cm;">
@@ -280,7 +281,7 @@ WHO DO EVENT WAVE</p>
         
         
         
-        <a href=""><input type="button" value="Load more..." style="margin-left:690px;background:blueviolet;height:30px;width:100px;border-color:blueviolet;border-radius:4px;margin-top:20px;color:white;box-shadow:2px;"></a>
+        <a href="venueTypesUser.jsp"><input type="button" value="Load more..." style="margin-left:690px;background:blueviolet;height:30px;width:100px;border-color:blueviolet;border-radius:4px;margin-top:20px;color:white;box-shadow:2px;"></a>
         
         
         <div style="height:200px;width:1000px;margin-left:225px;border-radius:20px; background:#52B2C0;margin-top:65px;">
@@ -339,7 +340,7 @@ WHO DO EVENT WAVE</p>
                 </div> 
             </div>
         </div>
-        <a href=""><input type="button" value="Load more..." style="margin-left:690px;background:blueviolet;height:30px;width:100px;border-color:blueviolet;border-radius:4px;margin-top:20px;color:white;box-shadow:2px;"></a>
+        <a href="venueTypesUser.jsp"><input type="button" value="Load more..." style="margin-left:690px;background:blueviolet;height:30px;width:100px;border-color:blueviolet;border-radius:4px;margin-top:20px;color:white;box-shadow:2px;"></a>
         
         
         
@@ -374,12 +375,13 @@ WHO DO EVENT WAVE</p>
                 </div>
             </div>
         </div>
-        <a href=""><input type="button" value="Load more..." style="margin-left:690px;background:blueviolet;height:30px;width:100px;border-color:blueviolet;border-radius:4px;margin-top:20px;margin-bottom:50px;color:white;box-shadow:2px;"></a>
+        <a href="venueTypesUser.jsp"><input type="button" value="Load more..." style="margin-left:690px;background:blueviolet;height:30px;width:100px;border-color:blueviolet;border-radius:4px;margin-top:20px;margin-bottom:50px;color:white;box-shadow:2px;"></a>
         
         
 
           
          <footer class="footer">
+         <br>
         <div class="logo">
             Event <span class="highlight">Wave</span>
         </div>
@@ -400,6 +402,11 @@ WHO DO EVENT WAVE</p>
             
             <div class="footer-note">
                 <p>Non Copyrighted © 2023 Upload by rich technologies</p>
+            </div>
+            
+                
+            <div class="footer-note">
+                <p>#raam techs</p>
             </div>
         </div>
     </footer>

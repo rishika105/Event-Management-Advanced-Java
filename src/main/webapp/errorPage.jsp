@@ -63,7 +63,8 @@ header {
 
 .error-section {
 	text-align: center;
-	padding: 50px 20px;
+	padding: 40px 20px;
+	margin-top: -70px;
 }
 
 .error-image img {
@@ -225,19 +226,14 @@ p {
 			<h1 class="logo">
 				Event <span class="highlight">Wave</span>
 			</h1>
-			<nav class="nav-links">
-				<a href="#" class="login-btn">Login</a> <a href="#"
-					class="signup-btn">Signup</a>
-			</nav>
+			
 		</header>
 
 		<main class="error-section">
 			<div class="error-image">
 				<img src="assets/error page.png" alt="404">
 			</div>
-			<h2>Oops!</h2>
-			<h1>Access Denied!</h1>
-			<p>You do not have permission to access this page.</p>
+			<h2>Oops! Not Found!</h2>
 			<p>
 				<a href="login.jsp">Click here to log in</a>
 			</p>
@@ -269,7 +265,7 @@ p {
 
 			<div class="footer-lower-section">
 				<div class="language-links">
-					<a href="#">English</a> <a href="#">French</a> <a href="#">Hindi</a>
+					<a href="#">English</a><a href="#">French</a> <a href="#">Hindi</a>
 				</div>
 
 				<div class="footer-note">

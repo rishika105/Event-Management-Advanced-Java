@@ -213,11 +213,11 @@
 <body>
     <div class="sidebar">
         <h2>Event Wave</h2>
-        <a href="#" class="active"><i class="fas fa-user"></i> Profile</a>
-        <a href="#"><i class="fas fa-calendar-alt"></i> Create Event</a>
-        <a href="#"><i class="fas fa-envelope"></i> Events</a>
-        <a href="#"><i class="fas fa-book"></i> All Bookings</a>
-        <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        <a href="userProfile.jsp" class="active"><i class="fas fa-user"></i> Profile</a>
+        <a href="#"><i class="fas fa-calendar-alt"></i> Events</a>
+        <a href="bookingHistory.jsp"><i class="fas fa-envelope"></i> Booking History</a>
+        <a href="feedback.jsp"><i class="fas fa-book"></i> Feedback</a>
+        <a href="userProfile.jsp"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
 
     <div class="container">
